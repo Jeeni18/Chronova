@@ -1,6 +1,218 @@
+// import 'package:flutter/material.dart';
+// import 'dart:async';
+// import 'onboarding_screen.dart';
+//
+// class SplashScreen extends StatefulWidget {
+//   @override
+//   _SplashScreenState createState() => _SplashScreenState();
+// }
+//
+// class _SplashScreenState extends State<SplashScreen>
+//     with SingleTickerProviderStateMixin {
+//   late AnimationController _animationController;
+//   late Animation<double> _fadeAnimation;
+//   late Animation<double> _scaleAnimation;
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     _animationController = AnimationController(
+//       duration: Duration(seconds: 2),
+//       vsync: this,
+//     );
+//
+//     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+//       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+//     );
+//
+//     _scaleAnimation = Tween<double>(begin: 0.5, end: 1.0).animate(
+//       CurvedAnimation(parent: _animationController, curve: Curves.elasticOut),
+//     );
+//
+//     _animationController.forward();
+//
+//     Timer(Duration(seconds: 3), () {
+//       Navigator.pushReplacement(
+//         context,
+//         PageRouteBuilder(
+//           pageBuilder: (context, animation, secondaryAnimation) => OnboardingScreen(),
+//           transitionsBuilder: (context, animation, secondaryAnimation, child) {
+//             return FadeTransition(opacity: animation, child: child);
+//           },
+//           transitionDuration: Duration(milliseconds: 800),
+//         ),
+//       );
+//     });
+//   }
+//
+//   @override
+//   void dispose() {
+//     _animationController.dispose();
+//     super.dispose();
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.white, // white background
+//       body: Center(
+//         child: AnimatedBuilder(
+//           animation: _animationController,
+//           builder: (context, child) {
+//             return FadeTransition(
+//               opacity: _fadeAnimation,
+//               child: ScaleTransition(
+//                 scale: _scaleAnimation,
+//                 child: ClipOval(
+//                   child: Container(
+//                     width: 150,
+//                     height: 150,
+//                     color: Colors.grey[200], // optional light background
+//                     child: Image.asset(
+//                       'assets/icon.png',
+//                       fit: BoxFit.cover, // covers the whole circle
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//             );
+//           },
+//         ),
+//       ),
+//     );
+//   }
+// }
+//
+// import 'package:flutter/material.dart';
+// import 'dart:async';
+// import 'onboarding_screen.dart';
+//
+// class SplashScreen extends StatefulWidget {
+//   @override
+//   _SplashScreenState createState() => _SplashScreenState();
+// }
+//
+// class _SplashScreenState extends State<SplashScreen>
+//     with TickerProviderStateMixin {
+//   late AnimationController _controller;
+//   late Animation<double> _fadeAnimation;
+//   late Animation<double> _scaleAnimation;
+//   late Animation<Offset> _slideAnimation;
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//
+//     _controller = AnimationController(
+//       duration: Duration(seconds: 2),
+//       vsync: this,
+//     );
+//
+//     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+//       CurvedAnimation(parent: _controller, curve: Curves.easeIn),
+//     );
+//
+//     _scaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
+//       CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
+//     );
+//
+//     _slideAnimation = Tween<Offset>(
+//       begin: Offset(0, 0.2),
+//       end: Offset.zero,
+//     ).animate(
+//       CurvedAnimation(parent: _controller, curve: Curves.easeOut),
+//     );
+//
+//     _controller.forward();
+//
+//     Timer(Duration(seconds: 3), () {
+//       Navigator.pushReplacement(
+//         context,
+//         PageRouteBuilder(
+//           pageBuilder: (context, animation, secondaryAnimation) => OnboardingScreen(),
+//           transitionsBuilder: (context, animation, secondaryAnimation, child) {
+//             return FadeTransition(opacity: animation, child: child);
+//           },
+//           transitionDuration: Duration(milliseconds: 800),
+//         ),
+//       );
+//     });
+//   }
+//
+//   @override
+//   void dispose() {
+//     _controller.dispose();
+//     super.dispose();
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.white, // Clean white background
+//       body: Center(
+//         child: AnimatedBuilder(
+//           animation: _controller,
+//           builder: (context, child) {
+//             return FadeTransition(
+//               opacity: _fadeAnimation,
+//               child: ScaleTransition(
+//                 scale: _scaleAnimation,
+//                 child: SlideTransition(
+//                   position: _slideAnimation,
+//                   child: Column(
+//                     mainAxisSize: MainAxisSize.min,
+//                     children: [
+//                       // Circle Logo
+//                       Container(
+//                         width: 140,
+//                         height: 140,
+//                         decoration: BoxDecoration(
+//                           shape: BoxShape.circle,
+//                           color: Colors.white,
+//                           boxShadow: [
+//                             BoxShadow(
+//                               color: Colors.black12,
+//                               blurRadius: 10,
+//                               offset: Offset(0, 6),
+//                             )
+//                           ],
+//                         ),
+//                         child: ClipOval(
+//                           child: Image.asset(
+//                             'assets/icon.png',
+//                             fit: BoxFit.cover,
+//                           ),
+//                         ),
+//                       ),
+//                       SizedBox(height: 20),
+//                       // Optional Tagline
+//                       FadeTransition(
+//                         opacity: _fadeAnimation,
+//                         child: Text(
+//                           "Discover History Around You",
+//                           style: TextStyle(
+//                             fontSize: 16,
+//                             color: Colors.black54,
+//                             letterSpacing: 0.5,
+//                           ),
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//               ),
+//             );
+//           },
+//         ),
+//       ),
+//     );
+//   }
+// }
+//
+
 import 'package:flutter/material.dart';
 import 'dart:async';
-import '../utils/colors.dart';
+import 'package:shimmer/shimmer.dart';
 import 'onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -9,30 +221,40 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
+    with TickerProviderStateMixin {
+  late AnimationController _controller;
   late Animation<double> _fadeAnimation;
   late Animation<double> _scaleAnimation;
+  late Animation<Offset> _slideAnimation;
 
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(
+
+    _controller = AnimationController(
       duration: Duration(seconds: 2),
       vsync: this,
     );
 
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+      CurvedAnimation(parent: _controller, curve: Curves.easeIn),
     );
 
-    _scaleAnimation = Tween<double>(begin: 0.5, end: 1.0).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.elasticOut),
+    _scaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
     );
 
-    _animationController.forward();
+    _slideAnimation = Tween<Offset>(
+      begin: Offset(0, 0.2),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
+    );
 
-    Timer(Duration(seconds: 3), () {
+    _controller.forward();
+
+    // ⏱ Keep splash for 5 seconds
+    Timer(Duration(seconds: 5), () {
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(
@@ -48,74 +270,69 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void dispose() {
-    _animationController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              AppColors.primaryBrown,
-              AppColors.darkBrown,
-            ],
-          ),
-        ),
-        child: Center(
-          child: AnimatedBuilder(
-            animation: _animationController,
-            builder: (context, child) {
-              return FadeTransition(
-                opacity: _fadeAnimation,
-                child: ScaleTransition(
-                  scale: _scaleAnimation,
+      backgroundColor: Colors.white, // Clean white background
+      body: Center(
+        child: AnimatedBuilder(
+          animation: _controller,
+          builder: (context, child) {
+            return FadeTransition(
+              opacity: _fadeAnimation,
+              child: ScaleTransition(
+                scale: _scaleAnimation,
+                child: SlideTransition(
+                  position: _slideAnimation,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
+                      // Circular Logo
                       Container(
-                        width: 120,
-                        height: 120,
+                        width: 140,
+                        height: 140,
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(25),
-                          border: Border.all(color: Colors.white.withOpacity(0.3), width: 2),
-                        ),
-                        child: Icon(
-                          Icons.account_balance,
-                          size: 60,
+                          shape: BoxShape.circle,
                           color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 10,
+                              offset: Offset(0, 6),
+                            )
+                          ],
+                        ),
+                        child: ClipOval(
+                          child: Image.asset(
+                            'assets/icon.png',
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
-                      SizedBox(height: 30),
-                      Text(
-                        'CHRONOVA',
-                        style: TextStyle(
-                          fontSize: 36,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          letterSpacing: 3,
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        'Discover History Around You',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white.withOpacity(0.8),
-                          letterSpacing: 1,
+                      SizedBox(height: 20),
+                      // ✨ Shimmer Tagline
+                      Shimmer.fromColors(
+                        baseColor: Colors.black38,
+                        highlightColor: Colors.grey.shade100,
+                        child: Text(
+                          "Discover History Around You",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 0.5,
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
     );

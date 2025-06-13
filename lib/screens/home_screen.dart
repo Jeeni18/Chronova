@@ -1,6 +1,6 @@
-
-
 import 'package:flutter/material.dart';
+import '../screens/place_detail_page.dart';
+
 
 import '../utils/colors.dart';
 import '../data/places_data.dart';
@@ -11,13 +11,16 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedCategory = 0;
   final List<String> _categories = ['Places', 'Food', 'Events'];
   final List<Place> _places = PlacesData.getPlaces();
 
+
   @override
-  Widget build(BuildContext context) {
+
+    Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.softGray,
       body: SafeArea(
@@ -35,80 +38,59 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildHeader() {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 25),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            AppColors.primaryBrown,
-            AppColors.darkBrown,
-          ],
-        ),
+        color: Colors.white,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(30),
           bottomRight: Radius.circular(30),
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: Offset(0, 4),
+          ),
+        ],
       ),
       child: Row(
         children: [
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      'CHRONOVA',
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        letterSpacing: 2,
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                    Container(
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: AppColors.goldAccent,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Icon(
-                        Icons.account_balance,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                  ],
+            child: ShaderMask(
+              shaderCallback: (bounds) => LinearGradient(
+                colors: [AppColors.primaryBrown, AppColors.goldAccent],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ).createShader(bounds),
+              child: Text(
+                '_ CHRONOVA _',
+                style: TextStyle(
+                  fontFamily: 'Cinzel',
+                  fontSize: 25,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 2,
+                  color: Colors.white, // overridden by shader
+                  overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(height: 8),
-                Text(
-                  'Discover the stories behind ancient places',
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.9),
-                    fontSize: 14,
-                  ),
-                ),
-              ],
+                maxLines: 1,
+                softWrap: false,
+              ),
             ),
           ),
-          Container(
-            padding: EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Icon(
-              Icons.menu,
-              color: Colors.white,
-              size: 24,
-            ),
+          SizedBox(width: 10),
+          Image.asset(
+            'assets/images/img.png',
+            height: 80,
+            width: 80,
+            fit: BoxFit.contain,
           ),
         ],
       ),
     );
   }
+
+
+
 
   Widget _buildSearchBar() {
     return Container(
@@ -234,74 +216,151 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
   Widget _buildPlaceCard(Place place) {
-    return Container(
-      clipBehavior: Clip.hardEdge,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            blurRadius: 10,
-            offset: Offset(0, 5),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PlaceDetailPage(place: place),
           ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
+        );
+      },
+      child: Container(
+        clipBehavior: Clip.hardEdge,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.1),
+              blurRadius: 10,
+              offset: Offset(0, 5),
             ),
-            child: Image.asset(
-              place.image,
-              fit: BoxFit.cover,
-              height: 120,
-              width: double.infinity,
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
+              child: Image.asset(
+                place.image,
+                fit: BoxFit.cover,
+                height: 120,
+                width: double.infinity,
+              ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  place.name,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textDark,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                SizedBox(height: 4),
-                Row(
-                  children: [
-                    Icon(Icons.star, color: AppColors.goldAccent, size: 16),
-                    SizedBox(width: 4),
-                    Text(
-                      place.rating.toString(),
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: AppColors.textLight,
-                      ),
+            Padding(
+              padding: EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    place.name,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.textDark,
                     ),
-                  ],
-                ),
-              ],
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Icon(Icons.star, color: AppColors.goldAccent, size: 16),
+                      SizedBox(width: 4),
+                      Text(
+                        place.rating.toString(),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: AppColors.textLight,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
+
+  // Widget _buildPlaceCard(Place place) {
+  //   return Container(
+  //     clipBehavior: Clip.hardEdge,
+  //     decoration: BoxDecoration(
+  //       color: Colors.white,
+  //       borderRadius: BorderRadius.circular(20),
+  //       boxShadow: [
+  //         BoxShadow(
+  //           color: Colors.grey.withOpacity(0.1),
+  //           blurRadius: 10,
+  //           offset: Offset(0, 5),
+  //         ),
+  //       ],
+  //     ),
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       mainAxisSize: MainAxisSize.min,
+  //       children: [
+  //         ClipRRect(
+  //           borderRadius: BorderRadius.only(
+  //             topLeft: Radius.circular(20),
+  //             topRight: Radius.circular(20),
+  //           ),
+  //           child: Image.asset(
+  //             place.image,
+  //             fit: BoxFit.cover,
+  //             height: 120,
+  //             width: double.infinity,
+  //           ),
+  //         ),
+  //         Padding(
+  //           padding: EdgeInsets.all(12),
+  //           child: Column(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             mainAxisSize: MainAxisSize.min,
+  //             children: [
+  //               Text(
+  //                 place.name,
+  //                 style: TextStyle(
+  //                   fontSize: 14,
+  //                   fontWeight: FontWeight.w600,
+  //                   color: AppColors.textDark,
+  //                 ),
+  //                 maxLines: 2,
+  //                 overflow: TextOverflow.ellipsis,
+  //               ),
+  //               SizedBox(height: 4),
+  //               Row(
+  //                 children: [
+  //                   Icon(Icons.star, color: AppColors.goldAccent, size: 16),
+  //                   SizedBox(width: 4),
+  //                   Text(
+  //                     place.rating.toString(),
+  //                     style: TextStyle(
+  //                       fontSize: 12,
+  //                       color: AppColors.textLight,
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget _buildFoodList() {
     return ListView(
