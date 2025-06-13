@@ -132,6 +132,10 @@ dependencies:
     sdk: flutter
   shimmer: ^3.0.0
   cupertino_icons: ^1.0.8
+  flutter_map:
+  latlong2:
+  location:
+  http:
 
 dev_dependencies:
   flutter_test:
