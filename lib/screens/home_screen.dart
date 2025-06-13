@@ -1,330 +1,89 @@
-// import 'package:flutter/material.dart';
-// import '../utils/colors.dart';
-// import '../utils/styles.dart';
-// import '../data/places_data.dart';
-// import '../models/place.dart';
-//
-// class HomeScreen extends StatefulWidget {
-//   @override
-//   _HomeScreenState createState() => _HomeScreenState();
-// }
-//
-// class _HomeScreenState extends State<HomeScreen> {
-//   int _selectedCategory = 0;
-//   final List<String> _categories = ['Places', 'Food', 'Events'];
-//   final List<Place> _places = PlacesData.getPlaces();
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: AppColors.softGray,
-//       body: SafeArea(
-//         child: Column(
-//           children: [
-//             _buildHeader(),
-//             _buildSearchBar(),
-//             _buildCategoryTabs(),
-//             Expanded(
-//               child: _buildPlacesGrid(),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-//
-//   Widget _buildHeader() {
-//     return Container(
-//       padding: EdgeInsets.all(20),
-//       decoration: BoxDecoration(
-//         gradient: LinearGradient(
-//           begin: Alignment.topLeft,
-//           end: Alignment.bottomRight,
-//           colors: [
-//             AppColors.primaryBrown,
-//             AppColors.darkBrown,
-//           ],
-//         ),
-//         borderRadius: BorderRadius.only(
-//           bottomLeft: Radius.circular(30),
-//           bottomRight: Radius.circular(30),
-//         ),
-//       ),
-//       child: Row(
-//         children: [
-//           Expanded(
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 Row(
-//                   children: [
-//                     Text(
-//                       'CHRONOVA',
-//                       style: TextStyle(
-//                         fontSize: 28,
-//                         fontWeight: FontWeight.bold,
-//                         color: Colors.white,
-//                         letterSpacing: 2,
-//                       ),
-//                     ),
-//                     SizedBox(width: 10),
-//                     Container(
-//                       padding: EdgeInsets.all(8),
-//                       decoration: BoxDecoration(
-//                         color: AppColors.goldAccent,
-//                         borderRadius: BorderRadius.circular(8),
-//                       ),
-//                       child: Icon(
-//                         Icons.account_balance,
-//                         color: Colors.white,
-//                         size: 20,
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//                 SizedBox(height: 8),
-//                 Text(
-//                   'Discover the stories behind ancient places',
-//                   style: TextStyle(
-//                     color: Colors.white.withOpacity(0.9),
-//                     fontSize: 14,
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//           Container(
-//             padding: EdgeInsets.all(12),
-//             decoration: BoxDecoration(
-//               color: Colors.white.withOpacity(0.2),
-//               borderRadius: BorderRadius.circular(15),
-//             ),
-//             child: Icon(
-//               Icons.menu,
-//               color: Colors.white,
-//               size: 24,
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-//
-//   Widget _buildSearchBar() {
-//     return Container(
-//       margin: EdgeInsets.all(20),
-//       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-//       decoration: BoxDecoration(
-//         color: Colors.white,
-//         borderRadius: BorderRadius.circular(25),
-//         boxShadow: [
-//           BoxShadow(
-//             color: Colors.grey.withOpacity(0.1),
-//             blurRadius: 10,
-//             offset: Offset(0, 2),
-//           ),
-//         ],
-//       ),
-//       child: Row(
-//         children: [
-//           Icon(Icons.search, color: AppColors.textLight),
-//           SizedBox(width: 15),
-//           Expanded(
-//             child: Text(
-//               'Search',
-//               style: TextStyle(
-//                 color: AppColors.textLight,
-//                 fontSize: 16,
-//               ),
-//             ),
-//           ),
-//           Container(
-//             padding: EdgeInsets.all(8),
-//             decoration: BoxDecoration(
-//               color: AppColors.primaryBrown,
-//               borderRadius: BorderRadius.circular(12),
-//             ),
-//             child: Icon(
-//               Icons.tune,
-//               color: Colors.white,
-//               size: 20,
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-//
-//   Widget _buildCategoryTabs() {
-//     return Container(
-//       height: 50,
-//       margin: EdgeInsets.symmetric(horizontal: 20),
-//       child: Row(
-//         children: _categories.asMap().entries.map((entry) {
-//           int index = entry.key;
-//           String category = entry.value;
-//           bool isSelected = _selectedCategory == index;
-//
-//           return Expanded(
-//             child: GestureDetector(
-//               onTap: () {
-//                 setState(() {
-//                   _selectedCategory = index;
-//                 });
-//               },
-//               child: Container(
-//                 margin: EdgeInsets.symmetric(horizontal: 5),
-//                 decoration: BoxDecoration(
-//                   color: isSelected ? AppColors.primaryBrown : Colors.white,
-//                   borderRadius: BorderRadius.circular(25),
-//                   boxShadow: [
-//                     BoxShadow(
-//                       color: Colors.grey.withOpacity(0.1),
-//                       blurRadius: 5,
-//                       offset: Offset(0, 2),
-//                     ),
-//                   ],
-//                 ),
-//                 child: Center(
-//                   child: Text(
-//                     category,
-//                     style: TextStyle(
-//                       color: isSelected ? Colors.white : AppColors.textLight,
-//                       fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//             ),
-//           );
-//         }).toList(),
-//       ),
-//     );
-//   }
-//
-//   Widget _buildPlacesGrid() {
-//     return Container(
-//       padding: EdgeInsets.all(20),
-//       child: GridView.builder(
-//         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//           crossAxisCount: 2,
-//           crossAxisSpacing: 15,
-//           mainAxisSpacing: 15,
-//           childAspectRatio: 0.85,
-//         ),
-//         itemCount: _places.length,
-//         itemBuilder: (context, index) {
-//           return _buildPlaceCard(_places[index]);
-//         },
-//       ),
-//     );
-//   }
-//
-//   Widget _buildPlaceCard(Place place) {
-//     return Container(
-//       decoration: BoxDecoration(
-//         color: Colors.white,
-//         borderRadius: BorderRadius.circular(20),
-//         boxShadow: [
-//           BoxShadow(
-//             color: Colors.grey.withOpacity(0.1),
-//             blurRadius: 10,
-//             offset: Offset(0, 5),
-//           ),
-//         ],
-//       ),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Expanded(
-//             flex: 3,
-//             child: Container(
-//               decoration: BoxDecoration(
-//                 color: AppColors.lightBrown.withOpacity(0.3),
-//                 borderRadius: BorderRadius.only(
-//                   topLeft: Radius.circular(20),
-//                   topRight: Radius.circular(20),
-//                 ),
-//               ),
-//               child: Center(
-//                 child: Icon(
-//                   Icons.account_balance,
-//                   size: 50,
-//                   color: AppColors.primaryBrown,
-//                 ),
-//               ),
-//             ),
-//           ),
-//           Expanded(
-//             flex: 2,
-//             child: Padding(
-//               padding: EdgeInsets.all(12),
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   Text(
-//                     place.name,
-//                     style: TextStyle(
-//                       fontSize: 14,
-//                       fontWeight: FontWeight.w600,
-//                       color: AppColors.textDark,
-//                     ),
-//                     maxLines: 2,
-//                     overflow: TextOverflow.ellipsis,
-//                   ),
-//                   SizedBox(height: 4),
-//                   Row(
-//                     children: [
-//                       Icon(Icons.star, color: AppColors.goldAccent, size: 16),
-//                       SizedBox(width: 4),
-//                       Text(
-//                         place.rating.toString(),
-//                         style: TextStyle(
-//                           fontSize: 12,
-//                           color: AppColors.textLight,
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
+import '../screens/place_detail_page.dart';
+import '../screens/event_detail_page.dart';
+import '../data/events_data.dart';
+import '../models/events.dart';
 import '../utils/colors.dart';
-import '../utils/styles.dart';
 import '../data/places_data.dart';
 import '../models/place.dart';
+import '../screens/food_list_page.dart';
+import 'dart:math' as math;
 
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   int _selectedCategory = 0;
   final List<String> _categories = ['Places', 'Food', 'Events'];
   final List<Place> _places = PlacesData.getPlaces();
+  final List<Event> _events = EventsData.getEvents();
+
+  PageController _pageController = PageController(viewportFraction: 0.8);
+  double _currentPage = 0;
+
+  late AnimationController _floatingController;
+  late AnimationController _rippleController;
+  late Animation<double> _floatingAnimation;
+  late Animation<double> _rippleAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _floatingController = AnimationController(
+      duration: Duration(seconds: 3),
+      vsync: this,
+    )..repeat(reverse: true);
+
+    _floatingAnimation = Tween<double>(
+      begin: -5,
+      end: 5,
+    ).animate(CurvedAnimation(
+      parent: _floatingController,
+      curve: Curves.easeInOut,
+    ));
+
+    _rippleController = AnimationController(
+      duration: Duration(seconds: 2),
+      vsync: this,
+    )..repeat();
+
+    _rippleAnimation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(CurvedAnimation(
+      parent: _rippleController,
+      curve: Curves.easeOut,
+    ));
+
+    _pageController.addListener(() {
+      setState(() {
+        _currentPage = _pageController.page ?? 0;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    _floatingController.dispose();
+    _rippleController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.softGray,
+      backgroundColor: Color(0xD5FFF0CC),
       body: SafeArea(
         child: Column(
           children: [
             _buildHeader(),
             _buildSearchBar(),
             _buildCategoryTabs(),
-            Expanded(
-              child: _buildPlacesGrid(),
-            ),
+            Expanded(child: _buildCategoryContent()),
           ],
         ),
       ),
@@ -333,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildHeader() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 3),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
@@ -364,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   fontSize: 25,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 2,
-                  color: Colors.white, // overridden by shader
+                  color: Colors.white,
                   overflow: TextOverflow.ellipsis,
                 ),
                 maxLines: 1,
@@ -372,9 +131,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          SizedBox(width: 10),
+          SizedBox(width: 8),
           Image.asset(
-            'assets/img.png',
+            'assets/images/img.png',
             height: 80,
             width: 80,
             fit: BoxFit.contain,
@@ -383,96 +142,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-  //
-  // Widget _buildHeader() {
-  //   return Container(
-  //     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 25),
-  //     decoration: BoxDecoration(
-  //       color: Colors.white,
-  //       borderRadius: BorderRadius.only(
-  //         bottomLeft: Radius.circular(30),
-  //         bottomRight: Radius.circular(30),
-  //       ),
-  //       boxShadow: [
-  //         BoxShadow(
-  //           color: Colors.black.withOpacity(0.05),
-  //           blurRadius: 10,
-  //           offset: Offset(0, 4),
-  //         ),
-  //       ],
-  //     ),
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //       children: [
-  //         ShaderMask(
-  //           shaderCallback: (bounds) => LinearGradient(
-  //             colors: [AppColors.primaryBrown, AppColors.goldAccent],
-  //             begin: Alignment.topLeft,
-  //             end: Alignment.bottomRight,
-  //           ).createShader(bounds),
-  //           child: Text(
-  //             'CHRONOVA',
-  //             style: TextStyle(
-  //               fontFamily: 'Cinzel',
-  //               fontSize: 22,
-  //               fontWeight: FontWeight.w600,
-  //               letterSpacing: 2,
-  //               color: Colors.white, // will be masked by shader
-  //             ),
-  //           ),
-  //         ),
-  //         ClipRRect(
-  //           borderRadius: BorderRadius.circular(12),
-  //           child: Image.asset(
-  //             'assets/logo.png',
-  //             height: 32,
-  //             width: 32,
-  //             fit: BoxFit.cover,
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  //
-  // Widget _buildHeader() {
-  //   return Container(
-  //     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-  //     alignment: Alignment.center,
-  //     decoration: BoxDecoration(
-  //       color: Colors.white,
-  //       borderRadius: BorderRadius.only(
-  //         bottomLeft: Radius.circular(30),
-  //         bottomRight: Radius.circular(30),
-  //       ),
-  //       boxShadow: [
-  //         BoxShadow(
-  //           color: Colors.black.withOpacity(0.05),
-  //           blurRadius: 10,
-  //           offset: Offset(0, 4),
-  //         ),
-  //       ],
-  //     ),
-  //     child: ShaderMask(
-  //       shaderCallback: (bounds) => LinearGradient(
-  //         colors: [AppColors.primaryBrown, AppColors.goldAccent],
-  //         begin: Alignment.topLeft,
-  //         end: Alignment.bottomRight,
-  //       ).createShader(bounds),
-  //       child: Text(
-  //         'CHRONOVA',
-  //         style: TextStyle(
-  //           fontSize: 32,
-  //           fontWeight: FontWeight.bold,
-  //           letterSpacing: 4,
-  //           color: Colors.white, // Gradient applied by ShaderMask
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   Widget _buildSearchBar() {
     return Container(
@@ -536,15 +205,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   _selectedCategory = index;
                 });
               },
-              child: Container(
+              child: AnimatedContainer(
+                duration: Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
                 margin: EdgeInsets.symmetric(horizontal: 5),
                 decoration: BoxDecoration(
                   color: isSelected ? AppColors.primaryBrown : Colors.white,
                   borderRadius: BorderRadius.circular(25),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.1),
-                      blurRadius: 5,
+                      color: isSelected
+                          ? AppColors.primaryBrown.withOpacity(0.3)
+                          : Colors.grey.withOpacity(0.1),
+                      blurRadius: isSelected ? 8 : 5,
                       offset: Offset(0, 2),
                     ),
                   ],
@@ -554,8 +227,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     category,
                     style: TextStyle(
                       color: isSelected ? Colors.white : AppColors.textLight,
-                      fontWeight:
-                      isSelected ? FontWeight.w600 : FontWeight.normal,
+                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
                     ),
                   ),
                 ),
@@ -567,95 +239,339 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildPlacesGrid() {
-    return Container(
-      padding: EdgeInsets.all(20),
-      child: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 15,
-          mainAxisSpacing: 15,
-          childAspectRatio: 0.85,
+
+  Widget _buildCategoryContent() {
+    switch (_selectedCategory) {
+      case 0:
+        return _buildCreativeCarousel();
+      case 1:
+        return FoodListPage();
+      case 2:
+        return _buildEventsList();
+      default:
+        return Center(child: Text('No content available'));
+    }
+  }
+
+  Widget _buildCreativeCarousel() {
+    return Column(
+      children: [
+        Container(
+          margin: EdgeInsets.symmetric(vertical: 20),
+          child: Column(
+            children: [
+              ShaderMask(
+                shaderCallback: (bounds) => LinearGradient(
+                  colors: [AppColors.primaryBrown, AppColors.goldAccent],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ).createShader(bounds),
+                child: Text(
+                  'Discover Wonders',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    letterSpacing: 1,
+                  ),
+                ),
+              ),
+              SizedBox(height: 8),
+              Container(
+                height: 3,
+                width: 80,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [AppColors.primaryBrown, AppColors.goldAccent],
+                  ),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+            ],
+          ),
         ),
-        itemCount: _places.length,
-        itemBuilder: (context, index) {
-          return _buildPlaceCard(_places[index]);
-        },
-      ),
+        Expanded(
+          child: Stack(
+            children: [
+              ...List.generate(5, (index) => _buildFloatingParticle(index)),
+              PageView.builder(
+                controller: _pageController,
+                itemCount: _places.length,
+                onPageChanged: (index) {
+                  setState(() {
+                    _currentPage = index.toDouble();
+                  });
+                },
+                itemBuilder: (context, index) {
+                  return _buildMagicCard(_places[index], index);
+                },
+              ),
+            ],
+          ),
+        ),
+        _buildMagicIndicators(),
+        SizedBox(height: 30),
+      ],
     );
   }
 
-  Widget _buildPlaceCard(Place place) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            blurRadius: 10,
-            offset: Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            flex: 3,
-            child: Container(
-              decoration: BoxDecoration(
-                color: AppColors.lightBrown.withOpacity(0.3),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                ),
-              ),
-              child: Center(
-                child: Icon(
-                  Icons.account_balance,
-                  size: 50,
-                  color: AppColors.primaryBrown,
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    place.name,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.textDark,
+  Widget _buildMagicCard(Place place, int index) {
+    double offset = index - _currentPage;
+    double scale = (1 - (offset.abs() * 0.1)).clamp(0.8, 1.0);
+    double rotation = offset * 0.15;
+    bool isActive = offset.abs() < 0.5;
+
+    return AnimatedBuilder(
+      animation: _floatingAnimation,
+      builder: (context, child) {
+        return Transform.translate(
+          offset: Offset(0, isActive ? _floatingAnimation.value : 0),
+          child: Transform.scale(
+            scale: scale,
+            child: Transform(
+              alignment: Alignment.center,
+              transform: Matrix4.identity()
+                ..setEntry(3, 2, 0.001),
+                // ..rotateZ(rotation),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, _) =>
+                          PlaceDetailPage(place: place),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: ScaleTransition(
+                            scale: Tween<double>(begin: 0.8, end: 1.0).animate(
+                              CurvedAnimation(parent: animation, curve: Curves.easeOutBack),
+                            ),
+                            child: child,
+                          ),
+                        );
+                      },
                     ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+                  );
+                },
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(isActive ? 0.2 : 0.1),
+                        blurRadius: isActive ? 25 : 15,
+                        offset: Offset(0, isActive ? 15 : 8),
+                        spreadRadius: isActive ? 3 : 1,
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 4),
-                  Row(
+                  child: Stack(
                     children: [
-                      Icon(Icons.star, color: AppColors.goldAccent, size: 16),
-                      SizedBox(width: 4),
-                      Text(
-                        place.rating.toString(),
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: AppColors.textLight,
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: Image.asset(
+                          place.image,
+                          height: 320,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      if (isActive) _buildRippleEffect(),
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: Container(
+                          padding: EdgeInsets.all(20),
+                          child: Text(
+                            place.name,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                              shadows: [
+                                Shadow(
+                                  blurRadius: 10,
+                                  color: Colors.black.withOpacity(0.7),
+                                  offset: Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
-        ],
+        );
+      },
+    );
+  }
+
+  Widget _buildRippleEffect() {
+    return AnimatedBuilder(
+      animation: _rippleAnimation,
+      builder: (context, child) {
+        return Positioned.fill(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              border: Border.all(
+                color: AppColors.goldAccent.withOpacity(
+                  (1 - _rippleAnimation.value) * 0.5,
+                ),
+                width: 2,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildMagicIndicators() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(_places.length, (index) {
+        bool isActive = index == _currentPage.round();
+
+        return AnimatedContainer(
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+          margin: EdgeInsets.symmetric(horizontal: 4),
+          height: 12,
+          width: isActive ? 30 : 12,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: isActive
+                  ? [AppColors.primaryBrown, AppColors.goldAccent]
+                  : [Colors.grey, Colors.grey],
+            ),
+            borderRadius: BorderRadius.circular(6),
+            boxShadow: isActive
+                ? [
+              BoxShadow(
+                color: AppColors.goldAccent.withOpacity(0.4),
+                blurRadius: 8,
+                offset: Offset(0, 2),
+              ),
+            ]
+                : [],
+          ),
+        );
+      }),
+    );
+  }
+
+  Widget _buildFloatingParticle(int index) {
+    return AnimatedBuilder(
+      animation: _floatingAnimation,
+      builder: (context, child) {
+        double delay = index * 0.5;
+        double offsetY = math.sin(((_floatingController.value * 2 * math.pi) + delay)) * 10;
+        double offsetX = math.cos(((_floatingController.value * 2 * math.pi) + delay)) * 15;
+
+        return Positioned(
+          top: 100 + (index * 80) + offsetY,
+          left: 30 + offsetX,
+          child: Container(
+            width: 8,
+            height: 8,
+            decoration: BoxDecoration(
+              color: AppColors.goldAccent.withOpacity(0.3),
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.goldAccent.withOpacity(0.2),
+                  blurRadius: 10,
+                  spreadRadius: 2,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
+
+  Widget _buildEventsList() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: GridView.builder(
+        padding: EdgeInsets.only(bottom: 20),
+        physics: BouncingScrollPhysics(),
+        itemCount: _events.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          childAspectRatio: 0.75,
+        ),
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => EventDetailPage(event: _events[index]),
+                ),
+              );
+            },
+            child: Container(
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.1),
+                    blurRadius: 10,
+                    offset: Offset(0, 5),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                    child: Image.asset(
+                      _events[index].image,
+                      fit: BoxFit.cover,
+                      height: 120,
+                      width: double.infinity,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(12),
+                    child: Text(
+                      _events[index].name,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.textDark,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }

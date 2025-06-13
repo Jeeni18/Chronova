@@ -505,7 +505,7 @@ class _MapScreenState extends State<MapScreen> {
       backgroundColor: const Color(0xFFFDF6EC), // soft background
       appBar: AppBar(
         title: const Text(
-          'Chronova',
+          'Find Your Way',
           style: TextStyle(
             fontFamily: 'Cinzel',
             fontSize: 24,

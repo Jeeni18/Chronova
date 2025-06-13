@@ -29,7 +29,7 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _screens = [
     HomeScreen(),
-    FavoritesScreen(),
+    QuestionnaireScreen(),
     CameraScreen(),
     MapScreen(),
     ProfileScreen(),
@@ -67,7 +67,7 @@ class _MainScreenState extends State<MainScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             _buildNavItem(Icons.home, 0),
-            _buildNavItem(Icons.favorite, 1),
+            _buildNavItem(Icons.question_mark , 1),
             _buildNavItem(Icons.camera_alt, 2),
             _buildNavItem(Icons.map, 3),
             _buildNavItem(Icons.person, 4),
