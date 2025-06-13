@@ -1,0 +1,556 @@
+[
+  {
+    "name": "Honacha Restaurant",
+    "location": "Patan",
+    "food_type": "traditional_meals",
+    "cuisine_style": "newari",
+    "price_range": "moderate",
+    "dietary_options": [
+      "vegetarian",
+      "non_vegetarian"
+    ],
+    "specialties": [
+      "Newari Bhoj",
+      "Samay Baji",
+      "Chatamari"
+    ],
+    "rating": 4.5,
+    "contact_info": "+977-1-5555123"
+  },
+  {
+    "name": "Thakali Kitchen",
+    "location": "Thamel, Kathmandu",
+    "food_type": "traditional_meals",
+    "cuisine_style": "thakali",
+    "price_range": "moderate",
+    "dietary_options": [
+      "vegetarian",
+      "non_vegetarian"
+    ],
+    "specialties": [
+      "Thakali Khana Set",
+      "Dal Bhat",
+      "Gundruk"
+    ],
+    "rating": 4.3,
+    "contact_info": "+977-1-4444567"
+  },
+  {
+    "name": "Local Street Food Stalls",
+    "location": "Asan Bazaar, Kathmandu",
+    "food_type": "local_snacks",
+    "cuisine_style": "nepali",
+    "price_range": "budget",
+    "dietary_options": [
+      "vegetarian",
+      "vegan",
+      "non_vegetarian"
+    ],
+    "specialties": [
+      "Momo",
+      "Sel Roti",
+      "Juju Dhau",
+      "Lakhamari"
+    ],
+    "rating": 4.0,
+    "contact_info": "Various vendors"
+  },
+  {
+    "name": "Dwarika's Hotel Restaurant",
+    "location": "Battisputali, Kathmandu",
+    "food_type": "high_end",
+    "cuisine_style": "nepali_fusion",
+    "price_range": "luxury",
+    "dietary_options": [
+      "vegetarian",
+      "vegan",
+      "non_vegetarian"
+    ],
+    "specialties": [
+      "Royal Nepali Cuisine",
+      "Heritage Dining"
+    ],
+    "rating": 4.8,
+    "contact_info": "+977-1-4479488"
+  },
+  {
+    "name": "Bhaktapur Traditional Sweets",
+    "location": "Bhaktapur",
+    "food_type": "local_snacks",
+    "cuisine_style": "newari",
+    "price_range": "budget",
+    "dietary_options": [
+      "vegetarian"
+    ],
+    "specialties": [
+      "Juju Dhau (King Curd)",
+      "Yomari",
+      "Bara"
+    ],
+    "rating": 4.2,
+    "contact_info": "Multiple local shops"
+  },
+
+  {
+    "name": "Newa Lahana",
+    "location": "Bhaktapur",
+    "food_type": "traditional_meals",
+    "cuisine_style": "newari",
+    "price_range": "moderate",
+    "dietary_options": [
+      "vegetarian",
+      "non_vegetarian"
+    ],
+    "specialties": [
+      "Ju Ju Dhau",
+      "Yomari",
+      "Bara",
+      "Traditional Newari Thali"
+    ],
+    "rating": 4.7,
+    "contact_info": "+977-1-6610234"
+  },
+  {
+    "name": "Thakali Kitchen",
+    "location": "Kathmandu",
+    "food_type": "traditional_meals",
+    "cuisine_style": "thakali",
+    "price_range": "moderate",
+    "dietary_options": [
+      "vegetarian",
+      "non_vegetarian"
+    ],
+    "specialties": [
+      "Dal Bhat Tarkari",
+      "Gundruk",
+      "Sukuti",
+      "Thakali Thali"
+    ],
+    "rating": 4.4,
+    "contact_info": "+977-1-4441567"
+  },
+  {
+    "name": "Chatamari Corner",
+    "location": "Patan",
+    "food_type": "street_food",
+    "cuisine_style": "newari",
+    "price_range": "budget",
+    "dietary_options": [
+      "vegetarian",
+      "non_vegetarian",
+      "vegan"
+    ],
+    "specialties": [
+      "Chatamari",
+      "Wo (Bara)",
+      "Yomari",
+      "Sel Roti"
+    ],
+    "rating": 4.2,
+    "contact_info": "+977-1-5551890"
+  },
+  {
+    "name": "Heritage Restaurant & Bar",
+    "location": "Bhaktapur",
+    "food_type": "high_end",
+    "cuisine_style": "fusion",
+    "price_range": "expensive",
+    "dietary_options": [
+      "vegetarian",
+      "non_vegetarian",
+      "vegan"
+    ],
+    "specialties": [
+      "Modern Nepali Cuisine",
+      "Continental Dishes",
+      "Wine Selection",
+      "Rooftop Dining"
+    ],
+    "rating": 4.8,
+    "contact_info": "+977-1-6610789"
+  },
+  {
+    "name": "Samay Baji House",
+    "location": "Kathmandu",
+    "food_type": "street_food",
+    "cuisine_style": "newari",
+    "price_range": "budget",
+    "dietary_options": [
+      "vegetarian",
+      "non_vegetarian"
+    ],
+    "specialties": [
+      "Samay Baji",
+      "Choila",
+      "Chatamari",
+      "Aila (traditional drink)"
+    ],
+    "rating": 4.3,
+    "contact_info": "+977-1-4442345"
+  },
+  {
+    "name": "Garden of Dreams Restaurant",
+    "location": "Kathmandu",
+    "food_type": "high_end",
+    "cuisine_style": "continental",
+    "price_range": "expensive",
+    "dietary_options": [
+      "vegetarian",
+      "non_vegetarian",
+      "vegan"
+    ],
+    "specialties": [
+      "European Cuisine",
+      "Garden Dining",
+      "Coffee & Desserts",
+      "Brunch Menu"
+    ],
+    "rating": 4.6,
+    "contact_info": "+977-1-4441234"
+  },
+  {
+    "name": "Krishnarpan Restaurant",
+    "location": "Kathmandu",
+    "food_type": "high_end",
+    "cuisine_style": "nepali",
+    "price_range": "expensive",
+    "dietary_options": [
+      "vegetarian",
+      "non_vegetarian"
+    ],
+    "specialties": [
+      "22-course Nepali Tasting Menu",
+      "Traditional Presentation",
+      "Cultural Dining Experience",
+      "Seasonal Ingredients"
+    ],
+    "rating": 4.9,
+    "contact_info": "+977-1-4448999"
+  },
+  {
+    "name": "Momo Paradise",
+    "location": "Patan",
+    "food_type": "street_food",
+    "cuisine_style": "tibetan",
+    "price_range": "budget",
+    "dietary_options": [
+      "vegetarian",
+      "non_vegetarian",
+      "vegan"
+    ],
+    "specialties": [
+      "Steam Momo",
+      "Fried Momo",
+      "Jhol Momo",
+      "Tingmo"
+    ],
+    "rating": 4.1,
+    "contact_info": "+977-1-5552468"
+  },
+  {
+    "name": "Lumbini Garden Restaurant",
+    "location": "Lumbini",
+    "food_type": "traditional_meals",
+    "cuisine_style": "nepali",
+    "price_range": "moderate",
+    "dietary_options": [
+      "vegetarian",
+      "vegan"
+    ],
+    "specialties": [
+      "Vegetarian Thali",
+      "Organic Local Dishes",
+      "Buddhist Cuisine",
+      "Herbal Teas"
+    ],
+    "rating": 4.4,
+    "contact_info": "+977-71-580123"
+  },
+  {
+    "name": "Buddha's Kitchen",
+    "location": "Lumbini",
+    "food_type": "traditional_meals",
+    "cuisine_style": "international",
+    "price_range": "moderate",
+    "dietary_options": [
+      "vegetarian",
+      "vegan"
+    ],
+    "specialties": [
+      "Meditation-friendly meals",
+      "Organic ingredients",
+      "Silent dining areas",
+      "Ayurvedic dishes"
+    ],
+    "rating": 4.3,
+    "contact_info": "+977-71-580456"
+  },
+  {
+    "name": "Gorkha Palace Restaurant",
+    "location": "Gorkha",
+    "food_type": "traditional_meals",
+    "cuisine_style": "gurung",
+    "price_range": "moderate",
+    "dietary_options": [
+      "vegetarian",
+      "non_vegetarian"
+    ],
+    "specialties": [
+      "Gurung Thali",
+      "Gundruk Soup",
+      "Local Meat Dishes",
+      "Traditional Raksi"
+    ],
+    "rating": 4.2,
+    "contact_info": "+977-64-420789"
+  },
+  {
+    "name": "Bandipur Organic Cafe",
+    "location": "Bandipur",
+    "food_type": "street_food",
+    "cuisine_style": "organic",
+    "price_range": "moderate",
+    "dietary_options": [
+      "vegetarian",
+      "vegan"
+    ],
+    "specialties": [
+      "Organic Coffee",
+      "Local Honey Products",
+      "Fresh Mountain Vegetables",
+      "Homemade Bread"
+    ],
+    "rating": 4.5,
+    "contact_info": "+977-65-560234"
+  },
+  {
+    "name": "Mountain View Restaurant",
+    "location": "Palpa",
+    "food_type": "traditional_meals",
+    "cuisine_style": "magar",
+    "price_range": "budget",
+    "dietary_options": [
+      "vegetarian",
+      "non_vegetarian"
+    ],
+    "specialties": [
+      "Magar Thali",
+      "Local Fish Curry",
+      "Bamboo Shoot Curry",
+      "Traditional Sweets"
+    ],
+    "rating": 4.0,
+    "contact_info": "+977-75-520456"
+  },
+  {
+    "name": "Janaki Temple Food Court",
+    "location": "Janakpur",
+    "food_type": "street_food",
+    "cuisine_style": "maithili",
+    "price_range": "budget",
+    "dietary_options": [
+      "vegetarian",
+      "vegan"
+    ],
+    "specialties": [
+      "Maithili Sweets",
+      "Kheer",
+      "Local Snacks",
+      "Festival Foods"
+    ],
+    "rating": 3.9,
+    "contact_info": "+977-41-520789"
+  },
+  {
+    "name": "Mithila Cultural Restaurant",
+    "location": "Janakpur",
+    "food_type": "traditional_meals",
+    "cuisine_style": "maithili",
+    "price_range": "moderate",
+    "dietary_options": [
+      "vegetarian",
+      "vegan"
+    ],
+    "specialties": [
+      "Maithili Thali",
+      "Traditional Fish Curry",
+      "Seasonal Vegetables",
+      "Cultural Ambiance"
+    ],
+    "rating": 4.1,
+    "contact_info": "+977-41-521234"
+  },
+  {
+    "name": "Kapilvastu Heritage Cafe",
+    "location": "Kapilvastu",
+    "food_type": "street_food",
+    "cuisine_style": "nepali",
+    "price_range": "budget",
+    "dietary_options": [
+      "vegetarian",
+      "vegan"
+    ],
+    "specialties": [
+      "Tea & Snacks",
+      "Local Sweets",
+      "Simple Meals",
+      "Historical Ambiance"
+    ],
+    "rating": 3.8,
+    "contact_info": "+977-76-560123"
+  },
+  {
+    "name": "Fire and Ice Pizzeria",
+    "location": "Kathmandu",
+    "food_type": "high_end",
+    "cuisine_style": "italian",
+    "price_range": "expensive",
+    "dietary_options": [
+      "vegetarian",
+      "non_vegetarian",
+      "vegan"
+    ],
+    "specialties": [
+      "Wood-fired Pizza",
+      "Italian Pasta",
+      "Gelato",
+      "Wine Collection"
+    ],
+    "rating": 4.7,
+    "contact_info": "+977-1-4426612"
+  },
+  {
+    "name": "The Old House",
+    "location": "Bandipur",
+    "food_type": "high_end",
+    "cuisine_style": "fusion",
+    "price_range": "expensive",
+    "dietary_options": [
+      "vegetarian",
+      "non_vegetarian",
+      "vegan"
+    ],
+    "specialties": [
+      "Heritage Building Dining",
+      "Fusion Cuisine",
+      "Mountain Views",
+      "Cultural Performances"
+    ],
+    "rating": 4.6,
+    "contact_info": "+977-65-560567"
+  },
+  {
+    "name": "Sherpa Kitchen",
+    "location": "Kathmandu",
+    "food_type": "traditional_meals",
+    "cuisine_style": "sherpa",
+    "price_range": "moderate",
+    "dietary_options": [
+      "vegetarian",
+      "non_vegetarian"
+    ],
+    "specialties": [
+      "Sherpa Stew",
+      "Tsampa",
+      "Yak Meat Dishes",
+      "Butter Tea"
+    ],
+    "rating": 4.2,
+    "contact_info": "+977-1-4447890"
+  },
+  {
+    "name": "Bhojan Griha",
+    "location": "Kathmandu",
+    "food_type": "high_end",
+    "cuisine_style": "nepali",
+    "price_range": "expensive",
+    "dietary_options": [
+      "vegetarian",
+      "non_vegetarian"
+    ],
+    "specialties": [
+      "Traditional Nepali Cuisine",
+      "Cultural Shows",
+      "Heritage Building",
+      "Royal Recipes"
+    ],
+    "rating": 4.5,
+    "contact_info": "+977-1-4416423"
+  },
+  {
+    "name": "Vegan Paradise",
+    "location": "Patan",
+    "food_type": "traditional_meals",
+    "cuisine_style": "vegan",
+    "price_range": "moderate",
+    "dietary_options": [
+      "vegan"
+    ],
+    "specialties": [
+      "Plant-based Nepali dishes",
+      "Vegan Momo",
+      "Organic Ingredients",
+      "Health-conscious meals"
+    ],
+    "rating": 4.4,
+    "contact_info": "+977-1-5553456"
+  },
+  {
+    "name": "Street Food Junction",
+    "location": "Bhaktapur",
+    "food_type": "street_food",
+    "cuisine_style": "mixed",
+    "price_range": "budget",
+    "dietary_options": [
+      "vegetarian",
+      "non_vegetarian",
+      "vegan"
+    ],
+    "specialties": [
+      "Mixed Street Snacks",
+      "Local Beverages",
+      "Quick Bites",
+      "Tourist-friendly"
+    ],
+    "rating": 3.9,
+    "contact_info": "+977-1-6611234"
+  },
+  {
+    "name": "Himalayan Java Coffee",
+    "location": "Kathmandu",
+    "food_type": "street_food",
+    "cuisine_style": "cafe",
+    "price_range": "moderate",
+    "dietary_options": [
+      "vegetarian",
+      "vegan"
+    ],
+    "specialties": [
+      "Nepali Coffee",
+      "Light Snacks",
+      "Pastries",
+      "Modern Cafe Experience"
+    ],
+    "rating": 4.3,
+    "contact_info": "+977-1-4441789"
+  },
+  {
+    "name": "Royal Sindhuli Restaurant",
+    "location": "Janakpur",
+    "food_type": "high_end",
+    "cuisine_style": "maithili",
+    "price_range": "expensive",
+    "dietary_options": [
+      "vegetarian",
+      "non_vegetarian"
+    ],
+    "specialties": [
+      "Royal Maithili Cuisine",
+      "Cultural Ambiance",
+      "Traditional Music",
+      "Festival Menus"
+    ],
+    "rating": 4.4,
+    "contact_info": "+977-41-522345"
+  }
+]

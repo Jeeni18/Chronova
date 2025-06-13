@@ -1,0 +1,267 @@
+[
+  {
+    "name": "Traditional Newari Homestay",
+    "service_type": "homestay",
+    "location": "Bhaktapur",
+    "description": "Authentic cultural experience in traditional Newari house",
+    "price_range": "moderate",
+    "contact_info": "+977-1-6611234",
+    "specialties": [
+      "Cultural immersion",
+      "Traditional architecture",
+      "Local family experience"
+    ]
+  },
+  {
+    "name": "Khukuri House",
+    "service_type": "handicraft_shop",
+    "location": "Thamel, Kathmandu",
+    "description": "Traditional Nepali handicrafts and artifacts",
+    "price_range": "varied",
+    "contact_info": "+977-1-4411234",
+    "specialties": [
+      "Khukuri knives",
+      "Traditional masks",
+      "Wood carvings",
+      "Thangka paintings"
+    ]
+  },
+  {
+    "name": "Heritage Storytellers",
+    "service_type": "tour_guide",
+    "location": "Kathmandu Valley",
+    "description": "Expert local guides specializing in cultural and historical tours",
+    "price_range": "moderate",
+    "contact_info": "+977-1-5566789",
+    "specialties": [
+      "Historical storytelling",
+      "Cultural interpretation",
+      "Multi-language support"
+    ]
+  },
+  {
+    "name": "Patan Handicraft Center",
+    "service_type": "handicraft_shop",
+    "location": "Patan",
+    "description": "Traditional metalwork and Buddhist art",
+    "price_range": "moderate_to_high",
+    "contact_info": "+977-1-5521234",
+    "specialties": [
+      "Bronze statues",
+      "Singing bowls",
+      "Traditional jewelry",
+      "Religious artifacts"
+    ]
+  },
+  {
+    "name": "Bhaktapur Heritage Stay",
+    "service_type": "homestay",
+    "location": "Bhaktapur",
+    "description": "Stay in a lovingly restored Newari heritage home",
+    "price_range": "moderate",
+    "contact_info": "+977-1-6615678",
+    "specialties": [
+      "Traditional lifestyle",
+      "Handcrafted decor",
+      "Personalized cultural tours"
+    ]
+  },
+  {
+    "name": "Kathmandu Handicrafts Emporium",
+    "service_type": "handicraft_shop",
+    "location": "Kathmandu",
+    "description": "One-stop shop for Nepalese traditional handicrafts",
+    "price_range": "affordable",
+    "contact_info": "+977-1-4445678",
+    "specialties": [
+      "Pashmina shawls",
+      "Wooden masks",
+      "Thangka art",
+      "Handmade pottery"
+    ]
+  },
+  {
+    "name": "Newa Heritage Guide",
+    "service_type": "tour_guide",
+    "location": "Bhaktapur",
+    "description": "Local guides focusing on Newari heritage and traditions",
+    "price_range": "moderate",
+    "contact_info": "+977-1-6617890",
+    "specialties": [
+      "Traditional festivals",
+      "Architectural tours",
+      "Crafts demonstration"
+    ]
+  },
+  {
+    "name": "Thamel Artifacts",
+    "service_type": "handicraft_shop",
+    "location": "Thamel, Kathmandu",
+    "description": "Curated collection of authentic Nepali handicrafts",
+    "price_range": "varied",
+    "contact_info": "+977-1-4441234",
+    "specialties": [
+      "Jewelry",
+      "Wood carvings",
+      "Ceramics",
+      "Textile crafts"
+    ]
+  },
+  {
+    "name": "Patan Homestay Experience",
+    "service_type": "homestay",
+    "location": "Patan",
+    "description": "Experience Patan’s rich heritage by staying with a local family",
+    "price_range": "moderate",
+    "contact_info": "+977-1-5526789",
+    "specialties": [
+      "Authentic meals",
+      "Traditional house",
+      "Guided local walks"
+    ]
+  },
+  {
+    "name": "Nepali Heritage Walks",
+    "service_type": "tour_guide",
+    "location": "Kathmandu Valley",
+    "description": "Walking tours with experts on Nepalese culture and history",
+    "price_range": "moderate",
+    "contact_info": "+977-1-5564321",
+    "specialties": [
+      "Historical landmarks",
+      "Ancient temples",
+      "Local legends"
+    ]
+  },
+  {
+    "name": "Woodcraft Studio",
+    "service_type": "handicraft_shop",
+    "location": "Bhaktapur",
+    "description": "Specialized in hand-carved wooden home decor and statues",
+    "price_range": "moderate",
+    "contact_info": "+977-1-6614321",
+    "specialties": [
+      "Hand-carved statues",
+      "Furniture",
+      "Traditional motifs"
+    ]
+  },
+  {
+    "name": "Ancient Living Homestay",
+    "service_type": "homestay",
+    "location": "Bhaktapur",
+    "description": "Stay in a centuries-old traditional Newari house with modern comfort",
+    "price_range": "high",
+    "contact_info": "+977-1-6619876",
+    "specialties": [
+      "Architectural heritage",
+      "Cultural storytelling",
+      "Handmade furnishings"
+    ]
+  },
+  {
+    "name": "Kathmandu Artisan Tours",
+    "service_type": "tour_guide",
+    "location": "Kathmandu",
+    "description": "Tours focused on local artisans and craft workshops",
+    "price_range": "moderate",
+    "contact_info": "+977-1-4418765",
+    "specialties": [
+      "Craft demonstrations",
+      "Meet local artists",
+      "Souvenir shopping"
+    ]
+  },
+  {
+    "name": "Patan Metalworks",
+    "service_type": "handicraft_shop",
+    "location": "Patan",
+    "description": "Traditional bronze and copper metal crafts",
+    "price_range": "moderate_to_high",
+    "contact_info": "+977-1-5529876",
+    "specialties": [
+      "Bronze statues",
+      "Copper utensils",
+      "Religious icons"
+    ]
+  },
+  {
+    "name": "Old Town Homestay",
+    "service_type": "homestay",
+    "location": "Bhaktapur",
+    "description": "Experience living like locals in the heart of Bhaktapur old town",
+    "price_range": "affordable",
+    "contact_info": "+977-1-6613210",
+    "specialties": [
+      "Local food",
+      "Friendly hosts",
+      "Traditional rituals"
+    ]
+  },
+  {
+    "name": "Cultural Narratives",
+    "service_type": "tour_guide",
+    "location": "Bhaktapur",
+    "description": "Personalized storytelling tours on Bhaktapur’s history",
+    "price_range": "moderate",
+    "contact_info": "+977-1-6615555",
+    "specialties": [
+      "Historical anecdotes",
+      "Temple tours",
+      "Local legends"
+    ]
+  },
+  {
+    "name": "Handwoven Treasures",
+    "service_type": "handicraft_shop",
+    "location": "Kathmandu",
+    "description": "Shop for authentic handwoven textiles and traditional fabrics",
+    "price_range": "moderate",
+    "contact_info": "+977-1-4447890",
+    "specialties": [
+      "Pashmina",
+      "Dhaka fabrics",
+      "Scarves",
+      "Traditional patterns"
+    ]
+  },
+  {
+    "name": "Bhaktapur Heritage Guides",
+    "service_type": "tour_guide",
+    "location": "Bhaktapur",
+    "description": "Specialized guides for Bhaktapur’s art, culture, and temples",
+    "price_range": "moderate",
+    "contact_info": "+977-1-6617777",
+    "specialties": [
+      "Temple histories",
+      "Newari culture",
+      "Artisan visits"
+    ]
+  },
+  {
+    "name": "Eco-Friendly Homestay",
+    "service_type": "homestay",
+    "location": "Bhaktapur",
+    "description": "Sustainable living experience in a traditional home with eco-initiatives",
+    "price_range": "moderate",
+    "contact_info": "+977-1-6612345",
+    "specialties": [
+      "Solar energy",
+      "Organic garden",
+      "Waste reduction"
+    ]
+  },
+  {
+    "name": "Sacred Artisans",
+    "service_type": "handicraft_shop",
+    "location": "Patan",
+    "description": "Specialists in sacred religious art and temple artifacts",
+    "price_range": "high",
+    "contact_info": "+977-1-5525432",
+    "specialties": [
+      "Temple carvings",
+      "Statues",
+      "Ritual implements"
+    ]
+  }
+]
