@@ -1,10 +1,13 @@
-
-
 import 'package:flutter/material.dart';
-
+import '../screens/place_detail_page.dart';
+import '../screens/event_detail_page.dart'; // <-- Add this
+import '../data/events_data.dart';
+import '../models/events.dart';
 import '../utils/colors.dart';
 import '../data/places_data.dart';
 import '../models/place.dart';
+import '../screens/food_list_page.dart';
+
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -15,6 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedCategory = 0;
   final List<String> _categories = ['Places', 'Food', 'Events'];
   final List<Place> _places = PlacesData.getPlaces();
+  final List<Event> _events = EventsData.getEvents();
 
   @override
   Widget build(BuildContext context) {
@@ -35,75 +39,51 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildHeader() {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 25),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            AppColors.primaryBrown,
-            AppColors.darkBrown,
-          ],
-        ),
+        color: Colors.white,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(30),
           bottomRight: Radius.circular(30),
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: Offset(0, 4),
+          ),
+        ],
       ),
       child: Row(
         children: [
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      'CHRONOVA',
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        letterSpacing: 2,
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                    Container(
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: AppColors.goldAccent,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Icon(
-                        Icons.account_balance,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                  ],
+            child: ShaderMask(
+              shaderCallback: (bounds) => LinearGradient(
+                colors: [AppColors.primaryBrown, AppColors.goldAccent],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ).createShader(bounds),
+              child: Text(
+                '_ CHRONOVA _',
+                style: TextStyle(
+                  fontFamily: 'Cinzel',
+                  fontSize: 25,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 2,
+                  color: Colors.white,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(height: 8),
-                Text(
-                  'Discover the stories behind ancient places',
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.9),
-                    fontSize: 14,
-                  ),
-                ),
-              ],
+                maxLines: 1,
+                softWrap: false,
+              ),
             ),
           ),
-          Container(
-            padding: EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Icon(
-              Icons.menu,
-              color: Colors.white,
-              size: 24,
-            ),
+          SizedBox(width: 10),
+          Image.asset(
+            'assets/images/img.png',
+            height: 80,
+            width: 80,
+            fit: BoxFit.contain,
           ),
         ],
       ),
@@ -203,18 +183,31 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Widget _buildCategoryContent() {
+  //   switch (_selectedCategory) {
+  //     case 0:
+  //       return _buildPlacesGrid();
+  //     case 1:
+  //       return _buildFoodList();
+  //     case 2:
+  //       return _buildEventsList();
+  //     default:
+  //       return Center(child: Text('No content available'));
+  //   }
+  // }
   Widget _buildCategoryContent() {
     switch (_selectedCategory) {
       case 0:
         return _buildPlacesGrid();
       case 1:
-        return _buildFoodList();
+        return FoodListPage(); // <-- new separate widget
       case 2:
         return _buildEventsList();
       default:
         return Center(child: Text('No content available'));
     }
   }
+
 
   Widget _buildPlacesGrid() {
     return Padding(
@@ -236,130 +229,295 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildPlaceCard(Place place) {
-    return Container(
-      clipBehavior: Clip.hardEdge,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            blurRadius: 10,
-            offset: Offset(0, 5),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PlaceDetailPage(place: place),
           ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
+        );
+      },
+      child: Container(
+        clipBehavior: Clip.hardEdge,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.1),
+              blurRadius: 10,
+              offset: Offset(0, 5),
             ),
-            child: Image.asset(
-              place.image,
-              fit: BoxFit.cover,
-              height: 120,
-              width: double.infinity,
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
+              child: Image.asset(
+                place.image,
+                fit: BoxFit.cover,
+                height: 120,
+                width: double.infinity,
+              ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  place.name,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textDark,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                SizedBox(height: 4),
-                Row(
-                  children: [
-                    Icon(Icons.star, color: AppColors.goldAccent, size: 16),
-                    SizedBox(width: 4),
-                    Text(
-                      place.rating.toString(),
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: AppColors.textLight,
-                      ),
+            Padding(
+              padding: EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    place.name,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.textDark,
                     ),
-                  ],
-                ),
-              ],
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Icon(Icons.star, color: AppColors.goldAccent, size: 16),
+                      SizedBox(width: 4),
+                      Text(
+                        place.rating.toString(),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: AppColors.textLight,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildFoodList() {
-    return ListView(
-      padding: EdgeInsets.all(20),
-      children: [
-        _buildCard('Momo', 'Nepali dumplings', Icons.ramen_dining),
-        _buildCard('Sel Roti', 'Traditional rice bread', Icons.breakfast_dining),
-        _buildCard('Chatamari', 'Newari-style pizza', Icons.local_pizza),
-      ],
-    );
-  }
+  // Widget _buildFoodList() {
+  //   final foodItems = [
+  //     {
+  //       'title': 'Yomari',
+  //       'description': 'Sweet Newari steamed dumpling with chaku filling',
+  //       'image': 'assets/images/yomari.jpeg',
+  //     },
+  //     {
+  //       'title': 'Juju Dhau',
+  //       'description': 'Famous curd of Bhaktapur',
+  //       'image': 'assets/images/juju_dhau.jpg',
+  //     },
+  //     {
+  //       'title': 'Bara',
+  //       'description': 'Newari lentil pancake, crispy and savory',
+  //       'image': 'assets/images/bara.png',
+  //     },
+  //     {
+  //       'title': 'Samay Baji',
+  //       'description': 'Traditional Newari ceremonial platter',
+  //       'image': 'assets/images/samay_baji.jpeg',
+  //     },
+  //   ];
+  //
+  //
+  //   return Padding(
+  //     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+  //     child: GridView.builder(
+  //       padding: EdgeInsets.only(bottom: 20),
+  //       physics: BouncingScrollPhysics(),
+  //       itemCount: foodItems.length,
+  //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+  //         crossAxisCount: 2,
+  //         crossAxisSpacing: 6.5,
+  //         mainAxisSpacing: 6.5,
+  //         childAspectRatio: 0.75,
+  //       ),
+  //       itemBuilder: (context, index) {
+  //         final item = foodItems[index];
+  //         return Container(
+  //           clipBehavior: Clip.hardEdge,
+  //           decoration: BoxDecoration(
+  //             color: Colors.white,
+  //             borderRadius: BorderRadius.circular(20),
+  //             boxShadow: [
+  //               BoxShadow(
+  //                 color: Colors.grey.withOpacity(0.1),
+  //                 blurRadius: 10,
+  //                 offset: Offset(0, 5),
+  //               ),
+  //             ],
+  //           ),
+  //           child: Column(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             mainAxisSize: MainAxisSize.min,
+  //             children: [
+  //               ClipRRect(
+  //                 borderRadius: BorderRadius.only(
+  //                   topLeft: Radius.circular(20),
+  //                   topRight: Radius.circular(20),
+  //                 ),
+  //                 child: Image.asset(
+  //                   item['image']!,
+  //                   fit: BoxFit.cover,
+  //                   height: 120,
+  //                   width: double.infinity,
+  //                 ),
+  //               ),
+  //               Padding(
+  //                 padding: EdgeInsets.all(12),
+  //                 child: Column(
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   children: [
+  //                     Text(
+  //                       item['title']!,
+  //                       style: TextStyle(
+  //                         fontSize: 16,
+  //                         fontWeight: FontWeight.bold,
+  //                         color: AppColors.textDark,
+  //                       ),
+  //                     ),
+  //                     SizedBox(height: 4),
+  //                     Text(
+  //                       item['description']!,
+  //                       style: TextStyle(
+  //                         fontSize: 13,
+  //                         color: AppColors.textLight,
+  //                       ),
+  //                       maxLines: 2,
+  //                       overflow: TextOverflow.ellipsis,
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
+
+
+  // Widget _buildCard(String title, String subtitle, IconData icon) {
+  //   return Container(
+  //     margin: EdgeInsets.only(bottom: 15),
+  //     padding: EdgeInsets.all(15),
+  //     decoration: BoxDecoration(
+  //       color: Colors.white,
+  //       borderRadius: BorderRadius.circular(15),
+  //       boxShadow: [
+  //         BoxShadow(
+  //           color: Colors.grey.withOpacity(0.1),
+  //           blurRadius: 8,
+  //           offset: Offset(0, 3),
+  //         ),
+  //       ],
+  //     ),
+  //     child: Row(
+  //       children: [
+  //         Icon(icon, size: 30, color: AppColors.primaryBrown),
+  //         SizedBox(width: 15),
+  //         Expanded(
+  //           child: Column(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             children: [
+  //               Text(title,
+  //                   style: TextStyle(
+  //                       fontSize: 16,
+  //                       fontWeight: FontWeight.bold,
+  //                       color: AppColors.textDark)),
+  //               SizedBox(height: 5),
+  //               Text(subtitle,
+  //                   style: TextStyle(fontSize: 13, color: AppColors.textLight)),
+  //             ],
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget _buildEventsList() {
-    return ListView(
-      padding: EdgeInsets.all(20),
-      children: [
-        _buildCard('Indra Jatra', 'Festival celebrated in Kathmandu', Icons.celebration),
-        _buildCard('Dashain', 'The biggest Hindu festival in Nepal', Icons.festival),
-        _buildCard('Tihar', 'Festival of lights and dogs', Icons.light_mode),
-      ],
-    );
-  }
-
-  Widget _buildCard(String title, String subtitle, IconData icon) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 15),
-      padding: EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            blurRadius: 8,
-            offset: Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Icon(icon, size: 30, color: AppColors.primaryBrown),
-          SizedBox(width: 15),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title,
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.textDark)),
-                SizedBox(height: 5),
-                Text(subtitle,
-                    style: TextStyle(fontSize: 13, color: AppColors.textLight)),
-              ],
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: GridView.builder(
+        padding: EdgeInsets.only(bottom: 20),
+        physics: BouncingScrollPhysics(),
+        itemCount: _events.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          childAspectRatio: 0.75,
+        ),
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => EventDetailPage(event: _events[index]),
+                ),
+              );
+            },
+            child: Container(
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.1),
+                    blurRadius: 10,
+                    offset: Offset(0, 5),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                    child: Image.asset(
+                      _events[index].image,
+                      fit: BoxFit.cover,
+                      height: 120,
+                      width: double.infinity,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(12),
+                    child: Text(
+                      _events[index].name,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.textDark,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
