@@ -1,6 +1,8 @@
+
+
 import 'package:flutter/material.dart';
+
 import '../utils/colors.dart';
-import '../utils/styles.dart';
 import '../data/places_data.dart';
 import '../models/place.dart';
 
@@ -24,9 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
             _buildHeader(),
             _buildSearchBar(),
             _buildCategoryTabs(),
-            Expanded(
-              child: _buildPlacesGrid(),
-            ),
+            Expanded(child: _buildCategoryContent()),
           ],
         ),
       ),
@@ -190,7 +190,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     category,
                     style: TextStyle(
                       color: isSelected ? Colors.white : AppColors.textLight,
-                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                      fontWeight:
+                      isSelected ? FontWeight.w600 : FontWeight.normal,
                     ),
                   ),
                 ),
@@ -202,17 +203,31 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Widget _buildCategoryContent() {
+    switch (_selectedCategory) {
+      case 0:
+        return _buildPlacesGrid();
+      case 1:
+        return _buildFoodList();
+      case 2:
+        return _buildEventsList();
+      default:
+        return Center(child: Text('No content available'));
+    }
+  }
+
   Widget _buildPlacesGrid() {
-    return Container(
-      padding: EdgeInsets.all(20),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: GridView.builder(
+        physics: BouncingScrollPhysics(),
+        itemCount: _places.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          crossAxisSpacing: 15,
-          mainAxisSpacing: 15,
-          childAspectRatio: 0.85,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+          childAspectRatio: 0.75,
         ),
-        itemCount: _places.length,
         itemBuilder: (context, index) {
           return _buildPlaceCard(_places[index]);
         },
@@ -222,6 +237,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildPlaceCard(Place place) {
     return Container(
+      clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
@@ -235,59 +251,112 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Expanded(
-            flex: 3,
-            child: Container(
-              decoration: BoxDecoration(
-                color: AppColors.lightBrown.withOpacity(0.3),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                ),
-              ),
-              child: Center(
-                child: Icon(
-                  Icons.account_balance,
-                  size: 50,
-                  color: AppColors.primaryBrown,
-                ),
-              ),
+          ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+            child: Image.asset(
+              place.image,
+              fit: BoxFit.cover,
+              height: 120,
+              width: double.infinity,
             ),
           ),
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    place.name,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.textDark,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+          Padding(
+            padding: EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  place.name,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textDark,
                   ),
-                  SizedBox(height: 4),
-                  Row(
-                    children: [
-                      Icon(Icons.star, color: AppColors.goldAccent, size: 16),
-                      SizedBox(width: 4),
-                      Text(
-                        place.rating.toString(),
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: AppColors.textLight,
-                        ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(height: 4),
+                Row(
+                  children: [
+                    Icon(Icons.star, color: AppColors.goldAccent, size: 16),
+                    SizedBox(width: 4),
+                    Text(
+                      place.rating.toString(),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: AppColors.textLight,
                       ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFoodList() {
+    return ListView(
+      padding: EdgeInsets.all(20),
+      children: [
+        _buildCard('Momo', 'Nepali dumplings', Icons.ramen_dining),
+        _buildCard('Sel Roti', 'Traditional rice bread', Icons.breakfast_dining),
+        _buildCard('Chatamari', 'Newari-style pizza', Icons.local_pizza),
+      ],
+    );
+  }
+
+  Widget _buildEventsList() {
+    return ListView(
+      padding: EdgeInsets.all(20),
+      children: [
+        _buildCard('Indra Jatra', 'Festival celebrated in Kathmandu', Icons.celebration),
+        _buildCard('Dashain', 'The biggest Hindu festival in Nepal', Icons.festival),
+        _buildCard('Tihar', 'Festival of lights and dogs', Icons.light_mode),
+      ],
+    );
+  }
+
+  Widget _buildCard(String title, String subtitle, IconData icon) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 15),
+      padding: EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            blurRadius: 8,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Icon(icon, size: 30, color: AppColors.primaryBrown),
+          SizedBox(width: 15),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title,
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.textDark)),
+                SizedBox(height: 5),
+                Text(subtitle,
+                    style: TextStyle(fontSize: 13, color: AppColors.textLight)),
+              ],
             ),
           ),
         ],
