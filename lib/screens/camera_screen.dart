@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../utils/colors.dart';
 
 class CameraScreen extends StatelessWidget {
+  const CameraScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,8 +34,8 @@ class CameraScreen extends StatelessWidget {
                       size: 80,
                       color: Colors.white.withOpacity(0.5),
                     ),
-                    SizedBox(height: 20),
-                    Text(
+                    const SizedBox(height: 20),
+                    const Text(
                       'AR Camera',
                       style: TextStyle(
                         color: Colors.white,
@@ -41,7 +43,7 @@ class CameraScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Text(
                       'Point your camera at historical sites\nto unlock AR experiences',
                       style: TextStyle(
@@ -64,15 +66,15 @@ class CameraScreen extends StatelessWidget {
                 children: [
                   IconButton(
                     onPressed: () {},
-                    icon: Icon(Icons.flash_off, color: Colors.white, size: 28),
+                    icon: const Icon(Icons.flash_off, color: Colors.white, size: 28),
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
                     decoration: BoxDecoration(
                       color: AppColors.primaryBrown,
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: Text(
+                    child: const Text(
                       'AR Mode',
                       style: TextStyle(
                         color: Colors.white,
@@ -82,7 +84,7 @@ class CameraScreen extends StatelessWidget {
                   ),
                   IconButton(
                     onPressed: () {},
-                    icon: Icon(Icons.flip_camera_ios, color: Colors.white, size: 28),
+                    icon: const Icon(Icons.flip_camera_ios, color: Colors.white, size: 28),
                   ),
                 ],
               ),
@@ -97,7 +99,7 @@ class CameraScreen extends StatelessWidget {
                 children: [
                   IconButton(
                     onPressed: () {},
-                    icon: Icon(Icons.photo_library, color: Colors.white, size: 32),
+                    icon: const Icon(Icons.photo_library, color: Colors.white, size: 32),
                   ),
                   Container(
                     width: 80,
@@ -107,8 +109,8 @@ class CameraScreen extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                     child: Container(
-                      margin: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
+                      margin: const EdgeInsets.all(8),
+                      decoration: const BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
                       ),
@@ -116,7 +118,7 @@ class CameraScreen extends StatelessWidget {
                   ),
                   IconButton(
                     onPressed: () {},
-                    icon: Icon(Icons.info_outline, color: Colors.white, size: 32),
+                    icon: const Icon(Icons.info_outline, color: Colors.white, size: 32),
                   ),
                 ],
               ),

@@ -11,4 +11,3 @@ class Event {
     // required this.video, // and here
   });
 }
-

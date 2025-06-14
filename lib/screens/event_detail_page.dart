@@ -84,7 +84,7 @@ import '../utils/colors.dart';
 class EventDetailPage extends StatelessWidget {
   final Event event;
 
-  const EventDetailPage({required this.event});
+  const EventDetailPage({super.key, required this.event});
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +96,7 @@ class EventDetailPage extends StatelessWidget {
         foregroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -109,19 +109,19 @@ class EventDetailPage extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(
               event.name,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: AppColors.textDark,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               event.description,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
                 color: AppColors.textLight,
               ),

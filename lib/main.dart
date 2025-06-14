@@ -4,14 +4,16 @@ import 'package:flutter/services.dart';
 import 'screens/splash_screen.dart';
 
 void main() {
-  runApp(ChronoVaApp());
+  runApp(const ChronoVaApp());
 }
 
 class ChronoVaApp extends StatelessWidget {
+  const ChronoVaApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
+      const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.light,
       ),
@@ -25,7 +27,7 @@ class ChronoVaApp extends StatelessWidget {
         fontFamily: 'Roboto',
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }
