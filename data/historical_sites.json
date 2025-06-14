@@ -9,8 +9,11 @@
     "unesco_status": true,
     "visiting_hours": "6:00 AM - 7:00 PM",
     "entry_fee": "NPR 1800 for foreigners",
-    "coordinates": null,
-    "images": null,
+    "coordinates": {
+      "latitude": 27.672115,
+      "longitude": 85.428339
+    },
+    "images": ["https://hsj.com.np/uploads/0000/1/2023/08/06/bhhaktapur-templephp.jpeg"],
     "nearby_attractions": ["55 Window Palace", "Golden Gate", "Taumadhi Square"]
   },
   {
@@ -23,8 +26,11 @@
     "unesco_status": true,
     "visiting_hours": "Included in Durbar Square hours",
     "entry_fee": "Included in Bhaktapur Durbar Square ticket",
-    "coordinates": null,
-    "images": null,
+    "coordinates": {
+      "latitude": 27.672115,
+      "longitude": 85.428339
+    },
+    "images": ["https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/b9/1e/aa/photo0jpg.jpg?w=1400&h=-1&s=1"],
     "nearby_attractions": ["Bhaktapur Durbar Square", "Golden Gate", "King Bhupatindra Malla Statue"]
   },
   {
@@ -37,8 +43,11 @@
     "unesco_status": true,
     "visiting_hours": "6:00 AM - 7:00 PM",
     "entry_fee": "Included in Bhaktapur Durbar Square ticket",
-    "coordinates": null,
-    "images": null,
+    "coordinates": {
+      "latitude": 27.671800,
+      "longitude": 85.429500
+    },
+    "images":["https://upload.wikimedia.org/wikipedia/commons/3/38/Kathmandu_und_Bhaktapur_2013-05-11_16-03-39.jpg"],
     "nearby_attractions": ["Taumadhi Square", "Bhairavanath Temple", "Bhaktapur Durbar Square"]
   },
   {
@@ -51,8 +60,11 @@
     "unesco_status": true,
     "visiting_hours": "24 hours (temples have specific hours)",
     "entry_fee": "Included in Bhaktapur Durbar Square ticket",
-    "coordinates": null,
-    "images": null,
+    "coordinates": {
+      "latitude": 27.671800,
+      "longitude": 85.429500
+    },
+    "images": ["https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0c/11/27/a8/tallest-temple-of-nepal.jpg?w=1200&h=-1&s=1"],
     "nearby_attractions": ["Nyatapola Temple", "Bhairavanath Temple", "Bhaktapur Durbar Square"]
   },
   {
@@ -65,8 +77,11 @@
     "unesco_status": true,
     "visiting_hours": "6:00 AM - 6:00 PM",
     "entry_fee": "NPR 300 for foreigners",
-    "coordinates": null,
-    "images": null,
+    "coordinates": {
+      "latitude": 27.714722,
+      "longitude": 85.424167
+    },
+    "images": ["https://dynamic-media-cdn.tripadvisor.com/media/photo-o/07/08/74/37/changu-narayan.jpg?w=1200&h=-1&s=1"],
     "nearby_attractions": ["Changu Village", "Traditional Newari Houses"]
   },
   {
@@ -79,8 +94,11 @@
     "unesco_status": true,
     "visiting_hours": "Included in Durbar Square hours",
     "entry_fee": "Included in Bhaktapur Durbar Square ticket",
-    "coordinates": null,
-    "images": null,
+    "coordinates": {
+      "latitude": 27.672115,
+      "longitude": 85.428339
+    },
+    "images": ["https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/a7/1d/54/goldenes-tor-in-bhaktapur.jpg?w=900&h=500&s=1"],
     "nearby_attractions": ["55 Window Palace", "Bhaktapur Durbar Square", "Taleju Temple"]
   },
   {
@@ -93,8 +111,11 @@
     "unesco_status": true,
     "visiting_hours": "24 hours",
     "entry_fee": "Included in Bhaktapur Durbar Square ticket",
-    "coordinates": null,
-    "images": null,
+    "coordinates": {
+      "latitude": 27.673500,
+      "longitude": 85.427000
+    },
+    "images": ["https://www.himalayanwonders.com/siteblog/wp-content/uploads/2015/03/Dattatreya-Temple-in-Dattatreya-Square.jpg"],
     "nearby_attractions": ["Dattatreya Temple", "Traditional Houses", "Woodcarving Museum"]
   },
   {
@@ -107,7 +128,10 @@
     "unesco_status": true,
     "visiting_hours": "6:00 AM - 7:00 PM",
     "entry_fee": "Included in Bhaktapur Durbar Square ticket",
-    "coordinates": null,
+    "coordinates": {
+      "latitude": 27.671800,
+      "longitude": 85.429500
+    },
     "images": null,
     "nearby_attractions": ["Nyatapola Temple", "Taumadhi Square"]
   },
@@ -121,7 +145,10 @@
     "unesco_status": false,
     "visiting_hours": "6:00 AM - 6:00 PM",
     "entry_fee": "Free",
-    "coordinates": null,
+    "coordinates": {
+      "latitude": 27.675000,
+      "longitude": 85.430000
+    },
     "images": null,
     "nearby_attractions": ["Bhaktapur town center"]
   },
@@ -135,7 +162,10 @@
     "unesco_status": false,
     "visiting_hours": "8:00 AM - 6:00 PM",
     "entry_fee": "Free",
-    "coordinates": null,
+    "coordinates": {
+      "latitude": 27.672500,
+      "longitude": 85.428000
+    },
     "images": null,
     "nearby_attractions": ["Bhaktapur Durbar Square", "Traditional workshops"]
   },
@@ -149,11 +179,13 @@
     "unesco_status": true,
     "visiting_hours": "10:00 AM - 4:00 PM (closed on Tuesdays)",
     "entry_fee": "Additional fee may apply",
-    "coordinates": null,
+    "coordinates": {
+      "latitude": 27.672115,
+      "longitude": 85.428339
+    },
     "images": null,
     "nearby_attractions": ["Bhaktapur Durbar Square", "55 Window Palace"]
   },
-
   {
     "name": "Kathmandu Durbar Square",
     "location": "Kathmandu",
@@ -164,7 +196,10 @@
     "unesco_status": true,
     "visiting_hours": "6:00 AM - 7:00 PM",
     "entry_fee": "NPR 1000 for foreigners",
-    "coordinates": null,
+    "coordinates": {
+      "latitude": 27.704065,
+      "longitude": 85.307096
+    },
     "images": null,
     "nearby_attractions": null
   },
@@ -178,7 +213,10 @@
     "unesco_status": true,
     "visiting_hours": "4:00 AM - 9:00 PM",
     "entry_fee": "NPR 1000 for foreigners",
-    "coordinates": null,
+    "coordinates": {
+      "latitude": 27.710437,
+      "longitude": 85.348677
+    },
     "images": null,
     "nearby_attractions": null
   },
@@ -192,7 +230,10 @@
     "unesco_status": true,
     "visiting_hours": "5:00 AM - 6:00 PM",
     "entry_fee": "NPR 400 for foreigners",
-    "coordinates": null,
+    "coordinates": {
+      "latitude": 27.721694,
+      "longitude": 85.361944
+    },
     "images": null,
     "nearby_attractions": null
   },
@@ -206,7 +247,10 @@
     "unesco_status": true,
     "visiting_hours": "5:00 AM - 8:00 PM",
     "entry_fee": "NPR 200 for foreigners",
-    "coordinates": null,
+    "coordinates": {
+      "latitude": 27.714722,
+      "longitude": 85.290000
+    },
     "images": null,
     "nearby_attractions": null
   },
@@ -220,21 +264,10 @@
     "unesco_status": true,
     "visiting_hours": "6:00 AM - 6:00 PM",
     "entry_fee": "Free",
-    "coordinates": null,
-    "images": null,
-    "nearby_attractions": null
-  },
-  {
-    "name": "Chitwan National Park",
-    "location": "Chitwan",
-    "region": "Central Nepal",
-    "site_type": "archaeological",
-    "description": "Protected area with cultural and natural heritage",
-    "historical_significance": "Traditional Tharu culture and wildlife conservation",
-    "unesco_status": true,
-    "visiting_hours": "6:00 AM - 6:00 PM",
-    "entry_fee": "NPR 2000 for foreigners",
-    "coordinates": null,
+    "coordinates": {
+      "latitude": 27.478889,
+      "longitude": 83.276111
+    },
     "images": null,
     "nearby_attractions": null
   },
@@ -248,7 +281,10 @@
     "unesco_status": true,
     "visiting_hours": "6:00 AM - 7:00 PM",
     "entry_fee": "NPR 1000 for foreigners",
-    "coordinates": null,
+    "coordinates": {
+      "latitude": 27.672655,
+      "longitude": 85.325257
+    },
     "images": null,
     "nearby_attractions": ["Patan Museum", "Krishna Temple", "Golden Temple", "Mahabouddha Temple"]
   },
@@ -262,7 +298,10 @@
     "unesco_status": true,
     "visiting_hours": "5:00 AM - 8:00 PM",
     "entry_fee": "NPR 50 for foreigners",
-    "coordinates": null,
+    "coordinates": {
+      "latitude": 27.678056,
+      "longitude": 85.325000
+    },
     "images": null,
     "nearby_attractions": ["Patan Durbar Square", "Kumbheshwar Temple"]
   },
@@ -276,7 +315,10 @@
     "unesco_status": true,
     "visiting_hours": "Included in Durbar Square hours",
     "entry_fee": "Included in Patan Durbar Square ticket",
-    "coordinates": null,
+    "coordinates": {
+      "latitude": 27.672655,
+      "longitude": 85.325257
+    },
     "images": null,
     "nearby_attractions": ["Patan Durbar Square", "Vishwanath Temple", "Bhimsen Temple"]
   },
@@ -290,7 +332,10 @@
     "unesco_status": true,
     "visiting_hours": "10:30 AM - 5:30 PM (closed on Tuesdays)",
     "entry_fee": "NPR 250 for foreigners",
-    "coordinates": null,
+    "coordinates": {
+      "latitude": 27.672655,
+      "longitude": 85.325257
+    },
     "images": null,
     "nearby_attractions": ["Patan Durbar Square", "Sundari Chowk", "Tusha Hiti"]
   },
@@ -304,7 +349,10 @@
     "unesco_status": true,
     "visiting_hours": "6:00 AM - 6:00 PM",
     "entry_fee": "NPR 25 for foreigners",
-    "coordinates": null,
+    "coordinates": {
+      "latitude": 27.674167,
+      "longitude": 85.322778
+    },
     "images": null,
     "nearby_attractions": ["Patan Durbar Square", "Uku Bahal"]
   },
@@ -318,7 +366,10 @@
     "unesco_status": true,
     "visiting_hours": "6:00 AM - 7:00 PM",
     "entry_fee": "Free",
-    "coordinates": null,
+    "coordinates": {
+      "latitude": 27.679167,
+      "longitude": 85.323889
+    },
     "images": null,
     "nearby_attractions": ["Golden Temple", "Northern Stupa", "Kumbheshwar Technical School"]
   },
@@ -332,7 +383,10 @@
     "unesco_status": true,
     "visiting_hours": "6:00 AM - 6:00 PM",
     "entry_fee": "Free",
-    "coordinates": null,
+    "coordinates": {
+      "latitude": 27.674500,
+      "longitude": 85.322500
+    },
     "images": null,
     "nearby_attractions": ["Mahabouddha Temple", "Patan Durbar Square"]
   },
@@ -346,7 +400,10 @@
     "unesco_status": true,
     "visiting_hours": "24 hours",
     "entry_fee": "Free",
-    "coordinates": null,
+    "coordinates": {
+      "latitude": 27.675000,
+      "longitude": 85.325000
+    },
     "images": null,
     "nearby_attractions": ["Various locations around Patan"]
   },
@@ -360,7 +417,10 @@
     "unesco_status": true,
     "visiting_hours": "6:00 AM - 7:00 PM",
     "entry_fee": "Free",
-    "coordinates": null,
+    "coordinates": {
+      "latitude": 27.668333,
+      "longitude": 85.320000
+    },
     "images": null,
     "nearby_attractions": ["Patan Durbar Square", "Lagankhel"]
   },
@@ -374,7 +434,10 @@
     "unesco_status": false,
     "visiting_hours": "6:00 AM - 6:00 PM",
     "entry_fee": "Free",
-    "coordinates": null,
+    "coordinates": {
+      "latitude": 27.673000,
+      "longitude": 85.324000
+    },
     "images": null,
     "nearby_attractions": ["Patan Durbar Square"]
   },
@@ -388,7 +451,10 @@
     "unesco_status": true,
     "visiting_hours": "Included in Durbar Square hours",
     "entry_fee": "Included in Patan Durbar Square ticket",
-    "coordinates": null,
+    "coordinates": {
+      "latitude": 27.672655,
+      "longitude": 85.325257
+    },
     "images": null,
     "nearby_attractions": ["Patan Museum", "Mul Chowk", "Keshav Narayan Chowk"]
   },
@@ -402,7 +468,10 @@
     "unesco_status": true,
     "visiting_hours": "Included in Durbar Square hours",
     "entry_fee": "Included in Patan Durbar Square ticket",
-    "coordinates": null,
+    "coordinates": {
+      "latitude": 27.672655,
+      "longitude": 85.325257
+    },
     "images": null,
     "nearby_attractions": ["Sundari Chowk", "Krishna Temple", "Patan Museum"]
   },
@@ -416,7 +485,10 @@
     "unesco_status": false,
     "visiting_hours": "9:00 AM - 5:00 PM",
     "entry_fee": "Free",
-    "coordinates": null,
+    "coordinates": {
+      "latitude": 27.666667,
+      "longitude": 85.316667
+    },
     "images": null,
     "nearby_attractions": ["Patan Durbar Square", "Central Zoo"]
   },
@@ -430,7 +502,10 @@
     "unesco_status": false,
     "visiting_hours": "10:00 AM - 5:00 PM",
     "entry_fee": "NPR 120 for foreigners",
-    "coordinates": null,
+    "coordinates": {
+      "latitude": 27.666944,
+      "longitude": 85.316389
+    },
     "images": null,
     "nearby_attractions": ["Jawalakhel Handicraft Center", "Patan"]
   }
