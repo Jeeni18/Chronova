@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import '../utils/colors.dart';
 import 'home_screen.dart';
 import 'favorites_screen.dart';
-import 'camera_screen.dart';
+import 'new.dart';
 import 'map_screen.dart';
 import 'profile_screen.dart';
 
 class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
+
   @override
   _MainScreenState createState() => _MainScreenState();
 }
@@ -28,11 +29,11 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   final List<Widget> _screens = [
-    HomeScreen(),
-    FavoritesScreen(),
-    CameraScreen(),
-    MapScreen(),
-    ProfileScreen(),
+    const HomeScreen(),
+    const QuestionnaireScreen(),
+    const SimpleARScreen(),
+    const MapScreen(),
+    const ProfileScreen(),
   ];
 
   @override
@@ -50,8 +51,8 @@ class _MainScreenState extends State<MainScreen> {
       bottomNavigationBar: Container(
         height: 80,
         decoration: BoxDecoration(
-          color: AppColors.primaryBrown,
-          borderRadius: BorderRadius.only(
+          color: const Color(0xFF8B4513),
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(25),
             topRight: Radius.circular(25),
           ),
@@ -59,7 +60,7 @@ class _MainScreenState extends State<MainScreen> {
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
               blurRadius: 10,
-              offset: Offset(0, -5),
+              offset: const Offset(0, -5),
             ),
           ],
         ),
@@ -67,7 +68,7 @@ class _MainScreenState extends State<MainScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             _buildNavItem(Icons.home, 0),
-            _buildNavItem(Icons.favorite, 1),
+            _buildNavItem(Icons.question_mark , 1),
             _buildNavItem(Icons.camera_alt, 2),
             _buildNavItem(Icons.map, 3),
             _buildNavItem(Icons.person, 4),
@@ -86,12 +87,12 @@ class _MainScreenState extends State<MainScreen> {
         });
         _pageController.animateToPage(
           index,
-          duration: Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
         );
       },
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         decoration: BoxDecoration(
           color: isSelected ? Colors.white.withOpacity(0.2) : Colors.transparent,
           borderRadius: BorderRadius.circular(20),
@@ -106,10 +107,10 @@ class _MainScreenState extends State<MainScreen> {
             ),
             if (isSelected)
               Container(
-                margin: EdgeInsets.only(top: 4),
+                margin: const EdgeInsets.only(top: 4),
                 width: 4,
                 height: 4,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   shape: BoxShape.circle,
                 ),

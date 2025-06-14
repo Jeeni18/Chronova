@@ -5,7 +5,7 @@ class FoodListPage extends StatelessWidget {
   final List<Map<String, String>> foodItems = const [
     {
       'title': 'Yomari',
-      'description': 'Sweet Newari steamed dumpling with chaku filling',
+      'description': 'Sweet Newari steamed dumpling',
       'image': 'assets/images/yomari.jpeg',
     },
     {
@@ -25,15 +25,17 @@ class FoodListPage extends StatelessWidget {
     },
   ];
 
+  const FoodListPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: GridView.builder(
-        padding: EdgeInsets.only(bottom: 20),
-        physics: BouncingScrollPhysics(),
+        padding: const EdgeInsets.only(bottom: 20),
+        physics: const BouncingScrollPhysics(),
         itemCount: foodItems.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 6.5,
           mainAxisSpacing: 6.5,
@@ -50,7 +52,7 @@ class FoodListPage extends StatelessWidget {
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.1),
                   blurRadius: 10,
-                  offset: Offset(0, 5),
+                  offset: const Offset(0, 5),
                 ),
               ],
             ),
@@ -59,7 +61,7 @@ class FoodListPage extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
                   ),
@@ -71,22 +73,22 @@ class FoodListPage extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         item['title']!,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: AppColors.textDark,
                         ),
                       ),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       Text(
                         item['description']!,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 13,
                           color: AppColors.textLight,
                         ),

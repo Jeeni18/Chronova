@@ -216,6 +216,8 @@ import 'package:shimmer/shimmer.dart';
 import 'onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -232,7 +234,7 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
 
     _controller = AnimationController(
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
       vsync: this,
     );
 
@@ -245,7 +247,7 @@ class _SplashScreenState extends State<SplashScreen>
     );
 
     _slideAnimation = Tween<Offset>(
-      begin: Offset(0, 0.2),
+      begin: const Offset(0, 0.2),
       end: Offset.zero,
     ).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeOut),
@@ -254,15 +256,15 @@ class _SplashScreenState extends State<SplashScreen>
     _controller.forward();
 
     // ⏱ Keep splash for 5 seconds
-    Timer(Duration(seconds: 5), () {
+    Timer(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) => OnboardingScreen(),
+          pageBuilder: (context, animation, secondaryAnimation) => const OnboardingScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },
-          transitionDuration: Duration(milliseconds: 800),
+          transitionDuration: const Duration(milliseconds: 800),
         ),
       );
     });
@@ -295,7 +297,7 @@ class _SplashScreenState extends State<SplashScreen>
                       Container(
                         width: 140,
                         height: 140,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.white,
                           boxShadow: [
@@ -313,12 +315,12 @@ class _SplashScreenState extends State<SplashScreen>
                           ),
                         ),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       // ✨ Shimmer Tagline
                       Shimmer.fromColors(
                         baseColor: Colors.black38,
                         highlightColor: Colors.grey.shade100,
-                        child: Text(
+                        child: const Text(
                           "Discover History Around You",
                           style: TextStyle(
                             fontSize: 16,

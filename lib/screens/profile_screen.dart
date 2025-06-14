@@ -3,6 +3,8 @@ import '../utils/colors.dart';
 import '../utils/styles.dart';
 
 class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,8 +24,8 @@ class ProfileScreen extends StatelessWidget {
 
   Widget _buildProfileHeader() {
     return Container(
-      padding: EdgeInsets.all(30),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.all(30),
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [AppColors.primaryBrown, AppColors.darkBrown],
         ),
@@ -37,14 +39,14 @@ class ProfileScreen extends StatelessWidget {
           CircleAvatar(
             radius: 50,
             backgroundColor: Colors.white.withOpacity(0.2),
-            child: Icon(
+            child: const Icon(
               Icons.person,
               size: 50,
               color: Colors.white,
             ),
           ),
-          SizedBox(height: 20),
-          Text(
+          const SizedBox(height: 20),
+          const Text(
             'John Explorer',
             style: TextStyle(
               fontSize: 24,
@@ -52,7 +54,7 @@ class ProfileScreen extends StatelessWidget {
               color: Colors.white,
             ),
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           Text(
             'History Enthusiast',
             style: TextStyle(
@@ -60,7 +62,7 @@ class ProfileScreen extends StatelessWidget {
               color: Colors.white.withOpacity(0.8),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -79,7 +81,7 @@ class ProfileScreen extends StatelessWidget {
       children: [
         Text(
           value,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
             color: Colors.white,
@@ -106,12 +108,12 @@ class ProfileScreen extends StatelessWidget {
     ];
 
     return ListView.builder(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       itemCount: options.length,
       itemBuilder: (context, index) {
         final option = options[index];
         return Container(
-          margin: EdgeInsets.only(bottom: 15),
+          margin: const EdgeInsets.only(bottom: 15),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(15),
@@ -119,14 +121,14 @@ class ProfileScreen extends StatelessWidget {
               BoxShadow(
                 color: Colors.grey.withOpacity(0.1),
                 blurRadius: 5,
-                offset: Offset(0, 2),
+                offset: const Offset(0, 2),
               ),
             ],
           ),
           child: ListTile(
-            contentPadding: EdgeInsets.all(15),
+            contentPadding: const EdgeInsets.all(15),
             leading: Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: AppColors.primaryBrown.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(10),
@@ -145,7 +147,7 @@ class ProfileScreen extends StatelessWidget {
               option['subtitle'] as String,
               style: AppStyles.bodyText.copyWith(fontSize: 14),
             ),
-            trailing: Icon(
+            trailing: const Icon(
               Icons.arrow_forward_ios,
               color: AppColors.textLight,
               size: 16,
