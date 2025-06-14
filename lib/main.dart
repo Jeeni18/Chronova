@@ -26,7 +26,8 @@ class ChronoVaApp extends StatelessWidget {
         fontFamily: 'Roboto',
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const SplashScreen(),
+     // home: const SplashScreen(),
+     home: SimpleARScreen()
     );
   }
 }
