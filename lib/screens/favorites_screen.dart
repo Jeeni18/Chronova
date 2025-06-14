@@ -1,2741 +1,903 @@
-// // // // import 'package:flutter/material.dart';
-// // // // import '../utils/colors.dart';
-// // // // import '../utils/styles.dart';
-// // // //
-// // // // class FavoritesScreen extends StatelessWidget {
-// // // //   @override
-// // // //   Widget build(BuildContext context) {
-// // // //     return Scaffold(
-// // // //       backgroundColor: AppColors.softGray,
-// // // //       body: SafeArea(
-// // // //         child: Column(
-// // // //           children: [
-// // // //             _buildHeader(),
-// // // //             Expanded(
-// // // //               child: _buildFavoritesList(),
-// // // //             ),
-// // // //           ],
-// // // //         ),
-// // // //       ),
-// // // //     );
-// // // //   }
-// // // //
-// // // //   Widget _buildHeader() {
-// // // //     return Container(
-// // // //       padding: EdgeInsets.all(20),
-// // // //       decoration: BoxDecoration(
-// // // //         gradient: LinearGradient(
-// // // //           colors: [AppColors.primaryBrown, AppColors.darkBrown],
-// // // //         ),
-// // // //         borderRadius: BorderRadius.only(
-// // // //           bottomLeft: Radius.circular(30),
-// // // //           bottomRight: Radius.circular(30),
-// // // //         ),
-// // // //       ),
-// // // //       child: Row(
-// // // //         children: [
-// // // //           Icon(Icons.favorite, color: Colors.white, size: 28),
-// // // //           SizedBox(width: 15),
-// // // //           Text(
-// // // //             'My Favorites',
-// // // //             style: TextStyle(
-// // // //               fontSize: 24,
-// // // //               fontWeight: FontWeight.bold,
-// // // //               color: Colors.white,
-// // // //             ),
-// // // //           ),
-// // // //         ],
-// // // //       ),
-// // // //     );
-// // // //   }
-// // // //
-// // // //   Widget _buildFavoritesList() {
-// // // //     return ListView.builder(
-// // // //       padding: EdgeInsets.all(20),
-// // // //       itemCount: 4,
-// // // //       itemBuilder: (context, index) {
-// // // //         return Container(
-// // // //           margin: EdgeInsets.only(bottom: 15),
-// // // //           padding: EdgeInsets.all(15),
-// // // //           decoration: BoxDecoration(
-// // // //             color: Colors.white,
-// // // //             borderRadius: BorderRadius.circular(15),
-// // // //             boxShadow: [
-// // // //               BoxShadow(
-// // // //                 color: Colors.grey.withOpacity(0.1),
-// // // //                 blurRadius: 5,
-// // // //                 offset: Offset(0, 2),
-// // // //               ),
-// // // //             ],
-// // // //           ),
-// // // //           child: Row(
-// // // //             children: [
-// // // //               Container(
-// // // //                 width: 60,
-// // // //                 height: 60,
-// // // //                 decoration: BoxDecoration(
-// // // //                   color: AppColors.lightBrown.withOpacity(0.3),
-// // // //                   borderRadius: BorderRadius.circular(10),
-// // // //                 ),
-// // // //                 child: Icon(
-// // // //                   Icons.account_balance,
-// // // //                   color: AppColors.primaryBrown,
-// // // //                   size: 30,
-// // // //                 ),
-// // // //               ),
-// // // //               SizedBox(width: 15),
-// // // //               Expanded(
-// // // //                 child: Column(
-// // // //                   crossAxisAlignment: CrossAxisAlignment.start,
-// // // //                   children: [
-// // // //                     Text(
-// // // //                       'Historical Place ${index + 1}',
-// // // //                       style: AppStyles.headingMedium.copyWith(fontSize: 16),
-// // // //                     ),
-// // // //                     SizedBox(height: 5),
-// // // //                     Text(
-// // // //                       'Ancient temple with rich history',
-// // // //                       style: AppStyles.bodyText.copyWith(fontSize: 14),
-// // // //                     ),
-// // // //                   ],
-// // // //                 ),
-// // // //               ),
-// // // //               Icon(
-// // // //                 Icons.favorite,
-// // // //                 color: Colors.red,
-// // // //                 size: 24,
-// // // //               ),
-// // // //             ],
-// // // //           ),
-// // // //         );
-// // // //       },
-// // // //     );
-// // // //   }
-// // // // }
-// // //
-// // // import 'package:flutter/material.dart';
-// // // import 'package:http/http.dart' as http;
-// // // import 'dart:convert';
-// // //
-// // // class QuestionnaireScreen extends StatefulWidget {
-// // //   @override
-// // //   _QuestionnaireScreenState createState() => _QuestionnaireScreenState();
-// // // }
-// // //
-// // // class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
-// // //   final PageController _pageController = PageController();
-// // //   int _currentPage = 0;
-// // //
-// // //   // Form data
-// // //   String? _interestType;
-// // //   String? _locationPreference;
-// // //   String? _dietaryPreference;
-// // //   String? _foodType;
-// // //   List<String> _b2bInterests = [];
-// // //
-// // //   bool _isLoading = false;
-// // //
-// // //   final List<String> _pages = [
-// // //     'Historical Interests',
-// // //     'Location Preference',
-// // //     'Food Preferences',
-// // //     'Services'
-// // //   ];
-// // //
-// // //   @override
-// // //   Widget build(BuildContext context) {
-// // //     return Scaffold(
-// // //       appBar: AppBar(
-// // //         title: Text('Plan Your Journey'),
-// // //         backgroundColor: Colors.orange[700],
-// // //         elevation: 0,
-// // //       ),
-// // //       body: Column(
-// // //         children: [
-// // //           // Progress indicator
-// // //           Container(
-// // //             padding: EdgeInsets.all(16),
-// // //             child: Row(
-// // //               children: List.generate(_pages.length, (index) {
-// // //                 return Expanded(
-// // //                   child: Container(
-// // //                     height: 4,
-// // //                     margin: EdgeInsets.symmetric(horizontal: 2),
-// // //                     decoration: BoxDecoration(
-// // //                       color: index <= _currentPage
-// // //                           ? Colors.orange[700]
-// // //                           : Colors.grey[300],
-// // //                       borderRadius: BorderRadius.circular(2),
-// // //                     ),
-// // //                   ),
-// // //                 );
-// // //               }),
-// // //             ),
-// // //           ),
-// // //
-// // //           // Page indicator text
-// // //           Padding(
-// // //             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-// // //             child: Text(
-// // //               '${_currentPage + 1} of ${_pages.length}: ${_pages[_currentPage]}',
-// // //               style: TextStyle(
-// // //                 fontSize: 16,
-// // //                 fontWeight: FontWeight.w500,
-// // //                 color: Colors.grey[600],
-// // //               ),
-// // //             ),
-// // //           ),
-// // //
-// // //           // Page content
-// // //           Expanded(
-// // //             child: PageView(
-// // //               controller: _pageController,
-// // //               onPageChanged: (page) {
-// // //                 setState(() {
-// // //                   _currentPage = page;
-// // //                 });
-// // //               },
-// // //               children: [
-// // //                 _buildInterestTypePage(),
-// // //                 _buildLocationPage(),
-// // //                 _buildFoodPreferencesPage(),
-// // //                 _buildServicesPage(),
-// // //               ],
-// // //             ),
-// // //           ),
-// // //
-// // //           // Navigation buttons
-// // //           Container(
-// // //             padding: EdgeInsets.all(16),
-// // //             child: Row(
-// // //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-// // //               children: [
-// // //                 _currentPage > 0
-// // //                     ? ElevatedButton(
-// // //                   onPressed: _previousPage,
-// // //                   child: Text('Previous'),
-// // //                   style: ElevatedButton.styleFrom(
-// // //                     backgroundColor: Colors.grey[300],
-// // //                     foregroundColor: Colors.black87,
-// // //                   ),
-// // //                 )
-// // //                     : SizedBox(width: 80),
-// // //
-// // //                 ElevatedButton(
-// // //                   onPressed: _isLoading ? null : (_currentPage == _pages.length - 1
-// // //                       ? _submitQuestionnaire
-// // //                       : _nextPage),
-// // //                   child: _isLoading
-// // //                       ? SizedBox(
-// // //                     width: 20,
-// // //                     height: 20,
-// // //                     child: CircularProgressIndicator(strokeWidth: 2),
-// // //                   )
-// // //                       : Text(_currentPage == _pages.length - 1
-// // //                       ? 'Get Recommendations'
-// // //                       : 'Next'),
-// // //                   style: ElevatedButton.styleFrom(
-// // //                     backgroundColor: Colors.orange[700],
-// // //                     foregroundColor: Colors.white,
-// // //                     minimumSize: Size(120, 45),
-// // //                   ),
-// // //                 ),
-// // //               ],
-// // //             ),
-// // //           ),
-// // //         ],
-// // //       ),
-// // //     );
-// // //   }
-// // //
-// // //   Widget _buildInterestTypePage() {
-// // //     return SingleChildScrollView(
-// // //       padding: EdgeInsets.all(16),
-// // //       child: Column(
-// // //         crossAxisAlignment: CrossAxisAlignment.start,
-// // //         children: [
-// // //           Text(
-// // //             'What type of historical sites interest you most?',
-// // //             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-// // //           ),
-// // //           SizedBox(height: 24),
-// // //           ..._buildRadioOptions(
-// // //             value: _interestType,
-// // //             options: [
-// // //               {'value': 'temples_religious', 'label': 'Temples & Religious Heritage'},
-// // //               {'value': 'ancient_architecture', 'label': 'Ancient Architecture & Palaces'},
-// // //               {'value': 'old_towns', 'label': 'Old Towns & Heritage Areas'},
-// // //               {'value': 'cultural_museums', 'label': 'Cultural Museums & Galleries'},
-// // //               {'value': 'archaeological_ruins', 'label': 'Archaeological Sites & Monuments'},
-// // //             ],
-// // //             onChanged: (value) => setState(() => _interestType = value),
-// // //           ),
-// // //         ],
-// // //       ),
-// // //     );
-// // //   }
-// // //
-// // //   Widget _buildLocationPage() {
-// // //     return SingleChildScrollView(
-// // //       padding: EdgeInsets.all(16),
-// // //       child: Column(
-// // //         crossAxisAlignment: CrossAxisAlignment.start,
-// // //         children: [
-// // //           Text(
-// // //             'Which region would you like to explore?',
-// // //             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-// // //           ),
-// // //           SizedBox(height: 24),
-// // //           ..._buildRadioOptions(
-// // //             value: _locationPreference,
-// // //             options: [
-// // //               {'value': 'kathmandu_valley', 'label': 'Kathmandu Valley\n(Kathmandu, Patan, Bhaktapur)'},
-// // //               {'value': 'lumbini', 'label': 'Lumbini & Kapilvastu'},
-// // //               {'value': 'gorkha_bandipur', 'label': 'Gorkha, Bandipur & Palpa'},
-// // //               {'value': 'janakpur', 'label': 'Janakpur & Mithila Region'},
-// // //             ],
-// // //             onChanged: (value) => setState(() => _locationPreference = value),
-// // //           ),
-// // //         ],
-// // //       ),
-// // //     );
-// // //   }
-// // //
-// // //   Widget _buildFoodPreferencesPage() {
-// // //     return SingleChildScrollView(
-// // //       padding: EdgeInsets.all(16),
-// // //       child: Column(
-// // //         crossAxisAlignment: CrossAxisAlignment.start,
-// // //         children: [
-// // //           Text(
-// // //             'Food Preferences',
-// // //             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-// // //           ),
-// // //           SizedBox(height: 24),
-// // //
-// // //           Text(
-// // //             'Dietary Preference:',
-// // //             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-// // //           ),
-// // //           SizedBox(height: 12),
-// // //           ..._buildRadioOptions(
-// // //             value: _dietaryPreference,
-// // //             options: [
-// // //               {'value': 'vegetarian', 'label': 'Vegetarian'},
-// // //               {'value': 'vegan', 'label': 'Vegan'},
-// // //               {'value': 'non_vegetarian', 'label': 'Non-Vegetarian'},
-// // //               {'value': 'all', 'label': 'No specific restrictions'},
-// // //             ],
-// // //             onChanged: (value) => setState(() => _dietaryPreference = value),
-// // //           ),
-// // //
-// // //           SizedBox(height: 32),
-// // //
-// // //           Text(
-// // //             'Food Experience Type:',
-// // //             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-// // //           ),
-// // //           SizedBox(height: 12),
-// // //           ..._buildRadioOptions(
-// // //             value: _foodType,
-// // //             options: [
-// // //               {'value': 'local_snacks', 'label': 'Street Food & Local Snacks'},
-// // //               {'value': 'traditional_meals', 'label': 'Traditional Full-Course Meals'},
-// // //               {'value': 'high_end', 'label': 'Fine Dining & Upscale Restaurants'},
-// // //             ],
-// // //             onChanged: (value) => setState(() => _foodType = value),
-// // //           ),
-// // //         ],
-// // //       ),
-// // //     );
-// // //   }
-// // //
-// // //   Widget _buildServicesPage() {
-// // //     return SingleChildScrollView(
-// // //       padding: EdgeInsets.all(16),
-// // //       child: Column(
-// // //         crossAxisAlignment: CrossAxisAlignment.start,
-// // //         children: [
-// // //           Text(
-// // //             'Are you interested in any of these services?',
-// // //             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-// // //           ),
-// // //           SizedBox(height: 8),
-// // //           Text(
-// // //             'Select all that apply (optional)',
-// // //             style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-// // //           ),
-// // //           SizedBox(height: 24),
-// // //           ..._buildCheckboxOptions(
-// // //             selectedValues: _b2bInterests,
-// // //             options: [
-// // //               {'value': 'homestays', 'label': 'Homestays & Heritage Hotels'},
-// // //               {'value': 'traditional_shops', 'label': 'Handicrafts & Traditional Shopping'},
-// // //               {'value': 'guided_tours', 'label': 'Guided Tours & Storytelling'},
-// // //             ],
-// // //             onChanged: (value, isSelected) {
-// // //               setState(() {
-// // //                 if (isSelected) {
-// // //                   _b2bInterests.add(value);
-// // //                 } else {
-// // //                   _b2bInterests.remove(value);
-// // //                 }
-// // //               });
-// // //             },
-// // //           ),
-// // //
-// // //           SizedBox(height: 16),
-// // //           Container(
-// // //             padding: EdgeInsets.all(12),
-// // //             decoration: BoxDecoration(
-// // //               color: Colors.orange[50],
-// // //               borderRadius: BorderRadius.circular(8),
-// // //               border: Border.all(color: Colors.orange[200]!),
-// // //             ),
-// // //             child: Row(
-// // //               children: [
-// // //                 Icon(Icons.info_outline, color: Colors.orange[700], size: 20),
-// // //                 SizedBox(width: 8),
-// // //                 Expanded(
-// // //                   child: Text(
-// // //                     'If none selected, we\'ll focus on historical sites and food recommendations.',
-// // //                     style: TextStyle(fontSize: 12, color: Colors.orange[800]),
-// // //                   ),
-// // //                 ),
-// // //               ],
-// // //             ),
-// // //           ),
-// // //         ],
-// // //       ),
-// // //     );
-// // //   }
-// // //
-// // //   List<Widget> _buildRadioOptions({
-// // //     required String? value,
-// // //     required List<Map<String, String>> options,
-// // //     required ValueChanged<String?> onChanged,
-// // //   }) {
-// // //     return options.map((option) {
-// // //       return Container(
-// // //         margin: EdgeInsets.only(bottom: 8),
-// // //         child: InkWell(
-// // //           onTap: () => onChanged(option['value']),
-// // //           borderRadius: BorderRadius.circular(8),
-// // //           child: Container(
-// // //             padding: EdgeInsets.all(12),
-// // //             decoration: BoxDecoration(
-// // //               border: Border.all(
-// // //                 color: value == option['value']
-// // //                     ? Colors.orange[700]!
-// // //                     : Colors.grey[300]!,
-// // //                 width: value == option['value'] ? 2 : 1,
-// // //               ),
-// // //               borderRadius: BorderRadius.circular(8),
-// // //               color: value == option['value']
-// // //                   ? Colors.orange[50]
-// // //                   : Colors.white,
-// // //             ),
-// // //             child: Row(
-// // //               children: [
-// // //                 Radio<String>(
-// // //                   value: option['value']!,
-// // //                   groupValue: value,
-// // //                   onChanged: onChanged,
-// // //                   activeColor: Colors.orange[700],
-// // //                 ),
-// // //                 SizedBox(width: 8),
-// // //                 Expanded(
-// // //                   child: Text(
-// // //                     option['label']!,
-// // //                     style: TextStyle(
-// // //                       fontSize: 14,
-// // //                       fontWeight: value == option['value']
-// // //                           ? FontWeight.w600
-// // //                           : FontWeight.normal,
-// // //                     ),
-// // //                   ),
-// // //                 ),
-// // //               ],
-// // //             ),
-// // //           ),
-// // //         ),
-// // //       );
-// // //     }).toList();
-// // //   }
-// // //
-// // //   List<Widget> _buildCheckboxOptions({
-// // //     required List<String> selectedValues,
-// // //     required List<Map<String, String>> options,
-// // //     required Function(String, bool) onChanged,
-// // //   }) {
-// // //     return options.map((option) {
-// // //       bool isSelected = selectedValues.contains(option['value']);
-// // //       return Container(
-// // //         margin: EdgeInsets.only(bottom: 8),
-// // //         child: InkWell(
-// // //           onTap: () => onChanged(option['value']!, !isSelected),
-// // //           borderRadius: BorderRadius.circular(8),
-// // //           child: Container(
-// // //             padding: EdgeInsets.all(12),
-// // //             decoration: BoxDecoration(
-// // //               border: Border.all(
-// // //                 color: isSelected
-// // //                     ? Colors.orange[700]!
-// // //                     : Colors.grey[300]!,
-// // //                 width: isSelected ? 2 : 1,
-// // //               ),
-// // //               borderRadius: BorderRadius.circular(8),
-// // //               color: isSelected
-// // //                   ? Colors.orange[50]
-// // //                   : Colors.white,
-// // //             ),
-// // //             child: Row(
-// // //               children: [
-// // //                 Checkbox(
-// // //                   value: isSelected,
-// // //                   onChanged: (bool? value) => onChanged(option['value']!, value!),
-// // //                   activeColor: Colors.orange[700],
-// // //                 ),
-// // //                 SizedBox(width: 8),
-// // //                 Expanded(
-// // //                   child: Text(
-// // //                     option['label']!,
-// // //                     style: TextStyle(
-// // //                       fontSize: 14,
-// // //                       fontWeight: isSelected
-// // //                           ? FontWeight.w600
-// // //                           : FontWeight.normal,
-// // //                     ),
-// // //                   ),
-// // //                 ),
-// // //               ],
-// // //             ),
-// // //           ),
-// // //         ),
-// // //       );
-// // //     }).toList();
-// // //   }
-// // //
-// // //   void _nextPage() {
-// // //     if (_canProceed()) {
-// // //       _pageController.nextPage(
-// // //         duration: Duration(milliseconds: 300),
-// // //         curve: Curves.easeInOut,
-// // //       );
-// // //     } else {
-// // //       _showValidationError();
-// // //     }
-// // //   }
-// // //
-// // //   void _previousPage() {
-// // //     _pageController.previousPage(
-// // //       duration: Duration(milliseconds: 300),
-// // //       curve: Curves.easeInOut,
-// // //     );
-// // //   }
-// // //
-// // //   bool _canProceed() {
-// // //     switch (_currentPage) {
-// // //       case 0:
-// // //         return _interestType != null;
-// // //       case 1:
-// // //         return _locationPreference != null;
-// // //       case 2:
-// // //         return _dietaryPreference != null && _foodType != null;
-// // //       case 3:
-// // //         return true; // Services page is optional
-// // //       default:
-// // //         return false;
-// // //     }
-// // //   }
-// // //
-// // //   void _showValidationError() {
-// // //     String message = '';
-// // //     switch (_currentPage) {
-// // //       case 0:
-// // //         message = 'Please select your historical interest type';
-// // //         break;
-// // //       case 1:
-// // //         message = 'Please select your preferred location';
-// // //         break;
-// // //       case 2:
-// // //         message = 'Please complete your food preferences';
-// // //         break;
-// // //     }
-// // //
-// // //     ScaffoldMessenger.of(context).showSnackBar(
-// // //       SnackBar(
-// // //         content: Text(message),
-// // //         backgroundColor: Color(0xFF8B4513),
-// // //         behavior: SnackBarBehavior.floating,
-// // //       ),
-// // //     );
-// // //   }
-// // //
-// // //   Future<void> _submitQuestionnaire() async {
-// // //     if (!_canProceed()) {
-// // //       _showValidationError();
-// // //       return;
-// // //     }
-// // //
-// // //     setState(() {
-// // //       _isLoading = true;
-// // //     });
-// // //
-// // //     try {
-// // //       // Prepare the data
-// // //       Map<String, dynamic> preferences = {
-// // //         'interest_type': _interestType,
-// // //         'location_preference': _locationPreference,
-// // //         'dietary_preference': _dietaryPreference,
-// // //         'food_type': _foodType,
-// // //       };
-// // //
-// // //       // Add b2b_interest only if something is selected
-// // //       if (_b2bInterests.isNotEmpty) {
-// // //         preferences['b2b_interest'] = _b2bInterests;
-// // //       } else {
-// // //         preferences['b2b_interest'] = 'none';
-// // //       }
-// // //
-// // //       // Make API call
-// // //       final response = await http.post(
-// // //         Uri.parse('cfda-110-44-118-28.ngrok-free.app'), // Replace with your API URL
-// // //         headers: {
-// // //           'Content-Type': 'application/json',
-// // //         },
-// // //         body: json.encode(preferences),
-// // //       );
-// // //
-// // //       if (response.statusCode == 200) {
-// // //         final data = json.decode(response.body);
-// // //
-// // //         // Navigate to recommendations screen
-// // //         Navigator.pushReplacement(
-// // //           context,
-// // //           MaterialPageRoute(
-// // //             builder: (context) => RecommendationsScreen(
-// // //               recommendations: data['data'],
-// // //               userPreferences: preferences,
-// // //             ),
-// // //           ),
-// // //         );
-// // //       } else {
-// // //         throw Exception('Failed to get recommendations');
-// // //       }
-// // //     } catch (e) {
-// // //       ScaffoldMessenger.of(context).showSnackBar(
-// // //         SnackBar(
-// // //           content: Text('Error: ${e.toString()}'),
-// // //           backgroundColor: Colors.red[600],
-// // //           behavior: SnackBarBehavior.floating,
-// // //         ),
-// // //       );
-// // //     } finally {
-// // //       setState(() {
-// // //         _isLoading = false;
-// // //       });
-// // //     }
-// // //   }
-// // // }
-// // //
-// // // // Placeholder for recommendations screen
-// // // class RecommendationsScreen extends StatelessWidget {
-// // //   final Map<String, dynamic> recommendations;
-// // //   final Map<String, dynamic> userPreferences;
-// // //
-// // //   const RecommendationsScreen({
-// // //     Key? key,
-// // //     required this.recommendations,
-// // //     required this.userPreferences,
-// // //   }) : super(key: key);
-// // //
-// // //   @override
-// // //   Widget build(BuildContext context) {
-// // //     return Scaffold(
-// // //       appBar: AppBar(
-// // //         title: Text('Your Recommendations'),
-// // //         backgroundColor: Colors.orange[700],
-// // //       ),
-// // //       body: Center(
-// // //         child: Text('Recommendations will be displayed here'),
-// // //       ),
-// // //     );
-// // //   }
-// // // }
-// // import 'package:flutter/material.dart';
-// // import 'package:http/http.dart' as http;
-// // import 'dart:convert';
-// // import '../utils/colors.dart'; // Assuming you have the AppColors class here
-// //
-// // class QuestionnaireScreen extends StatefulWidget {
-// //   @override
-// //   _QuestionnaireScreenState createState() => _QuestionnaireScreenState();
-// // }
-// //
-// // class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
-// //   final PageController _pageController = PageController();
-// //   int _currentPage = 0;
-// //
-// //   String? _interestType;
-// //   String? _locationPreference;
-// //   String? _dietaryPreference;
-// //   String? _foodType;
-// //   List<String> _b2bInterests = [];
-// //
-// //   bool _isLoading = false;
-// //
-// //   final List<String> _pages = [
-// //     'Historical Interests',
-// //     'Location Preference',
-// //     'Food Preferences',
-// //     'Services'
-// //   ];
-// //
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     return Scaffold(
-// //       backgroundColor: AppColors.softGray,
-// //       appBar: AppBar(
-// //         title: Text(
-// //             'Plan Your Journey',
-// //           style: TextStyle(
-// //             fontFamily: 'Cinzel',
-// //             fontSize: 24,
-// //             fontWeight: FontWeight.bold,
-// //             letterSpacing: 1.2,
-// //             color: Colors.white,
-// //           ),
-// //         ),
-// //
-// //         centerTitle: true,
-// //         backgroundColor: AppColors.primaryBrown,
-// //         elevation: 2,
-// //       ),
-// //       body: Column(
-// //         children: [
-// //           Container(
-// //             padding: EdgeInsets.all(16),
-// //             child: Row(
-// //               children: List.generate(_pages.length, (index) {
-// //                 return Expanded(
-// //                   child: Container(
-// //                     height: 5,
-// //                     margin: EdgeInsets.symmetric(horizontal: 3),
-// //                     decoration: BoxDecoration(
-// //                       color: index <= _currentPage
-// //                           ? AppColors.primaryBrown
-// //                           : Colors.grey[300],
-// //                       borderRadius: BorderRadius.circular(4),
-// //                     ),
-// //                   ),
-// //                 );
-// //               }),
-// //             ),
-// //           ),
-// //
-// //           Padding(
-// //             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-// //             child: Text(
-// //               '${_currentPage + 1} of ${_pages.length}: ${_pages[_currentPage]}',
-// //               style: TextStyle(
-// //                 fontSize: 16,
-// //                 fontWeight: FontWeight.w500,
-// //                 color: AppColors.textLight,
-// //               ),
-// //             ),
-// //           ),
-// //
-// //           Expanded(
-// //             child: PageView(
-// //               controller: _pageController,
-// //               onPageChanged: (page) {
-// //                 setState(() {
-// //                   _currentPage = page;
-// //                 });
-// //               },
-// //               children: [
-// //                 _buildInterestTypePage(),
-// //                 _buildLocationPage(),
-// //                 _buildFoodPreferencesPage(),
-// //                 _buildServicesPage(),
-// //               ],
-// //             ),
-// //           ),
-// //
-// //           Container(
-// //             padding: EdgeInsets.all(16),
-// //             child: Row(
-// //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-// //               children: [
-// //                 _currentPage > 0
-// //                     ? ElevatedButton(
-// //                   onPressed: _previousPage,
-// //                   style: ElevatedButton.styleFrom(
-// //                     backgroundColor: Colors.white,
-// //                     foregroundColor: AppColors.textDark,
-// //                     side: BorderSide(color: AppColors.primaryBrown),
-// //                   ),
-// //                   child: Text('Previous'),
-// //                 )
-// //                     : SizedBox(width: 80),
-// //                 ElevatedButton(
-// //                   onPressed: _isLoading ? null : (_currentPage == _pages.length - 1
-// //                       ? _submitQuestionnaire
-// //                       : _nextPage),
-// //                   child: _isLoading
-// //                       ? SizedBox(
-// //                     width: 20,
-// //                     height: 20,
-// //                     child: CircularProgressIndicator(strokeWidth: 2),
-// //                   )
-// //                       : Text(
-// //                     _currentPage == _pages.length - 1
-// //                         ? 'Get Recommendations'
-// //                         : 'Next',
-// //                   ),
-// //                   style: ElevatedButton.styleFrom(
-// //                     backgroundColor: AppColors.primaryBrown,
-// //                     foregroundColor: Colors.white,
-// //                     minimumSize: Size(120, 45),
-// //                   ),
-// //                 ),
-// //               ],
-// //             ),
-// //           ),
-// //         ],
-// //       ),
-// //     );
-// //   }
-// //
-// //   Widget _buildInterestTypePage() => _buildRadioForm(
-// //     title: 'What type of historical sites interest you most?',
-// //     options: [
-// //       {'value': 'temples_religious', 'label': 'Temples & Religious Heritage'},
-// //       {'value': 'ancient_architecture', 'label': 'Ancient Architecture & Palaces'},
-// //       {'value': 'old_towns', 'label': 'Old Towns & Heritage Areas'},
-// //       {'value': 'cultural_museums', 'label': 'Cultural Museums & Galleries'},
-// //       {'value': 'archaeological_ruins', 'label': 'Archaeological Sites & Monuments'},
-// //     ],
-// //     groupValue: _interestType,
-// //     onChanged: (val) => setState(() => _interestType = val),
-// //   );
-// //
-// //   Widget _buildLocationPage() => _buildRadioForm(
-// //     title: 'Which region would you like to explore?',
-// //     options: [
-// //       {'value': 'kathmandu_valley', 'label': 'Kathmandu Valley\n(Kathmandu, Patan, Bhaktapur)'},
-// //       {'value': 'lumbini', 'label': 'Lumbini & Kapilvastu'},
-// //       {'value': 'gorkha_bandipur', 'label': 'Gorkha, Bandipur & Palpa'},
-// //       {'value': 'janakpur', 'label': 'Janakpur & Mithila Region'},
-// //     ],
-// //     groupValue: _locationPreference,
-// //     onChanged: (val) => setState(() => _locationPreference = val),
-// //   );
-// //
-// //   Widget _buildFoodPreferencesPage() => SingleChildScrollView(
-// //     padding: EdgeInsets.all(16),
-// //     child: Column(
-// //       crossAxisAlignment: CrossAxisAlignment.start,
-// //       children: [
-// //         _buildRadioForm(
-// //           title: 'Dietary Preference:',
-// //           options: [
-// //             {'value': 'vegetarian', 'label': 'Vegetarian'},
-// //             {'value': 'vegan', 'label': 'Vegan'},
-// //             {'value': 'non_vegetarian', 'label': 'Non-Vegetarian'},
-// //             {'value': 'all', 'label': 'No specific restrictions'},
-// //           ],
-// //           groupValue: _dietaryPreference,
-// //           onChanged: (val) => setState(() => _dietaryPreference = val),
-// //         ),
-// //         SizedBox(height: 24),
-// //         _buildRadioForm(
-// //           title: 'Food Experience Type:',
-// //           options: [
-// //             {'value': 'local_snacks', 'label': 'Street Food & Local Snacks'},
-// //             {'value': 'traditional_meals', 'label': 'Traditional Full-Course Meals'},
-// //             {'value': 'high_end', 'label': 'Fine Dining & Upscale Restaurants'},
-// //           ],
-// //           groupValue: _foodType,
-// //           onChanged: (val) => setState(() => _foodType = val),
-// //         ),
-// //       ],
-// //     ),
-// //   );
-// //
-// //   Widget _buildServicesPage() => SingleChildScrollView(
-// //     padding: EdgeInsets.all(16),
-// //     child: Column(
-// //       crossAxisAlignment: CrossAxisAlignment.start,
-// //       children: [
-// //         Text('Are you interested in any of these services?',
-// //             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-// //         Text('Select all that apply (optional)',
-// //             style: TextStyle(color: AppColors.textLight)),
-// //         SizedBox(height: 12),
-// //         ...[
-// //           {'value': 'homestays', 'label': 'Homestays & Heritage Hotels'},
-// //           {'value': 'traditional_shops', 'label': 'Handicrafts & Traditional Shopping'},
-// //           {'value': 'guided_tours', 'label': 'Guided Tours & Storytelling'},
-// //         ].map((option) => CheckboxListTile(
-// //           title: Text(option['label']!),
-// //           value: _b2bInterests.contains(option['value']),
-// //           activeColor: AppColors.primaryBrown,
-// //           onChanged: (selected) {
-// //             setState(() {
-// //               if (selected!) {
-// //                 _b2bInterests.add(option['value']!);
-// //               } else {
-// //                 _b2bInterests.remove(option['value']!);
-// //               }
-// //             });
-// //           },
-// //         )),
-// //       ],
-// //     ),
-// //   );
-// //
-// //   Widget _buildRadioForm({
-// //     required String title,
-// //     required List<Map<String, String>> options,
-// //     required String? groupValue,
-// //     required ValueChanged<String?> onChanged,
-// //   }) {
-// //     return SingleChildScrollView(
-// //       padding: EdgeInsets.all(16),
-// //       child: Column(
-// //         crossAxisAlignment: CrossAxisAlignment.start,
-// //         children: [
-// //           Text(title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-// //           SizedBox(height: 12),
-// //           ...options.map((option) => RadioListTile<String>(
-// //             title: Text(option['label']!),
-// //             value: option['value']!,
-// //             groupValue: groupValue,
-// //             onChanged: onChanged,
-// //             activeColor: AppColors.primaryBrown,
-// //           )),
-// //         ],
-// //       ),
-// //     );
-// //   }
-// //
-// //   void _nextPage() {
-// //     if (_canProceed()) {
-// //       _pageController.nextPage(
-// //         duration: Duration(milliseconds: 300),
-// //         curve: Curves.easeInOut,
-// //       );
-// //     } else {
-// //       _showValidationError();
-// //     }
-// //   }
-// //
-// //   void _previousPage() {
-// //     _pageController.previousPage(
-// //       duration: Duration(milliseconds: 300),
-// //       curve: Curves.easeInOut,
-// //     );
-// //   }
-// //
-// //   bool _canProceed() {
-// //     switch (_currentPage) {
-// //       case 0:
-// //         return _interestType != null;
-// //       case 1:
-// //         return _locationPreference != null;
-// //       case 2:
-// //         return _dietaryPreference != null && _foodType != null;
-// //       default:
-// //         return true;
-// //     }
-// //   }
-// //
-// //   void _showValidationError() {
-// //     final messages = [
-// //       'Please select your historical interest type',
-// //       'Please select your preferred location',
-// //       'Please complete your food preferences'
-// //     ];
-// //
-// //     ScaffoldMessenger.of(context).showSnackBar(
-// //       SnackBar(
-// //         content: Text(messages[_currentPage]),
-// //         backgroundColor: AppColors.primaryBrown,
-// //       ),
-// //     );
-// //   }
-// //
-// //   Future<void> _submitQuestionnaire() async {
-// //     if (!_canProceed()) {
-// //       _showValidationError();
-// //       return;
-// //     }
-// //
-// //     setState(() => _isLoading = true);
-// //
-// //     try {
-// //       Map<String, dynamic> preferences = {
-// //         'interest_type': _interestType,
-// //         'location_preference': _locationPreference,
-// //         'dietary_preference': _dietaryPreference,
-// //         'food_type': _foodType,
-// //         'b2b_interest': _b2bInterests.isNotEmpty ? _b2bInterests : 'none',
-// //       };
-// //
-// //       final response = await http.post(
-// //         Uri.parse('https://1a46-110-44-118-28.ngrok-free.app'),
-// //         headers: {'Content-Type': 'application/json'},
-// //         body: json.encode(preferences),
-// //       );
-// //
-// //       if (response.statusCode == 200) {
-// //         final data = json.decode(response.body);
-// //         Navigator.pushReplacement(
-// //           context,
-// //           MaterialPageRoute(
-// //             builder: (context) => RecommendationsScreen(
-// //               recommendations: data['data'],
-// //               userPreferences: preferences,
-// //             ),
-// //           ),
-// //         );
-// //       } else {
-// //         throw Exception('Failed to get recommendations');
-// //       }
-// //     } catch (e) {
-// //       ScaffoldMessenger.of(context).showSnackBar(
-// //         SnackBar(
-// //           content: Text('Error: ${e.toString()}'),
-// //           backgroundColor: Colors.red,
-// //         ),
-// //       );
-// //     } finally {
-// //       setState(() => _isLoading = false);
-// //     }
-// //   }
-// // }
-// //
-// // class RecommendationsScreen extends StatelessWidget {
-// //   final Map<String, dynamic> recommendations;
-// //   final Map<String, dynamic> userPreferences;
-// //
-// //   const RecommendationsScreen({
-// //     Key? key,
-// //     required this.recommendations,
-// //     required this.userPreferences,
-// //   }) : super(key: key);
-// //
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     return Scaffold(
-// //       backgroundColor: AppColors.softGray,
-// //       appBar: AppBar(
-// //         title: Text('Your Recommendations'),
-// //         backgroundColor: AppColors.primaryBrown,
-// //       ),
-// //       body: Padding(
-// //         padding: const EdgeInsets.all(16.0),
-// //         child: Center(
-// //           child: Text(
-// //             'Recommendations will be displayed here.',
-// //             style: TextStyle(color: AppColors.textDark),
-// //           ),
-// //         ),
-// //       ),
-// //     );
-// //   }
-// // }
-//
-// import 'package:flutter/material.dart';
-// import 'package:http/http.dart' as http;
-// import 'dart:convert';
-//
-// class QuestionnaireScreen extends StatefulWidget {
-//   @override
-//   _QuestionnaireScreenState createState() => _QuestionnaireScreenState();
-// }
-//
-// class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
-//   final PageController _pageController = PageController();
-//   int _currentPage = 0;
-//
-//   // Form data
-//   String? _interestType;
-//   String? _locationPreference;
-//   String? _dietaryPreference;
-//   String? _foodType;
-//   List<String> _b2bInterests = [];
-//
-//   bool _isLoading = false;
-//
-//   final List<String> _pages = [
-//     'Historical Interests',
-//     'Location Preference',
-//     'Food Preferences',
-//     'Services'
-//   ];
-//
-//   // API URL - UPDATED WITH YOUR NGROK URL
-//   static const String API_URL = '4f18-110-44-118-28.ngrok-free.app';
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Plan Your Journey'),
-//         backgroundColor: Colors.orange[700],
-//         elevation: 0,
-//         actions: [
-//           // Add debug button
-//           IconButton(
-//             icon: Icon(Icons.bug_report),
-//             onPressed: _testApiConnection,
-//           ),
-//         ],
-//       ),
-//       body: Column(
-//         children: [
-//           // Progress indicator
-//           Container(
-//             padding: EdgeInsets.all(16),
-//             child: Row(
-//               children: List.generate(_pages.length, (index) {
-//                 return Expanded(
-//                   child: Container(
-//                     height: 4,
-//                     margin: EdgeInsets.symmetric(horizontal: 2),
-//                     decoration: BoxDecoration(
-//                       color: index <= _currentPage
-//                           ? Colors.orange[700]
-//                           : Colors.grey[300],
-//                       borderRadius: BorderRadius.circular(2),
-//                     ),
-//                   ),
-//                 );
-//               }),
-//             ),
-//           ),
-//
-//           // Page indicator text
-//           Padding(
-//             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-//             child: Text(
-//               '${_currentPage + 1} of ${_pages.length}: ${_pages[_currentPage]}',
-//               style: TextStyle(
-//                 fontSize: 16,
-//                 fontWeight: FontWeight.w500,
-//                 color: Colors.grey[600],
-//               ),
-//             ),
-//           ),
-//
-//           // Page content
-//           Expanded(
-//             child: PageView(
-//               controller: _pageController,
-//               onPageChanged: (page) {
-//                 setState(() {
-//                   _currentPage = page;
-//                 });
-//               },
-//               children: [
-//                 _buildInterestTypePage(),
-//                 _buildLocationPage(),
-//                 _buildFoodPreferencesPage(),
-//                 _buildServicesPage(),
-//               ],
-//             ),
-//           ),
-//
-//           // Navigation buttons
-//           Container(
-//             padding: EdgeInsets.all(16),
-//             child: Row(
-//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//               children: [
-//                 _currentPage > 0
-//                     ? ElevatedButton(
-//                   onPressed: _previousPage,
-//                   child: Text('Previous'),
-//                   style: ElevatedButton.styleFrom(
-//                     backgroundColor: Colors.grey[300],
-//                     foregroundColor: Colors.black87,
-//                   ),
-//                 )
-//                     : SizedBox(width: 80),
-//
-//                 ElevatedButton(
-//                   onPressed: _isLoading ? null : (_currentPage == _pages.length - 1
-//                       ? _submitQuestionnaire
-//                       : _nextPage),
-//                   child: _isLoading
-//                       ? SizedBox(
-//                     width: 20,
-//                     height: 20,
-//                     child: CircularProgressIndicator(strokeWidth: 2),
-//                   )
-//                       : Text(_currentPage == _pages.length - 1
-//                       ? 'Get Recommendations'
-//                       : 'Next'),
-//                   style: ElevatedButton.styleFrom(
-//                     backgroundColor: Colors.orange[700],
-//                     foregroundColor: Colors.white,
-//                     minimumSize: Size(120, 45),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-//
-//   // Test API connection method
-//   Future<void> _testApiConnection() async {
-//     try {
-//       print('Testing API connection...');
-//       final response = await http.get(
-//         Uri.parse('https://cfda-110-44-118-28.ngrok-free.app/'),
-//         headers: {'ngrok-skip-browser-warning': 'true'},
-//       );
-//
-//       print('Test Response Status: ${response.statusCode}');
-//       print('Test Response Body: ${response.body}');
-//
-//       ScaffoldMessenger.of(context).showSnackBar(
-//         SnackBar(
-//           content: Text('API Test: ${response.statusCode == 200 ? 'Success' : 'Failed'}'),
-//           backgroundColor: response.statusCode == 200 ? Colors.green : Colors.red,
-//         ),
-//       );
-//     } catch (e) {
-//       print('Test API Error: $e');
-//       ScaffoldMessenger.of(context).showSnackBar(
-//         SnackBar(
-//           content: Text('API Test Failed: $e'),
-//           backgroundColor: Colors.red,
-//         ),
-//       );
-//     }
-//   }
-//
-//   Widget _buildInterestTypePage() {
-//     return SingleChildScrollView(
-//       padding: EdgeInsets.all(16),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Text(
-//             'What type of historical sites interest you most?',
-//             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-//           ),
-//           SizedBox(height: 24),
-//           ..._buildRadioOptions(
-//             value: _interestType,
-//             options: [
-//               {'value': 'temples_religious', 'label': 'Temples & Religious Heritage'},
-//               {'value': 'ancient_architecture', 'label': 'Ancient Architecture & Palaces'},
-//               {'value': 'old_towns', 'label': 'Old Towns & Heritage Areas'},
-//               {'value': 'cultural_museums', 'label': 'Cultural Museums & Galleries'},
-//               {'value': 'archaeological_ruins', 'label': 'Archaeological Sites & Monuments'},
-//             ],
-//             onChanged: (value) => setState(() => _interestType = value),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-//
-//   Widget _buildLocationPage() {
-//     return SingleChildScrollView(
-//       padding: EdgeInsets.all(16),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Text(
-//             'Which region would you like to explore?',
-//             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-//           ),
-//           SizedBox(height: 24),
-//           ..._buildRadioOptions(
-//             value: _locationPreference,
-//             options: [
-//               {'value': 'kathmandu_valley', 'label': 'Kathmandu Valley\n(Kathmandu, Patan, Bhaktapur)'},
-//               {'value': 'lumbini', 'label': 'Lumbini & Kapilvastu'},
-//               {'value': 'gorkha_bandipur', 'label': 'Gorkha, Bandipur & Palpa'},
-//               {'value': 'janakpur', 'label': 'Janakpur & Mithila Region'},
-//             ],
-//             onChanged: (value) => setState(() => _locationPreference = value),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-//
-//   Widget _buildFoodPreferencesPage() {
-//     return SingleChildScrollView(
-//       padding: EdgeInsets.all(16),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Text(
-//             'Food Preferences',
-//             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-//           ),
-//           SizedBox(height: 24),
-//
-//           Text(
-//             'Dietary Preference:',
-//             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-//           ),
-//           SizedBox(height: 12),
-//           ..._buildRadioOptions(
-//             value: _dietaryPreference,
-//             options: [
-//               {'value': 'vegetarian', 'label': 'Vegetarian'},
-//               {'value': 'vegan', 'label': 'Vegan'},
-//               {'value': 'non_vegetarian', 'label': 'Non-Vegetarian'},
-//               {'value': 'all', 'label': 'No specific restrictions'},
-//             ],
-//             onChanged: (value) => setState(() => _dietaryPreference = value),
-//           ),
-//
-//           SizedBox(height: 32),
-//
-//           Text(
-//             'Food Experience Type:',
-//             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-//           ),
-//           SizedBox(height: 12),
-//           ..._buildRadioOptions(
-//             value: _foodType,
-//             options: [
-//               {'value': 'local_snacks', 'label': 'Street Food & Local Snacks'},
-//               {'value': 'traditional_meals', 'label': 'Traditional Full-Course Meals'},
-//               {'value': 'high_end', 'label': 'Fine Dining & Upscale Restaurants'},
-//             ],
-//             onChanged: (value) => setState(() => _foodType = value),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-//
-//   Widget _buildServicesPage() {
-//     return SingleChildScrollView(
-//       padding: EdgeInsets.all(16),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Text(
-//             'Are you interested in any of these services?',
-//             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-//           ),
-//           SizedBox(height: 8),
-//           Text(
-//             'Select all that apply (optional)',
-//             style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-//           ),
-//           SizedBox(height: 24),
-//           ..._buildCheckboxOptions(
-//             selectedValues: _b2bInterests,
-//             options: [
-//               {'value': 'homestays', 'label': 'Homestays & Heritage Hotels'},
-//               {'value': 'traditional_shops', 'label': 'Handicrafts & Traditional Shopping'},
-//               {'value': 'guided_tours', 'label': 'Guided Tours & Storytelling'},
-//             ],
-//             onChanged: (value, isSelected) {
-//               setState(() {
-//                 if (isSelected) {
-//                   _b2bInterests.add(value);
-//                 } else {
-//                   _b2bInterests.remove(value);
-//                 }
-//               });
-//             },
-//           ),
-//
-//           SizedBox(height: 16),
-//           Container(
-//             padding: EdgeInsets.all(12),
-//             decoration: BoxDecoration(
-//               color: Colors.orange[50],
-//               borderRadius: BorderRadius.circular(8),
-//               border: Border.all(color: Colors.orange[200]!),
-//             ),
-//             child: Row(
-//               children: [
-//                 Icon(Icons.info_outline, color: Colors.orange[700], size: 20),
-//                 SizedBox(width: 8),
-//                 Expanded(
-//                   child: Text(
-//                     'If none selected, we\'ll focus on historical sites and food recommendations.',
-//                     style: TextStyle(fontSize: 12, color: Colors.orange[800]),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-//
-//   List<Widget> _buildRadioOptions({
-//     required String? value,
-//     required List<Map<String, String>> options,
-//     required ValueChanged<String?> onChanged,
-//   }) {
-//     return options.map((option) {
-//       return Container(
-//         margin: EdgeInsets.only(bottom: 8),
-//         child: InkWell(
-//           onTap: () => onChanged(option['value']),
-//           borderRadius: BorderRadius.circular(8),
-//           child: Container(
-//             padding: EdgeInsets.all(12),
-//             decoration: BoxDecoration(
-//               border: Border.all(
-//                 color: value == option['value']
-//                     ? Colors.orange[700]!
-//                     : Colors.grey[300]!,
-//                 width: value == option['value'] ? 2 : 1,
-//               ),
-//               borderRadius: BorderRadius.circular(8),
-//               color: value == option['value']
-//                   ? Colors.orange[50]
-//                   : Colors.white,
-//             ),
-//             child: Row(
-//               children: [
-//                 Radio<String>(
-//                   value: option['value']!,
-//                   groupValue: value,
-//                   onChanged: onChanged,
-//                   activeColor: Colors.orange[700],
-//                 ),
-//                 SizedBox(width: 8),
-//                 Expanded(
-//                   child: Text(
-//                     option['label']!,
-//                     style: TextStyle(
-//                       fontSize: 14,
-//                       fontWeight: value == option['value']
-//                           ? FontWeight.w600
-//                           : FontWeight.normal,
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       );
-//     }).toList();
-//   }
-//
-//   List<Widget> _buildCheckboxOptions({
-//     required List<String> selectedValues,
-//     required List<Map<String, String>> options,
-//     required Function(String, bool) onChanged,
-//   }) {
-//     return options.map((option) {
-//       bool isSelected = selectedValues.contains(option['value']);
-//       return Container(
-//         margin: EdgeInsets.only(bottom: 8),
-//         child: InkWell(
-//           onTap: () => onChanged(option['value']!, !isSelected),
-//           borderRadius: BorderRadius.circular(8),
-//           child: Container(
-//             padding: EdgeInsets.all(12),
-//             decoration: BoxDecoration(
-//               border: Border.all(
-//                 color: isSelected
-//                     ? Colors.orange[700]!
-//                     : Colors.grey[300]!,
-//                 width: isSelected ? 2 : 1,
-//               ),
-//               borderRadius: BorderRadius.circular(8),
-//               color: isSelected
-//                   ? Colors.orange[50]
-//                   : Colors.white,
-//             ),
-//             child: Row(
-//               children: [
-//                 Checkbox(
-//                   value: isSelected,
-//                   onChanged: (bool? value) => onChanged(option['value']!, value!),
-//                   activeColor: Colors.orange[700],
-//                 ),
-//                 SizedBox(width: 8),
-//                 Expanded(
-//                   child: Text(
-//                     option['label']!,
-//                     style: TextStyle(
-//                       fontSize: 14,
-//                       fontWeight: isSelected
-//                           ? FontWeight.w600
-//                           : FontWeight.normal,
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       );
-//     }).toList();
-//   }
-//
-//   void _nextPage() {
-//     if (_canProceed()) {
-//       _pageController.nextPage(
-//         duration: Duration(milliseconds: 300),
-//         curve: Curves.easeInOut,
-//       );
-//     } else {
-//       _showValidationError();
-//     }
-//   }
-//
-//   void _previousPage() {
-//     _pageController.previousPage(
-//       duration: Duration(milliseconds: 300),
-//       curve: Curves.easeInOut,
-//     );
-//   }
-//
-//   bool _canProceed() {
-//     switch (_currentPage) {
-//       case 0:
-//         return _interestType != null;
-//       case 1:
-//         return _locationPreference != null;
-//       case 2:
-//         return _dietaryPreference != null && _foodType != null;
-//       case 3:
-//         return true; // Services page is optional
-//       default:
-//         return false;
-//     }
-//   }
-//
-//   void _showValidationError() {
-//     String message = '';
-//     switch (_currentPage) {
-//       case 0:
-//         message = 'Please select your historical interest type';
-//         break;
-//       case 1:
-//         message = 'Please select your preferred location';
-//         break;
-//       case 2:
-//         message = 'Please complete your food preferences';
-//         break;
-//     }
-//
-//     ScaffoldMessenger.of(context).showSnackBar(
-//       SnackBar(
-//         content: Text(message),
-//         backgroundColor: Colors.red[600],
-//         behavior: SnackBarBehavior.floating,
-//       ),
-//     );
-//   }
-//
-//   Future<void> _submitQuestionnaire() async {
-//     if (!_canProceed()) {
-//       _showValidationError();
-//       return;
-//     }
-//
-//     setState(() {
-//       _isLoading = true;
-//     });
-//
-//     try {
-//       // Prepare the data
-//       Map<String, dynamic> preferences = {
-//         'interest_type': _interestType,
-//         'location_preference': _locationPreference,
-//         'dietary_preference': _dietaryPreference,
-//         'food_type': _foodType,
-//       };
-//
-//       // Add b2b_interest only if something is selected
-//       if (_b2bInterests.isNotEmpty) {
-//         preferences['b2b_interest'] = _b2bInterests;
-//       } else {
-//         preferences['b2b_interest'] = 'none';
-//       }
-//
-//       print('=== DEBUGGING FLUTTER SUBMISSION ===');
-//       print('Sending preferences: ${json.encode(preferences)}');
-//       print('API URL: $API_URL');
-//       print('Current context mounted: ${context.mounted}');
-//       print('====================================');
-//
-//       // Make API call
-//       final response = await http.post(
-//         Uri.parse(API_URL),
-//         headers: {
-//           'Content-Type': 'application/json',
-//           'ngrok-skip-browser-warning': 'true',
-//           'Accept': 'application/json',
-//         },
-//         body: json.encode(preferences),
-//       ).timeout(Duration(seconds: 30));
-//
-//       print('=== RESPONSE DEBUG ===');
-//       print('Response status: ${response.statusCode}');
-//       print('Response headers: ${response.headers}');
-//       print('Response body length: ${response.body.length}');
-//       print('Response body: ${response.body}');
-//       print('===================');
-//
-//       if (response.statusCode == 200) {
-//         final data = json.decode(response.body);
-//         print('Parsed data: $data');
-//         print('Data type: ${data.runtimeType}');
-//         print('Data keys: ${data.keys}');
-//
-//         // Check if we have the expected structure
-//         if (data is Map && data.containsKey('status') && data['status'] == 'success') {
-//           if (data.containsKey('data')) {
-//             print('Recommendations data: ${data['data']}');
-//             print('About to navigate...');
-//
-//             // FORCE DEBUG: Show a dialog first to confirm we got here
-//             await showDialog(
-//               context: context,
-//               builder: (ctx) => AlertDialog(
-//                 title: Text('Debug: Got Response'),
-//                 content: Text('Status: ${data['status']}\nData keys: ${data['data']?.keys ?? 'No data'}'),
-//                 actions: [
-//                   TextButton(
-//                     onPressed: () => Navigator.pop(ctx),
-//                     child: Text('OK'),
-//                   ),
-//                 ],
-//               ),
-//             );
-//
-//             // Navigate to recommendations screen
-//             if (context.mounted) {
-//               Navigator.pushReplacement(
-//                 context,
-//                 MaterialPageRoute(
-//                   builder: (context) => RecommendationsScreen(
-//                     recommendations: data['data'],
-//                     userPreferences: preferences,
-//                   ),
-//                 ),
-//               );
-//             }
-//           } else {
-//             throw Exception('No data field in response');
-//           }
-//         } else {
-//           throw Exception('Invalid response format: ${data}');
-//         }
-//       } else {
-//         throw Exception('HTTP ${response.statusCode}: ${response.body}');
-//       }
-//     } catch (e) {
-//       print('=== ERROR DEBUG ===');
-//       print('Error type: ${e.runtimeType}');
-//       print('Error: $e');
-//       print('Stack trace: ${StackTrace.current}');
-//       print('==================');
-//
-//       if (context.mounted) {
-//         ScaffoldMessenger.of(context).showSnackBar(
-//           SnackBar(
-//             content: Text('Error: ${e.toString()}'),
-//             backgroundColor: Colors.red[600],
-//             behavior: SnackBarBehavior.floating,
-//             duration: Duration(seconds: 5),
-//           ),
-//         );
-//       }
-//     } finally {
-//       if (mounted) {
-//         setState(() {
-//           _isLoading = false;
-//         });
-//       }
-//     }
-//   }
-// }
-//
-// // Enhanced RecommendationsScreen with debugging
-// class RecommendationsScreen extends StatelessWidget {
-//   final Map<String, dynamic> recommendations;
-//   final Map<String, dynamic> userPreferences;
-//
-//   const RecommendationsScreen({
-//     Key? key,
-//     required this.recommendations,
-//     required this.userPreferences,
-//   }) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     print('=== RECOMMENDATIONS SCREEN DEBUG ===');
-//     print('Recommendations: $recommendations');
-//     print('User preferences: $userPreferences');
-//     print('===================================');
-//
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Your Recommendations'),
-//         backgroundColor: Colors.orange[700],
-//       ),
-//       body: SingleChildScrollView(
-//         padding: EdgeInsets.all(16),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             // Debug info section
-//             Card(
-//               child: Padding(
-//                 padding: EdgeInsets.all(16),
-//                 child: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     Text('Debug Info:', style: TextStyle(fontWeight: FontWeight.bold)),
-//                     SizedBox(height: 8),
-//                     Text('Recommendations type: ${recommendations.runtimeType}'),
-//                     Text('Keys: ${recommendations.keys.toList()}'),
-//                     if (recommendations.containsKey('historical_sites'))
-//                       Text('Historical sites: ${recommendations['historical_sites']?.length ?? 0}'),
-//                     if (recommendations.containsKey('food_places'))
-//                       Text('Food places: ${recommendations['food_places']?.length ?? 0}'),
-//                     if (recommendations.containsKey('services'))
-//                       Text('Services: ${recommendations['services']?.length ?? 0}'),
-//                   ],
-//                 ),
-//               ),
-//             ),
-//             SizedBox(height: 16),
-//
-//             // Actual recommendations display
-//             Text(
-//               'Your Personalized Recommendations',
-//               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-//             ),
-//             SizedBox(height: 16),
-//
-//             // Historical Sites
-//             if (recommendations.containsKey('historical_sites') &&
-//                 recommendations['historical_sites'] != null)
-//               _buildSection('Historical Sites', recommendations['historical_sites']),
-//
-//             // Food Places
-//             if (recommendations.containsKey('food_places') &&
-//                 recommendations['food_places'] != null)
-//               _buildSection('Food Places', recommendations['food_places']),
-//
-//             // Services
-//             if (recommendations.containsKey('services') &&
-//                 recommendations['services'] != null)
-//               _buildSection('Services', recommendations['services']),
-//
-//             // Fallback if no recommendations
-//             if (recommendations.isEmpty)
-//               Card(
-//                 child: Padding(
-//                   padding: EdgeInsets.all(16),
-//                   child: Text('No recommendations available.'),
-//                 ),
-//               ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-//
-//   Widget _buildSection(String title, List<dynamic>? items) {
-//     if (items == null || items.isEmpty) {
-//       return SizedBox.shrink();
-//     }
-//
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         Text(
-//           title,
-//           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-//         ),
-//         SizedBox(height: 8),
-//         ...items.map((item) => Card(
-//           margin: EdgeInsets.only(bottom: 8),
-//           child: ListTile(
-//             title: Text(item['name'] ?? 'Unknown'),
-//             subtitle: Text(item['description'] ?? item['location'] ?? ''),
-//             trailing: item['relevance_score'] != null
-//                 ? Text('Score: ${item['relevance_score']}')
-//                 : null,
-//           ),
-//         )).toList(),
-//         SizedBox(height: 16),
-//       ],
-//     );
-//   }
-// }
-//
-// import 'package:flutter/material.dart';
-// import 'package:http/http.dart' as http;
-// import 'dart:convert';
-// // Make sure to import your RecommendationsScreen
-// import 'recommendations_screen.dart'; // Add this import
-//
-// class QuestionnaireScreen extends StatefulWidget {
-//   @override
-//   _QuestionnaireScreenState createState() => _QuestionnaireScreenState();
-// }
-//
-// class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
-//   final PageController _pageController = PageController();
-//   int _currentPage = 0;
-//
-//   // Form data
-//   String? _interestType;
-//   String? _locationPreference;
-//   String? _dietaryPreference;
-//   String? _foodType;
-//   List<String> _b2bInterests = [];
-//
-//   bool _isLoading = false;
-//
-//   final List<String> _pages = [
-//     'Historical Interests',
-//     'Location Preference',
-//     'Food Preferences',
-//     'Services'
-//   ];
-//
-//   // API URL - UPDATED WITH YOUR NGROK URL
-//   static const String API_URL = '8ca0-110-44-118-28.ngrok-free.app';
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Plan Your Journey'),
-//         backgroundColor: Colors.orange[700],
-//         elevation: 0,
-//         actions: [
-//           // Add debug button
-//           IconButton(
-//             icon: Icon(Icons.bug_report),
-//             onPressed: _testApiConnection,
-//           ),
-//         ],
-//       ),
-//       body: Column(
-//         children: [
-//           // Progress indicator
-//           Container(
-//             padding: EdgeInsets.all(16),
-//             child: Row(
-//               children: List.generate(_pages.length, (index) {
-//                 return Expanded(
-//                   child: Container(
-//                     height: 4,
-//                     margin: EdgeInsets.symmetric(horizontal: 2),
-//                     decoration: BoxDecoration(
-//                       color: index <= _currentPage
-//                           ? Colors.orange[700]
-//                           : Colors.grey[300],
-//                       borderRadius: BorderRadius.circular(2),
-//                     ),
-//                   ),
-//                 );
-//               }),
-//             ),
-//           ),
-//
-//           // Page indicator text
-//           Padding(
-//             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-//             child: Text(
-//               '${_currentPage + 1} of ${_pages.length}: ${_pages[_currentPage]}',
-//               style: TextStyle(
-//                 fontSize: 16,
-//                 fontWeight: FontWeight.w500,
-//                 color: Colors.grey[600],
-//               ),
-//             ),
-//           ),
-//
-//           // Page content
-//           Expanded(
-//             child: PageView(
-//               controller: _pageController,
-//               onPageChanged: (page) {
-//                 setState(() {
-//                   _currentPage = page;
-//                 });
-//               },
-//               children: [
-//                 _buildInterestTypePage(),
-//                 _buildLocationPage(),
-//                 _buildFoodPreferencesPage(),
-//                 _buildServicesPage(),
-//               ],
-//             ),
-//           ),
-//
-//           // Navigation buttons
-//           Container(
-//             padding: EdgeInsets.all(16),
-//             child: Row(
-//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//               children: [
-//                 _currentPage > 0
-//                     ? ElevatedButton(
-//                   onPressed: _previousPage,
-//                   child: Text('Previous'),
-//                   style: ElevatedButton.styleFrom(
-//                     backgroundColor: Colors.grey[300],
-//                     foregroundColor: Colors.black87,
-//                   ),
-//                 )
-//                     : SizedBox(width: 80),
-//
-//                 ElevatedButton(
-//                   onPressed: _isLoading ? null : (_currentPage == _pages.length - 1
-//                       ? _submitQuestionnaire
-//                       : _nextPage),
-//                   child: _isLoading
-//                       ? SizedBox(
-//                     width: 20,
-//                     height: 20,
-//                     child: CircularProgressIndicator(strokeWidth: 2),
-//                   )
-//                       : Text(_currentPage == _pages.length - 1
-//                       ? 'Get Recommendations'
-//                       : 'Next'),
-//                   style: ElevatedButton.styleFrom(
-//                     backgroundColor: Colors.orange[700],
-//                     foregroundColor: Colors.white,
-//                     minimumSize: Size(120, 45),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-//
-//   // Test API connection method
-//   Future<void> _testApiConnection() async {
-//     try {
-//       print('Testing API connection...');
-//       final response = await http.get(
-//         Uri.parse('https://cfda-110-44-118-28.ngrok-free.app/'),
-//         headers: {'ngrok-skip-browser-warning': 'true'},
-//       );
-//
-//       print('Test Response Status: ${response.statusCode}');
-//       print('Test Response Body: ${response.body}');
-//
-//       if (mounted) {
-//         ScaffoldMessenger.of(context).showSnackBar(
-//           SnackBar(
-//             content: Text('API Test: ${response.statusCode == 200 ? 'Success' : 'Failed'}'),
-//             backgroundColor: response.statusCode == 200 ? Colors.green : Colors.red,
-//           ),
-//         );
-//       }
-//     } catch (e) {
-//       print('Test API Error: $e');
-//       if (mounted) {
-//         ScaffoldMessenger.of(context).showSnackBar(
-//           SnackBar(
-//             content: Text('API Test Failed: $e'),
-//             backgroundColor: Colors.red,
-//           ),
-//         );
-//       }
-//     }
-//   }
-//
-//   Widget _buildInterestTypePage() {
-//     return SingleChildScrollView(
-//       padding: EdgeInsets.all(16),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Text(
-//             'What type of historical sites interest you most?',
-//             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-//           ),
-//           SizedBox(height: 24),
-//           ..._buildRadioOptions(
-//             value: _interestType,
-//             options: [
-//               {'value': 'temples_religious', 'label': 'Temples & Religious Heritage'},
-//               {'value': 'ancient_architecture', 'label': 'Ancient Architecture & Palaces'},
-//               {'value': 'old_towns', 'label': 'Old Towns & Heritage Areas'},
-//               {'value': 'cultural_museums', 'label': 'Cultural Museums & Galleries'},
-//               {'value': 'archaeological_ruins', 'label': 'Archaeological Sites & Monuments'},
-//             ],
-//             onChanged: (value) => setState(() => _interestType = value),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-//
-//   Widget _buildLocationPage() {
-//     return SingleChildScrollView(
-//       padding: EdgeInsets.all(16),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Text(
-//             'Which region would you like to explore?',
-//             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-//           ),
-//           SizedBox(height: 24),
-//           ..._buildRadioOptions(
-//             value: _locationPreference,
-//             options: [
-//               {'value': 'kathmandu_valley', 'label': 'Kathmandu Valley\n(Kathmandu, Patan, Bhaktapur)'},
-//               {'value': 'lumbini', 'label': 'Lumbini & Kapilvastu'},
-//               {'value': 'gorkha_bandipur', 'label': 'Gorkha, Bandipur & Palpa'},
-//               {'value': 'janakpur', 'label': 'Janakpur & Mithila Region'},
-//             ],
-//             onChanged: (value) => setState(() => _locationPreference = value),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-//
-//   Widget _buildFoodPreferencesPage() {
-//     return SingleChildScrollView(
-//       padding: EdgeInsets.all(16),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Text(
-//             'Food Preferences',
-//             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-//           ),
-//           SizedBox(height: 24),
-//
-//           Text(
-//             'Dietary Preference:',
-//             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-//           ),
-//           SizedBox(height: 12),
-//           ..._buildRadioOptions(
-//             value: _dietaryPreference,
-//             options: [
-//               {'value': 'vegetarian', 'label': 'Vegetarian'},
-//               {'value': 'vegan', 'label': 'Vegan'},
-//               {'value': 'non_vegetarian', 'label': 'Non-Vegetarian'},
-//               {'value': 'all', 'label': 'No specific restrictions'},
-//             ],
-//             onChanged: (value) => setState(() => _dietaryPreference = value),
-//           ),
-//
-//           SizedBox(height: 32),
-//
-//           Text(
-//             'Food Experience Type:',
-//             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-//           ),
-//           SizedBox(height: 12),
-//           ..._buildRadioOptions(
-//             value: _foodType,
-//             options: [
-//               {'value': 'local_snacks', 'label': 'Street Food & Local Snacks'},
-//               {'value': 'traditional_meals', 'label': 'Traditional Full-Course Meals'},
-//               {'value': 'high_end', 'label': 'Fine Dining & Upscale Restaurants'},
-//             ],
-//             onChanged: (value) => setState(() => _foodType = value),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-//
-//   Widget _buildServicesPage() {
-//     return SingleChildScrollView(
-//       padding: EdgeInsets.all(16),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Text(
-//             'Are you interested in any of these services?',
-//             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-//           ),
-//           SizedBox(height: 8),
-//           Text(
-//             'Select all that apply (optional)',
-//             style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-//           ),
-//           SizedBox(height: 24),
-//           ..._buildCheckboxOptions(
-//             selectedValues: _b2bInterests,
-//             options: [
-//               {'value': 'homestays', 'label': 'Homestays & Heritage Hotels'},
-//               {'value': 'traditional_shops', 'label': 'Handicrafts & Traditional Shopping'},
-//               {'value': 'guided_tours', 'label': 'Guided Tours & Storytelling'},
-//             ],
-//             onChanged: (value, isSelected) {
-//               setState(() {
-//                 if (isSelected) {
-//                   _b2bInterests.add(value);
-//                 } else {
-//                   _b2bInterests.remove(value);
-//                 }
-//               });
-//             },
-//           ),
-//
-//           SizedBox(height: 16),
-//           Container(
-//             padding: EdgeInsets.all(12),
-//             decoration: BoxDecoration(
-//               color: Colors.orange[50],
-//               borderRadius: BorderRadius.circular(8),
-//               border: Border.all(color: Colors.orange[200]!),
-//             ),
-//             child: Row(
-//               children: [
-//                 Icon(Icons.info_outline, color: Colors.orange[700], size: 20),
-//                 SizedBox(width: 8),
-//                 Expanded(
-//                   child: Text(
-//                     'If none selected, we\'ll focus on historical sites and food recommendations.',
-//                     style: TextStyle(fontSize: 12, color: Colors.orange[800]),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-//
-//   List<Widget> _buildRadioOptions({
-//     required String? value,
-//     required List<Map<String, String>> options,
-//     required ValueChanged<String?> onChanged,
-//   }) {
-//     return options.map((option) {
-//       return Container(
-//         margin: EdgeInsets.only(bottom: 8),
-//         child: InkWell(
-//           onTap: () => onChanged(option['value']),
-//           borderRadius: BorderRadius.circular(8),
-//           child: Container(
-//             padding: EdgeInsets.all(12),
-//             decoration: BoxDecoration(
-//               border: Border.all(
-//                 color: value == option['value']
-//                     ? Colors.orange[700]!
-//                     : Colors.grey[300]!,
-//                 width: value == option['value'] ? 2 : 1,
-//               ),
-//               borderRadius: BorderRadius.circular(8),
-//               color: value == option['value']
-//                   ? Colors.orange[50]
-//                   : Colors.white,
-//             ),
-//             child: Row(
-//               children: [
-//                 Radio<String>(
-//                   value: option['value']!,
-//                   groupValue: value,
-//                   onChanged: onChanged,
-//                   activeColor: Colors.orange[700],
-//                 ),
-//                 SizedBox(width: 8),
-//                 Expanded(
-//                   child: Text(
-//                     option['label']!,
-//                     style: TextStyle(
-//                       fontSize: 14,
-//                       fontWeight: value == option['value']
-//                           ? FontWeight.w600
-//                           : FontWeight.normal,
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       );
-//     }).toList();
-//   }
-//
-//   List<Widget> _buildCheckboxOptions({
-//     required List<String> selectedValues,
-//     required List<Map<String, String>> options,
-//     required Function(String, bool) onChanged,
-//   }) {
-//     return options.map((option) {
-//       bool isSelected = selectedValues.contains(option['value']);
-//       return Container(
-//         margin: EdgeInsets.only(bottom: 8),
-//         child: InkWell(
-//           onTap: () => onChanged(option['value']!, !isSelected),
-//           borderRadius: BorderRadius.circular(8),
-//           child: Container(
-//             padding: EdgeInsets.all(12),
-//             decoration: BoxDecoration(
-//               border: Border.all(
-//                 color: isSelected
-//                     ? Colors.orange[700]!
-//                     : Colors.grey[300]!,
-//                 width: isSelected ? 2 : 1,
-//               ),
-//               borderRadius: BorderRadius.circular(8),
-//               color: isSelected
-//                   ? Colors.orange[50]
-//                   : Colors.white,
-//             ),
-//             child: Row(
-//               children: [
-//                 Checkbox(
-//                   value: isSelected,
-//                   onChanged: (bool? value) => onChanged(option['value']!, value ?? false),
-//                   activeColor: Colors.orange[700],
-//                 ),
-//                 SizedBox(width: 8),
-//                 Expanded(
-//                   child: Text(
-//                     option['label']!,
-//                     style: TextStyle(
-//                       fontSize: 14,
-//                       fontWeight: isSelected
-//                           ? FontWeight.w600
-//                           : FontWeight.normal,
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       );
-//     }).toList();
-//   }
-//
-//   void _nextPage() {
-//     if (_canProceed()) {
-//       _pageController.nextPage(
-//         duration: Duration(milliseconds: 300),
-//         curve: Curves.easeInOut,
-//       );
-//     } else {
-//       _showValidationError();
-//     }
-//   }
-//
-//   void _previousPage() {
-//     _pageController.previousPage(
-//       duration: Duration(milliseconds: 300),
-//       curve: Curves.easeInOut,
-//     );
-//   }
-//
-//   bool _canProceed() {
-//     switch (_currentPage) {
-//       case 0:
-//         return _interestType != null;
-//       case 1:
-//         return _locationPreference != null;
-//       case 2:
-//         return _dietaryPreference != null && _foodType != null;
-//       case 3:
-//         return true; // Services page is optional
-//       default:
-//         return false;
-//     }
-//   }
-//
-//   void _showValidationError() {
-//     String message = '';
-//     switch (_currentPage) {
-//       case 0:
-//         message = 'Please select your historical interest type';
-//         break;
-//       case 1:
-//         message = 'Please select your preferred location';
-//         break;
-//       case 2:
-//         message = 'Please complete your food preferences';
-//         break;
-//     }
-//
-//     if (mounted) {
-//       ScaffoldMessenger.of(context).showSnackBar(
-//         SnackBar(
-//           content: Text(message),
-//           backgroundColor: Colors.red[600],
-//           behavior: SnackBarBehavior.floating,
-//         ),
-//       );
-//     }
-//   }
-//
-//   Future<void> _submitQuestionnaire() async {
-//     if (!_canProceed()) {
-//       _showValidationError();
-//       return;
-//     }
-//
-//     setState(() {
-//       _isLoading = true;
-//     });
-//
-//     try {
-//       // Prepare the data
-//       Map<String, dynamic> preferences = {
-//         'interest_type': _interestType,
-//         'location_preference': _locationPreference,
-//         'dietary_preference': _dietaryPreference,
-//         'food_type': _foodType,
-//       };
-//
-//       // Add b2b_interest only if something is selected
-//       if (_b2bInterests.isNotEmpty) {
-//         preferences['b2b_interest'] = _b2bInterests;
-//       } else {
-//         preferences['b2b_interest'] = [];
-//       }
-//
-//       print('=== DEBUGGING FLUTTER SUBMISSION ===');
-//       print('Sending preferences: ${json.encode(preferences)}');
-//       print('API URL: $API_URL');
-//       print('====================================');
-//
-//       // Make API call
-//       final response = await http.post(
-//         Uri.parse(API_URL),
-//         headers: {
-//           'Content-Type': 'application/json',
-//           'ngrok-skip-browser-warning': 'true',
-//           'Accept': 'application/json',
-//         },
-//         body: json.encode(preferences),
-//       ).timeout(Duration(seconds: 30));
-//
-//       print('=== RESPONSE DEBUG ===');
-//       print('Response status: ${response.statusCode}');
-//       print('Response body: ${response.body}');
-//       print('===================');
-//
-//       if (response.statusCode == 200) {
-//         final data = json.decode(response.body);
-//
-//         // Handle the response data structure
-//         Map<String, dynamic> recommendationsData = {};
-//
-//         if (data is Map<String, dynamic>) {
-//           if (data.containsKey('status') && data['status'] == 'success') {
-//             recommendationsData = Map<String, dynamic>.from(data['data'] ?? data['recommendations'] ?? {});
-//           } else {
-//             recommendationsData = Map<String, dynamic>.from(data);
-//           }
-//         }
-//
-//         // Ensure we have the expected structure
-//         Map<String, dynamic> finalRecommendations = {
-//           'historical_sites': recommendationsData['historical_sites'] ?? [],
-//           'food_places': recommendationsData['food_places'] ?? recommendationsData['restaurants'] ?? [],
-//           'services': recommendationsData['services'] ?? recommendationsData['b2b_services'] ?? [],
-//         };
-//
-//         print('Final recommendations: $finalRecommendations');
-//
-//         // Navigate to recommendations screen
-//         if (mounted) {
-//           Navigator.pushReplacement(
-//             context,
-//             MaterialPageRoute(
-//               builder: (context) => RecommendationsScreen(
-//                 recommendations: finalRecommendations,
-//                 userPreferences: preferences,
-//               ),
-//             ),
-//           );
-//         }
-//       } else {
-//         throw Exception('HTTP ${response.statusCode}: ${response.body}');
-//       }
-//     } catch (e) {
-//       print('Error: $e');
-//
-//       if (mounted) {
-//         ScaffoldMessenger.of(context).showSnackBar(
-//           SnackBar(
-//             content: Text('Error: ${e.toString()}'),
-//             backgroundColor: Colors.red[600],
-//             behavior: SnackBarBehavior.floating,
-//             duration: Duration(seconds: 5),
-//           ),
-//         );
-//       }
-//     } finally {
-//       if (mounted) {
-//         setState(() {
-//           _isLoading = false;
-//         });
-//       }
-//     }
-//   }
-// }
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-// Make sure to import your RecommendationsScreen
-import 'recommendations_screen.dart'; // Add this import
+
+// Assuming you have a colors file, if not, define these colors
+class AppColors {
+  static const Color primaryBrown = Color(0xFF8B4513);
+  static const Color lightBrown = Color(0xFFD2B48C);
+  static const Color darkBrown = Color(0xFF654321);
+}
 
 class QuestionnaireScreen extends StatefulWidget {
+  const QuestionnaireScreen({super.key});
+
   @override
   _QuestionnaireScreenState createState() => _QuestionnaireScreenState();
 }
 
 class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
-  final PageController _pageController = PageController();
-  int _currentPage = 0;
-
-  // Form data
+  final _formKey = GlobalKey<FormState>();
   String? _interestType;
   String? _locationPreference;
   String? _dietaryPreference;
   String? _foodType;
-  List<String> _b2bInterests = [];
-
+  String? _b2bInterest;
   bool _isLoading = false;
 
-  final List<String> _pages = [
-    'Historical Interests',
-    'Location Preference',
-    'Food Preferences',
-    'Services'
-  ];
+  // Update this URL to your actual backend URL
+  final String apiUrl = 'https://d4f1-110-44-118-28.ngrok-free.app/recommendations';
 
-  // API URL - UPDATED WITH YOUR NGROK URL
-  static const String API_URL = 'https://cfda-110-44-118-28.ngrok-free.app/recommendations';
+  // Better label mappings for user-friendly display
+  final Map<String, String> interestTypeLabels = {
+    'temples_religious': 'Temples & Religious Sites',
+    'ancient_architecture': 'Ancient Architecture',
+    'old_towns': 'Historic Old Towns',
+    'cultural_museums': 'Cultural Museums',
+    'archaeological_ruins': 'Archaeological Ruins',
+  };
+
+  final Map<String, String> locationLabels = {
+    'kathmandu_valley': 'Kathmandu Valley',
+    'lumbini': 'Lumbini',
+    'gorkha_bandipur': 'Gorkha & Bandipur',
+    'janakpur': 'Janakpur',
+  };
+
+  final Map<String, String> dietaryLabels = {
+    'vegetarian': 'Vegetarian',
+    'vegan': 'Vegan',
+    'non_vegetarian': 'Non-Vegetarian',
+  };
+
+  final Map<String, String> foodTypeLabels = {
+    'local_snacks': 'Local Snacks',
+    'traditional_meals': 'Traditional Meals',
+    'high_end': 'High-End Dining',
+  };
+
+  final Map<String, String> serviceLabels = {
+    'none': 'Not Interested',
+    'homestays': 'Homestays',
+    'traditional_shops': 'Traditional Shops',
+    'guided_tours': 'Guided Tours',
+  };
+
+  Future<void> _submitPreferences() async {
+    if (_formKey.currentState!.validate()) {
+      final preferences = {
+        'interest_type': _interestType,
+        'location_preference': _locationPreference,
+        'dietary_preference': _dietaryPreference,
+        'food_type': _foodType,
+        'b2b_interest': _b2bInterest ?? 'none',
+      };
+
+      try {
+        setState(() => _isLoading = true);
+
+        print('Sending preferences: $preferences'); // Debug log
+
+        final response = await http.post(
+          Uri.parse(apiUrl),
+          headers: {
+            'Content-Type': 'application/json',
+            'ngrok-skip-browser-warning': 'true', // For ngrok
+          },
+          body: jsonEncode(preferences),
+        );
+
+        print('Response status: ${response.statusCode}'); // Debug log
+        print('Response body: ${response.body}'); // Debug log
+
+        if (response.statusCode == 200) {
+          final data = jsonDecode(response.body);
+          if (data['status'] == 'success') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => RecommendationsScreen(
+                  data: data['data'],
+                  preferences: preferences,
+                ),
+              ),
+            );
+          } else {
+            _showError('Error: ${data['message'] ?? 'Unknown error'}');
+          }
+        } else {
+          _showError('Server error: ${response.statusCode}\n${response.body}');
+        }
+      } catch (e) {
+        print('Error: $e'); // Debug log
+        _showError('Failed to connect: $e');
+      } finally {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  void _showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
+        action: SnackBarAction(
+          label: 'Retry',
+          textColor: Colors.white,
+          onPressed: _submitPreferences,
+        ),
+        duration: const Duration(seconds: 5),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Plan Your Journey'),
-        backgroundColor: Colors.orange[700],
-        elevation: 0,
-        actions: [
-          // Add debug button
-          IconButton(
-            icon: Icon(Icons.bug_report),
-            onPressed: _testApiConnection,
+        title: const Text('Your Preferences'),
+        backgroundColor: AppColors.primaryBrown,
+        foregroundColor: Colors.white,
+        elevation: 2,
+      ),
+      body: _isLoading
+          ? const Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(color: AppColors.primaryBrown),
+            SizedBox(height: 16),
+            Text('Getting your recommendations...'),
+          ],
+        ),
+      )
+          : SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                'Tell us about your interests to get personalized recommendations!',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: AppColors.darkBrown,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 24),
+
+              // Interest Type
+              _buildDropdownField(
+                label: 'What interests you most?',
+                value: _interestType,
+                items: interestTypeLabels,
+                onChanged: (value) => setState(() => _interestType = value),
+                validator: (value) => value == null ? 'Please select your interest' : null,
+              ),
+
+              // Location Preference
+              _buildDropdownField(
+                label: 'Preferred region to explore',
+                value: _locationPreference,
+                items: locationLabels,
+                onChanged: (value) => setState(() => _locationPreference = value),
+                validator: (value) => value == null ? 'Please select a location' : null,
+              ),
+
+              // Dietary Preference
+              _buildDropdownField(
+                label: 'Dietary preference',
+                value: _dietaryPreference,
+                items: dietaryLabels,
+                onChanged: (value) => setState(() => _dietaryPreference = value),
+                isOptional: true,
+              ),
+
+              // Food Type
+              _buildDropdownField(
+                label: 'Food experience preference',
+                value: _foodType,
+                items: foodTypeLabels,
+                onChanged: (value) => setState(() => _foodType = value),
+                isOptional: true,
+              ),
+
+              // Service Interest
+              _buildDropdownField(
+                label: 'Additional services of interest',
+                value: _b2bInterest,
+                items: serviceLabels,
+                onChanged: (value) => setState(() => _b2bInterest = value),
+                isOptional: true,
+              ),
+
+              const SizedBox(height: 32),
+              ElevatedButton(
+                onPressed: _isLoading ? null : _submitPreferences,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primaryBrown,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  elevation: 2,
+                ),
+                child: const Text(
+                  'Get My Recommendations',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDropdownField({
+    required String label,
+    required String? value,
+    required Map<String, String> items,
+    required ValueChanged<String?> onChanged,
+    String? Function(String?)? validator,
+    bool isOptional = false,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label + (isOptional ? ' (Optional)' : ' *'),
+            style: const TextStyle(
+              color: AppColors.darkBrown,
+              fontWeight: FontWeight.w500,
+              fontSize: 16,
+            ),
+          ),
+          const SizedBox(height: 8),
+          DropdownButtonFormField<String>(
+            value: value,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: AppColors.lightBrown),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: AppColors.lightBrown),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: AppColors.primaryBrown, width: 2),
+              ),
+              filled: true,
+              fillColor: Colors.grey[50],
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            ),
+            items: items.entries.map((entry) {
+              return DropdownMenuItem<String>(
+                value: entry.key,
+                child: Text(entry.value),
+              );
+            }).toList(),
+            onChanged: onChanged,
+            validator: validator,
           ),
         ],
       ),
-      body: Column(
+    );
+  }
+}
+
+class RecommendationsScreen extends StatelessWidget {
+  final Map<String, dynamic> data;
+  final Map<String, dynamic> preferences;
+
+  const RecommendationsScreen({super.key, required this.data, required this.preferences});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Your Recommendations'),
+        backgroundColor: AppColors.primaryBrown,
+        foregroundColor: Colors.white,
+        elevation: 2,
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Summary card
+            Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Recommendations Summary',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        color: AppColors.primaryBrown,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    _buildSummaryRow('Historical Sites', data['historical_sites']?.length ?? 0),
+                    _buildSummaryRow('Food Places', data['food_places']?.length ?? 0),
+                    _buildSummaryRow('Services', data['services']?.length ?? 0),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // Historical Sites
+            if (data['historical_sites'] != null && data['historical_sites'].isNotEmpty)
+              _buildSection(
+                context,
+                'Historical Sites',
+                data['historical_sites'],
+                _buildHistoricalSiteCard,
+                Icons.account_balance,
+              ),
+
+            // Food Places
+            if (data['food_places'] != null && data['food_places'].isNotEmpty)
+              _buildSection(
+                context,
+                'Food Places',
+                data['food_places'],
+                _buildFoodPlaceCard,
+                Icons.restaurant,
+              ),
+
+            // Services
+            if (data['services'] != null && data['services'].isNotEmpty)
+              _buildSection(
+                context,
+                'Services',
+                data['services'],
+                _buildServiceCard,
+                Icons.business,
+              ),
+
+            // No recommendations message
+            if (_getTotalRecommendations() == 0)
+              Center(
+                child: Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      children: [
+                        const Icon(Icons.search_off, size: 64, color: Colors.grey),
+                        const SizedBox(height: 16),
+                        Text(
+                          'No recommendations found',
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Try adjusting your preferences to find more matches.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.grey[600]),
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text('Update Preferences'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  int _getTotalRecommendations() {
+    return (data['historical_sites']?.length ?? 0) +
+        (data['food_places']?.length ?? 0) +
+        (data['services']?.length ?? 0);
+  }
+
+  Widget _buildSummaryRow(String label, int count) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Progress indicator
+          Text(label),
           Container(
-            padding: EdgeInsets.all(16),
-            child: Row(
-              children: List.generate(_pages.length, (index) {
-                return Expanded(
-                  child: Container(
-                    height: 4,
-                    margin: EdgeInsets.symmetric(horizontal: 2),
-                    decoration: BoxDecoration(
-                      color: index <= _currentPage
-                          ? Colors.orange[700]
-                          : Colors.grey[300],
-                      borderRadius: BorderRadius.circular(2),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            decoration: BoxDecoration(
+              color: AppColors.lightBrown,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Text(
+              count.toString(),
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSection(
+      BuildContext context,
+      String title,
+      List<dynamic> items,
+      Widget Function(dynamic) cardBuilder,
+      IconData icon,
+      ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Icon(icon, color: AppColors.primaryBrown),
+            const SizedBox(width: 8),
+            Text(
+              title,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: AppColors.primaryBrown,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(width: 8),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              decoration: BoxDecoration(
+                color: AppColors.primaryBrown,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                '${items.length}',
+                style: const TextStyle(color: Colors.white, fontSize: 12),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        ...items.map((item) => cardBuilder(item)),
+        const SizedBox(height: 24),
+      ],
+    );
+  }
+
+  Widget _buildHistoricalSiteCard(dynamic site) {
+    return Card(
+      elevation: 2,
+      margin: const EdgeInsets.only(bottom: 12),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Image section
+          _buildImageSection(site),
+
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        site['name'] ?? 'Unknown Site',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: AppColors.darkBrown,
+                        ),
+                      ),
+                    ),
+                    _buildScoreChip(site['relevance_score']),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                _buildInfoRow(Icons.category, 'Type', site['site_type']),
+                _buildInfoRow(Icons.location_on, 'Location', site['location']),
+                if (site['region'] != null)
+                  _buildInfoRow(Icons.map, 'Region', site['region']),
+                if (site['unesco_status'] == true)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.orange,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Text(
+                        'UNESCO World Heritage Site',
+                        style: TextStyle(color: Colors.white, fontSize: 12),
+                      ),
+                    ),
+                  ),
+                if (site['description'] != null && site['description'].isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 12),
+                    child: Text(
+                      site['description'],
+                      style: TextStyle(color: Colors.grey[700]),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFoodPlaceCard(dynamic place) {
+    return Card(
+      elevation: 2,
+      margin: const EdgeInsets.only(bottom: 12),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Image section
+          _buildImageSection(place),
+
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        place['name'] ?? 'Unknown Place',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: AppColors.darkBrown,
+                        ),
+                      ),
+                    ),
+                    _buildScoreChip(place['relevance_score']),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                _buildInfoRow(Icons.restaurant_menu, 'Type', place['food_type']),
+                _buildInfoRow(Icons.location_on, 'Location', place['location']),
+                if (place['rating'] != null)
+                  _buildInfoRow(Icons.star, 'Rating', '${place['rating']} ⭐'),
+                if (place['dietary_options'] != null && place['dietary_options'].isNotEmpty)
+                  _buildInfoRow(Icons.dining, 'Dietary Options',
+                      (place['dietary_options'] as List).join(', ')),
+                if (place['specialties'] != null && place['specialties'].isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Wrap(
+                      spacing: 4,
+                      runSpacing: 4,
+                      children: (place['specialties'] as List).map<Widget>((specialty) {
+                        return Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: AppColors.lightBrown,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            specialty.toString(),
+                            style: const TextStyle(fontSize: 12),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildServiceCard(dynamic service) {
+    return Card(
+      elevation: 2,
+      margin: const EdgeInsets.only(bottom: 12),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Image section
+          _buildImageSection(service),
+
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        service['name'] ?? 'Unknown Service',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: AppColors.darkBrown,
+                        ),
+                      ),
+                    ),
+                    _buildScoreChip(service['relevance_score']),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                _buildInfoRow(Icons.business, 'Type', service['service_type']),
+                _buildInfoRow(Icons.location_on, 'Location', service['location']),
+                if (service['description'] != null && service['description'].isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Text(
+                      service['description'],
+                      style: TextStyle(color: Colors.grey[700]),
+                    ),
+                  ),
+                if (service['specialties'] != null && service['specialties'].isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Wrap(
+                      spacing: 4,
+                      runSpacing: 4,
+                      children: (service['specialties'] as List).map<Widget>((specialty) {
+                        return Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: AppColors.lightBrown,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            specialty.toString(),
+                            style: const TextStyle(fontSize: 12),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                if (service['contact_info'] != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Text(
+                      'Contact: ${service['contact_info']}',
+                      style: const TextStyle(
+                        color: AppColors.primaryBrown,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // New method to build image section
+  Widget _buildImageSection(dynamic item) {
+    // Check if item has images
+    List<dynamic>? images = item['images'];
+    String? singleImage = item['image']; // In case backend sends single image
+    String? imageUrl = item['image_url']; // Alternative field name
+
+    // Determine which image to show
+    String? displayImage;
+    if (images != null && images.isNotEmpty) {
+      displayImage = images.first.toString();
+    } else if (singleImage != null && singleImage.isNotEmpty) {
+      displayImage = singleImage;
+    } else if (imageUrl != null && imageUrl.isNotEmpty) {
+      displayImage = imageUrl;
+    }
+
+    if (displayImage == null || displayImage.isEmpty) {
+      return const SizedBox.shrink(); // Return empty widget if no image
+    }
+
+    return ClipRRect(
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(12),
+        topRight: Radius.circular(12),
+      ),
+      child: SizedBox(
+        height: 200,
+        width: double.infinity,
+        child: Stack(
+          children: [
+            Image.network(
+              displayImage,
+              height: 200,
+              width: double.infinity,
+              fit: BoxFit.cover,
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return Container(
+                  height: 200,
+                  color: Colors.grey[200],
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.primaryBrown,
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes!
+                          : null,
                     ),
                   ),
                 );
-              }),
+              },
+              errorBuilder: (context, error, stackTrace) {
+                return Container(
+                  height: 200,
+                  color: Colors.grey[200],
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.image_not_supported,
+                        size: 50,
+                        color: Colors.grey[400],
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Image not available',
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
-          ),
-
-          // Page indicator text
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Text(
-              '${_currentPage + 1} of ${_pages.length}: ${_pages[_currentPage]}',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: Colors.grey[600],
+            // Optional: Add a gradient overlay for better text readability
+            Container(
+              height: 200,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.transparent,
+                    Colors.black.withOpacity(0.1),
+                  ],
+                ),
               ),
             ),
-          ),
-
-          // Page content
-          Expanded(
-            child: PageView(
-              controller: _pageController,
-              onPageChanged: (page) {
-                setState(() {
-                  _currentPage = page;
-                });
-              },
-              children: [
-                _buildInterestTypePage(),
-                _buildLocationPage(),
-                _buildFoodPreferencesPage(),
-                _buildServicesPage(),
-              ],
-            ),
-          ),
-
-          // Navigation buttons
-          Container(
-            padding: EdgeInsets.all(16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _currentPage > 0
-                    ? ElevatedButton(
-                  onPressed: _previousPage,
-                  child: Text('Previous'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey[300],
-                    foregroundColor: Colors.black87,
+            // Optional: Add multiple images indicator if there are more images
+            if (images != null && images.length > 1)
+              Positioned(
+                top: 8,
+                right: 8,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.7),
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                )
-                    : SizedBox(width: 80),
-
-                ElevatedButton(
-                  onPressed: _isLoading ? null : (_currentPage == _pages.length - 1
-                      ? _submitQuestionnaire
-                      : _nextPage),
-                  child: _isLoading
-                      ? SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                      : Text(_currentPage == _pages.length - 1
-                      ? 'Get Recommendations'
-                      : 'Next'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange[700],
-                    foregroundColor: Colors.white,
-                    minimumSize: Size(120, 45),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.photo_library,
+                        color: Colors.white,
+                        size: 16,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        '${images.length}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        ],
+              ),
+          ],
+        ),
       ),
     );
   }
 
-  // Test API connection method
-  Future<void> _testApiConnection() async {
-    try {
-      print('Testing API connection...');
-      final response = await http.get(
-        Uri.parse('https://cfda-110-44-118-28.ngrok-free.app/'),
-        headers: {'ngrok-skip-browser-warning': 'true'},
-      );
+  // Method to show image gallery when user taps on image
+  void _showImageGallery(BuildContext context, dynamic item) {
+    List<dynamic>? images = item['images'];
+    String? singleImage = item['image'];
+    String? imageUrl = item['image_url'];
 
-      print('Test Response Status: ${response.statusCode}');
-      print('Test Response Body: ${response.body}');
+    List<String> imageUrls = [];
 
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('API Test: ${response.statusCode == 200 ? 'Success' : 'Failed'}'),
-            backgroundColor: response.statusCode == 200 ? Colors.green : Colors.red,
-          ),
-        );
-      }
-    } catch (e) {
-      print('Test API Error: $e');
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('API Test Failed: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
+    if (images != null && images.isNotEmpty) {
+      imageUrls = images.map((img) => img.toString()).toList();
+    } else if (singleImage != null && singleImage.isNotEmpty) {
+      imageUrls = [singleImage];
+    } else if (imageUrl != null && imageUrl.isNotEmpty) {
+      imageUrls = [imageUrl];
     }
-  }
 
-  Widget _buildInterestTypePage() {
-    return SingleChildScrollView(
-      padding: EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'What type of historical sites interest you most?',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 24),
-          ..._buildRadioOptions(
-            value: _interestType,
-            options: [
-              {'value': 'temples_religious', 'label': 'Temples & Religious Heritage'},
-              {'value': 'ancient_architecture', 'label': 'Ancient Architecture & Palaces'},
-              {'value': 'old_towns', 'label': 'Old Towns & Heritage Areas'},
-              {'value': 'cultural_museums', 'label': 'Cultural Museums & Galleries'},
-              {'value': 'archaeological_ruins', 'label': 'Archaeological Sites & Monuments'},
-            ],
-            onChanged: (value) => setState(() => _interestType = value),
-          ),
-        ],
-      ),
-    );
-  }
+    if (imageUrls.isEmpty) return;
 
-  Widget _buildLocationPage() {
-    return SingleChildScrollView(
-      padding: EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Which region would you like to explore?',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 24),
-          ..._buildRadioOptions(
-            value: _locationPreference,
-            options: [
-              {'value': 'kathmandu_valley', 'label': 'Kathmandu Valley\n(Kathmandu, Patan, Bhaktapur)'},
-              {'value': 'lumbini', 'label': 'Lumbini & Kapilvastu'},
-              {'value': 'gorkha_bandipur', 'label': 'Gorkha, Bandipur & Palpa'},
-              {'value': 'janakpur', 'label': 'Janakpur & Mithila Region'},
-            ],
-            onChanged: (value) => setState(() => _locationPreference = value),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFoodPreferencesPage() {
-    return SingleChildScrollView(
-      padding: EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Food Preferences',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 24),
-
-          Text(
-            'Dietary Preference:',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-          ),
-          SizedBox(height: 12),
-          ..._buildRadioOptions(
-            value: _dietaryPreference,
-            options: [
-              {'value': 'vegetarian', 'label': 'Vegetarian'},
-              {'value': 'vegan', 'label': 'Vegan'},
-              {'value': 'non_vegetarian', 'label': 'Non-Vegetarian'},
-              {'value': 'all', 'label': 'No specific restrictions'},
-            ],
-            onChanged: (value) => setState(() => _dietaryPreference = value),
-          ),
-
-          SizedBox(height: 32),
-
-          Text(
-            'Food Experience Type:',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-          ),
-          SizedBox(height: 12),
-          ..._buildRadioOptions(
-            value: _foodType,
-            options: [
-              {'value': 'local_snacks', 'label': 'Street Food & Local Snacks'},
-              {'value': 'traditional_meals', 'label': 'Traditional Full-Course Meals'},
-              {'value': 'high_end', 'label': 'Fine Dining & Upscale Restaurants'},
-            ],
-            onChanged: (value) => setState(() => _foodType = value),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildServicesPage() {
-    return SingleChildScrollView(
-      padding: EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Are you interested in any of these services?',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 8),
-          Text(
-            'Select all that apply (optional)',
-            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-          ),
-          SizedBox(height: 24),
-          ..._buildCheckboxOptions(
-            selectedValues: _b2bInterests,
-            options: [
-              {'value': 'homestays', 'label': 'Homestays & Heritage Hotels'},
-              {'value': 'traditional_shops', 'label': 'Handicrafts & Traditional Shopping'},
-              {'value': 'guided_tours', 'label': 'Guided Tours & Storytelling'},
-            ],
-            onChanged: (value, isSelected) {
-              setState(() {
-                if (isSelected) {
-                  _b2bInterests.add(value);
-                } else {
-                  _b2bInterests.remove(value);
-                }
-              });
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        backgroundColor: Colors.transparent,
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.8,
+          child: PageView.builder(
+            itemCount: imageUrls.length,
+            itemBuilder: (context, index) {
+              return Container(
+                margin: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.network(
+                    imageUrls[index],
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        color: Colors.grey[200],
+                        child: const Center(
+                          child: Text('Image not available'),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              );
             },
           ),
+        ),
+      ),
+    );
+  }
 
-          SizedBox(height: 16),
-          Container(
-            padding: EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.orange[50],
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: Colors.orange[200]!),
-            ),
-            child: Row(
-              children: [
-                Icon(Icons.info_outline, color: Colors.orange[700], size: 20),
-                SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    'If none selected, we\'ll focus on historical sites and food recommendations.',
-                    style: TextStyle(fontSize: 12, color: Colors.orange[800]),
-                  ),
-                ),
-              ],
+  Widget _buildInfoRow(IconData icon, String label, dynamic value) {
+    if (value == null || value.toString().isEmpty) return const SizedBox.shrink();
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon, size: 16, color: AppColors.primaryBrown),
+          const SizedBox(width: 8),
+          Text(
+            '$label: ',
+            style: const TextStyle(fontWeight: FontWeight.w500),
+          ),
+          Expanded(
+            child: Text(
+              value.toString(),
+              style: TextStyle(color: Colors.grey[700]),
             ),
           ),
         ],
@@ -2743,274 +905,27 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     );
   }
 
-  List<Widget> _buildRadioOptions({
-    required String? value,
-    required List<Map<String, String>> options,
-    required ValueChanged<String?> onChanged,
-  }) {
-    return options.map((option) {
-      return Container(
-        margin: EdgeInsets.only(bottom: 8),
-        child: InkWell(
-          onTap: () => onChanged(option['value']),
-          borderRadius: BorderRadius.circular(8),
-          child: Container(
-            padding: EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: value == option['value']
-                    ? Colors.orange[700]!
-                    : Colors.grey[300]!,
-                width: value == option['value'] ? 2 : 1,
-              ),
-              borderRadius: BorderRadius.circular(8),
-              color: value == option['value']
-                  ? Colors.orange[50]
-                  : Colors.white,
-            ),
-            child: Row(
-              children: [
-                Radio<String>(
-                  value: option['value']!,
-                  groupValue: value,
-                  onChanged: onChanged,
-                  activeColor: Colors.orange[700],
-                ),
-                SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    option['label']!,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: value == option['value']
-                          ? FontWeight.w600
-                          : FontWeight.normal,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+  Widget _buildScoreChip(dynamic score) {
+    if (score == null) return const SizedBox.shrink();
+
+    double scoreValue = score is double ? score : double.tryParse(score.toString()) ?? 0.0;
+    Color chipColor = scoreValue >= 0.7 ? Colors.green :
+    scoreValue >= 0.4 ? Colors.orange : Colors.red;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: chipColor,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Text(
+        'Score: ${(scoreValue * 100).toInt()}%',
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
         ),
-      );
-    }).toList();
-  }
-
-  List<Widget> _buildCheckboxOptions({
-    required List<String> selectedValues,
-    required List<Map<String, String>> options,
-    required Function(String, bool) onChanged,
-  }) {
-    return options.map((option) {
-      bool isSelected = selectedValues.contains(option['value']);
-      return Container(
-        margin: EdgeInsets.only(bottom: 8),
-        child: InkWell(
-          onTap: () => onChanged(option['value']!, !isSelected),
-          borderRadius: BorderRadius.circular(8),
-          child: Container(
-            padding: EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: isSelected
-                    ? Colors.orange[700]!
-                    : Colors.grey[300]!,
-                width: isSelected ? 2 : 1,
-              ),
-              borderRadius: BorderRadius.circular(8),
-              color: isSelected
-                  ? Colors.orange[50]
-                  : Colors.white,
-            ),
-            child: Row(
-              children: [
-                Checkbox(
-                  value: isSelected,
-                  onChanged: (bool? value) => onChanged(option['value']!, value ?? false),
-                  activeColor: Colors.orange[700],
-                ),
-                SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    option['label']!,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: isSelected
-                          ? FontWeight.w600
-                          : FontWeight.normal,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-    }).toList();
-  }
-
-  void _nextPage() {
-    if (_canProceed()) {
-      _pageController.nextPage(
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-    } else {
-      _showValidationError();
-    }
-  }
-
-  void _previousPage() {
-    _pageController.previousPage(
-      duration: Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
+      ),
     );
-  }
-
-  bool _canProceed() {
-    switch (_currentPage) {
-      case 0:
-        return _interestType != null;
-      case 1:
-        return _locationPreference != null;
-      case 2:
-        return _dietaryPreference != null && _foodType != null;
-      case 3:
-        return true; // Services page is optional
-      default:
-        return false;
-    }
-  }
-
-  void _showValidationError() {
-    String message = '';
-    switch (_currentPage) {
-      case 0:
-        message = 'Please select your historical interest type';
-        break;
-      case 1:
-        message = 'Please select your preferred location';
-        break;
-      case 2:
-        message = 'Please complete your food preferences';
-        break;
-    }
-
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(message),
-          backgroundColor: Colors.red[600],
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
-    }
-  }
-
-  Future<void> _submitQuestionnaire() async {
-    if (!_canProceed()) {
-      _showValidationError();
-      return;
-    }
-
-    setState(() {
-      _isLoading = true;
-    });
-
-    try {
-      // Prepare the data
-      Map<String, dynamic> preferences = {
-        'interest_type': _interestType,
-        'location_preference': _locationPreference,
-        'dietary_preference': _dietaryPreference,
-        'food_type': _foodType,
-      };
-
-      // Add b2b_interest only if something is selected
-      if (_b2bInterests.isNotEmpty) {
-        preferences['b2b_interest'] = _b2bInterests;
-      } else {
-        preferences['b2b_interest'] = [];
-      }
-
-      print('=== DEBUGGING FLUTTER SUBMISSION ===');
-      print('Sending preferences: ${json.encode(preferences)}');
-      print('API URL: $API_URL');
-      print('====================================');
-
-      // Make API call
-      final response = await http.post(
-        Uri.parse(API_URL),
-        headers: {
-          'Content-Type': 'application/json',
-          'ngrok-skip-browser-warning': 'true',
-          'Accept': 'application/json',
-        },
-        body: json.encode(preferences),
-      ).timeout(Duration(seconds: 30));
-
-      print('=== RESPONSE DEBUG ===');
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
-      print('===================');
-
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-
-        // Handle the response data structure
-        Map<String, dynamic> recommendationsData = {};
-
-        if (data is Map<String, dynamic>) {
-          if (data.containsKey('status') && data['status'] == 'success') {
-            recommendationsData = Map<String, dynamic>.from(data['data'] ?? data['recommendations'] ?? {});
-          } else {
-            recommendationsData = Map<String, dynamic>.from(data);
-          }
-        }
-
-        // Ensure we have the expected structure
-        Map<String, dynamic> finalRecommendations = {
-          'historical_sites': recommendationsData['historical_sites'] ?? [],
-          'food_places': recommendationsData['food_places'] ?? recommendationsData['restaurants'] ?? [],
-          'services': recommendationsData['services'] ?? recommendationsData['b2b_services'] ?? [],
-        };
-
-        print('Final recommendations: $finalRecommendations');
-
-        // Navigate to recommendations screen
-        if (mounted) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => RecommendationsScreen(
-                recommendations: finalRecommendations,
-                userPreferences: preferences,
-              ),
-            ),
-          );
-        }
-      } else {
-        throw Exception('HTTP ${response.statusCode}: ${response.body}');
-      }
-    } catch (e) {
-      print('Error: $e');
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error: ${e.toString()}'),
-            backgroundColor: Colors.red[600],
-            behavior: SnackBarBehavior.floating,
-            duration: Duration(seconds: 5),
-          ),
-        );
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
-    }
   }
 }

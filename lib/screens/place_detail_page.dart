@@ -13,7 +13,15 @@ class PlaceDetailPage extends StatelessWidget {
       backgroundColor: AppColors.softGray,
       appBar: AppBar(
         backgroundColor: AppColors.primaryBrown,
-        title: Text(place.name),
+        title: Text(
+          place.name,
+          style: TextStyle(
+            fontFamily: 'Cinzel', // Make sure this font is declared in pubspec.yaml
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white, // White text color
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -59,9 +67,47 @@ class PlaceDetailPage extends StatelessWidget {
                     children: place.tags
                         .map((tag) => Chip(
                       label: Text(tag),
-                      backgroundColor: AppColors.primaryBrown.withOpacity(0.1),
+                      backgroundColor:
+                      AppColors.primaryBrown.withOpacity(0.1),
                     ))
                         .toList(),
+                  ),
+                  SizedBox(height: 30),
+
+                  // Buttons Row
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            // TODO: Start AR Experience
+                          },
+                          icon: Icon(Icons.view_in_ar),
+                          label: Text("AR Experience"),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryBrown,
+                            foregroundColor: Colors.white,
+                            padding: EdgeInsets.symmetric(vertical: 14),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            // TODO: Play Audio Guide
+                          },
+                          icon: Icon(Icons.play_circle),
+                          label: Text("Audio Guide"),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryBrown,
+                            foregroundColor: Colors.white,
+                            padding: EdgeInsets.symmetric(vertical: 14),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

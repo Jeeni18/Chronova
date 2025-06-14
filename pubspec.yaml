@@ -71,6 +71,8 @@ flutter:
     - assets/images/
     - assets/icon.png
     - assets/img.png
+    - assets/Nyatapola.wav
+    - assets/Nyatapola.mp3
 
   fonts:
     - family: Cinzel

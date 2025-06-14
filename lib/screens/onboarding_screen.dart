@@ -439,13 +439,15 @@ import '../utils/styles.dart';
 import 'main_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
+  const OnboardingScreen({super.key});
+
   @override
   _OnboardingScreenState createState() => _OnboardingScreenState();
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen>
     with SingleTickerProviderStateMixin {
-  PageController _pageController = PageController();
+  final PageController _pageController = PageController();
   int _currentPage = 0;
 
   late AnimationController _animationController;
@@ -478,7 +480,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
     );
     _rippleAnimation = Tween<double>(begin: 0.95, end: 1.05).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
@@ -515,7 +517,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                 itemCount: _pages.length,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: EdgeInsets.all(30.0),
+                    padding: const EdgeInsets.all(30.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -530,7 +532,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                             ),
                           ),
                         ),
-                        SizedBox(height: 50),
+                        const SizedBox(height: 50),
                         _shimmerPlayed
                             ? Text(
                           _pages[index].title,
@@ -546,7 +548,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                             textAlign: TextAlign.center,
                           ),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Text(
                           _pages[index].description,
                           style: AppStyles.bodyText,
@@ -559,7 +561,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               child: Column(
                 children: [
                   Row(
@@ -567,7 +569,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                     children: List.generate(
                       _pages.length,
                           (index) => Container(
-                        margin: EdgeInsets.symmetric(horizontal: 4),
+                        margin: const EdgeInsets.symmetric(horizontal: 4),
                         width: _currentPage == index ? 30 : 8,
                         height: 8,
                         decoration: BoxDecoration(
@@ -579,7 +581,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                       ),
                     ),
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -587,7 +589,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                         onPressed: _currentPage == 0
                             ? null
                             : () => _pageController.previousPage(
-                          duration: Duration(milliseconds: 300),
+                          duration: const Duration(milliseconds: 300),
                           curve: Curves.easeInOut,
                         ),
                         child: Text(
@@ -606,11 +608,11 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => MainScreen()),
+                                  builder: (context) => const MainScreen()),
                             );
                           } else {
                             _pageController.nextPage(
-                              duration: Duration(milliseconds: 300),
+                              duration: const Duration(milliseconds: 300),
                               curve: Curves.easeInOut,
                             );
                           }
@@ -619,7 +621,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                           backgroundColor: AppColors.primaryBrown,
                           foregroundColor: Colors.white,
                           padding:
-                          EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                          const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25),
                           ),
