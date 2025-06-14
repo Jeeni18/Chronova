@@ -255,7 +255,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller.forward();
 
-    // ⏱ Keep splash for 5 seconds
+    // ⏱ Keep splash for 3 seconds
     Timer(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
