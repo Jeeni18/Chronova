@@ -265,7 +265,41 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget _buildCreativeCarousel() {
     return Column(
       children: [
-        const SizedBox(height: 40), // Optional spacing
+        Container(
+          margin: const EdgeInsets.symmetric(vertical: 20),
+          child: Column(
+            children: [
+              ShaderMask(
+                shaderCallback: (bounds) =>
+                    const LinearGradient(
+                      colors: [AppColors.primaryBrown, AppColors.goldAccent],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ).createShader(bounds),
+                child: const Text(
+                  'Discover Wonders',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    letterSpacing: 1,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Container(
+                height: 3,
+                width: 80,
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [AppColors.primaryBrown, AppColors.goldAccent],
+                  ),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+            ],
+          ),
+        ),
         Expanded(
           child: Stack(
             children: [
@@ -286,74 +320,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ),
         ),
         _buildMagicIndicators(),
-        const SizedBox(height: 20),
+        const SizedBox(height: 30),
       ],
     );
   }
-  //
-  //
-  // Widget _buildCreativeCarousel() {
-  //   return Column(
-  //     children: [
-  //       Container(
-  //         margin: const EdgeInsets.symmetric(vertical: 20),
-  //         child: Column(
-  //           children: [
-  //             ShaderMask(
-  //               shaderCallback: (bounds) =>
-  //                   const LinearGradient(
-  //                     colors: [AppColors.primaryBrown, AppColors.goldAccent],
-  //                     begin: Alignment.centerLeft,
-  //                     end: Alignment.centerRight,
-  //                   ).createShader(bounds),
-  //               child: const Text(
-  //                 'Discover Wonders',
-  //                 style: TextStyle(
-  //                   fontSize: 22,
-  //                   fontWeight: FontWeight.bold,
-  //                   color: Colors.white,
-  //                   letterSpacing: 1,
-  //                 ),
-  //               ),
-  //             ),
-  //             const SizedBox(height: 8),
-  //             Container(
-  //               height: 3,
-  //               width: 80,
-  //               decoration: BoxDecoration(
-  //                 gradient: const LinearGradient(
-  //                   colors: [AppColors.primaryBrown, AppColors.goldAccent],
-  //                 ),
-  //                 borderRadius: BorderRadius.circular(2),
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //       Expanded(
-  //         child: Stack(
-  //           children: [
-  //             ...List.generate(5, (index) => _buildFloatingParticle(index)),
-  //             PageView.builder(
-  //               controller: _pageController,
-  //               itemCount: _places.length,
-  //               onPageChanged: (index) {
-  //                 setState(() {
-  //                   _currentPage = index.toDouble();
-  //                 });
-  //               },
-  //               itemBuilder: (context, index) {
-  //                 return _buildMagicCard(_places[index], index);
-  //               },
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //       _buildMagicIndicators(),
-  //       const SizedBox(height: 30),
-  //     ],
-  //   );
-  // }
 
   Widget _buildMagicCard(Place place, int index) {
     double offset = index - _currentPage;
@@ -634,5 +604,81 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         },
       ),
     );
+
+//
+//   Widget _buildEventsList() {
+//     return Padding(
+//       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+//       child: GridView.builder(
+//         padding: const EdgeInsets.only(bottom: 20),
+//         physics: const BouncingScrollPhysics(),
+//         itemCount: _events.length,
+//         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+//           crossAxisCount: 2,
+//           crossAxisSpacing: 10,
+//           mainAxisSpacing: 10,
+//           childAspectRatio: 0.75,
+//         ),
+//         itemBuilder: (context, index) {
+//           return GestureDetector(
+//             onTap: () {
+//               Navigator.push(
+//                 context,
+//                 MaterialPageRoute(
+//                   builder: (_) => EventDetailPage(event: _events[index]),
+//                 ),
+//               );
+//             },
+//             child: Container(
+//               clipBehavior: Clip.hardEdge,
+//               decoration: BoxDecoration(
+//                 color: Colors.white,
+//                 borderRadius: BorderRadius.circular(20),
+//                 boxShadow: [
+//                   BoxShadow(
+//                     color: Colors.grey.withOpacity(0.1),
+//                     blurRadius: 10,
+//                     offset: const Offset(0, 5),
+//                   ),
+//                 ],
+//               ),
+//               child: Column(
+//                 crossAxisAlignment: CrossAxisAlignment.start,
+//                 mainAxisSize: MainAxisSize.min,
+//                 children: [
+//                   ClipRRect(
+//                     borderRadius: const BorderRadius.only(
+//                       topLeft: Radius.circular(20),
+//                       topRight: Radius.circular(20),
+//                     ),
+//                     child: Image.asset(
+//                       _events[index].image,
+//                       fit: BoxFit.cover,
+//                       height: 120,
+//                       width: double.infinity,
+//                     ),
+//                   ),
+//                   Padding(
+//                     padding: const EdgeInsets.all(12),
+//                     child: Text(
+//                       _events[index].name,
+//                       style: const TextStyle(
+//                         fontSize: 18,
+//                         fontWeight: FontWeight.w600,
+//                         color: AppColors.textDark,
+//                       ),
+//                       maxLines: 2,
+//                       overflow: TextOverflow.ellipsis,
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }
   }
 }

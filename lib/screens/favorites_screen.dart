@@ -26,7 +26,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
   bool _isLoading = false;
 
   // Update this URL to your actual backend URL
-  final String apiUrl = 'https://d4f1-110-44-118-28.ngrok-free.app/recommendations';
+  final String apiUrl = 'https://e6eb-110-44-118-28.ngrok-free.appq/recommendations';
 
   // Better label mappings for user-friendly display
   final Map<String, String> interestTypeLabels = {
@@ -136,11 +136,21 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Your Preferences'),
+        title: const Text(
+          'Your Preferences',
+          style: TextStyle(
+            fontFamily: 'Cinzel',
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        centerTitle: true,
         backgroundColor: AppColors.primaryBrown,
         foregroundColor: Colors.white,
         elevation: 2,
       ),
+
       body: _isLoading
           ? const Center(
         child: Column(
@@ -159,13 +169,19 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                'Tell us about your interests to get personalized recommendations!',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: AppColors.darkBrown,
-                ),
-                textAlign: TextAlign.center,
-              ),
+              // Text(
+              //   'Share your interests for personalized recommendations!',
+              //   style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              //     fontFamily: 'Roboto',
+              //     fontSize: 20,
+              //     fontWeight: FontWeight.w600,
+              //     color: AppColors.darkBrown,
+              //     height: 1.4,
+              //     letterSpacing: 0.5,
+              //   ),
+              //   textAlign: TextAlign.center,
+              // ),
+
               const SizedBox(height: 24),
 
               // Interest Type

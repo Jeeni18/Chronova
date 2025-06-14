@@ -66,9 +66,9 @@ class ProfileScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              _buildStatItem('Places', '24'),
-              _buildStatItem('Favorites', '12'),
-              _buildStatItem('Photos', '48'),
+              _buildStatItem('Places', '0'),
+              _buildStatItem('Favorites', '0'),
+              _buildStatItem('Photos', '0'),
             ],
           ),
         ],

@@ -1,3 +1,4 @@
+import 'package:chronova/screens/screen_ar.dart';
 import 'package:flutter/material.dart';
 import 'home_screen.dart';
 import 'favorites_screen.dart';
@@ -31,7 +32,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _screens = [
     const HomeScreen(),
     const QuestionnaireScreen(),
-    const CameraScreen(),
+    const SimpleARScreen(),
     const MapScreen(),
     const ProfileScreen(),
   ];
