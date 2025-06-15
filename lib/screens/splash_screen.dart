@@ -260,7 +260,8 @@ class _SplashScreenState extends State<SplashScreen>
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) => const OnboardingScreen(),
+          pageBuilder: (context, animation,
+              secondaryAnimation) => const OnboardingScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },
@@ -279,62 +280,76 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Clean white background
-      body: Center(
-        child: AnimatedBuilder(
-          animation: _controller,
-          builder: (context, child) {
-            return FadeTransition(
-              opacity: _fadeAnimation,
-              child: ScaleTransition(
-                scale: _scaleAnimation,
-                child: SlideTransition(
-                  position: _slideAnimation,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Circular Logo
-                      Container(
-                        width: 140,
-                        height: 140,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 10,
-                              offset: Offset(0, 6),
-                            )
-                          ],
-                        ),
-                        child: ClipOval(
-                          child: Image.asset(
-                            'assets/icon.png',
-                            fit: BoxFit.cover,
+      backgroundColor: Colors.white,
+      body: GestureDetector(
+        onTap: () {
+          Navigator.pushReplacement(
+            context,
+            PageRouteBuilder(
+              pageBuilder: (context, animation,
+                  secondaryAnimation) => const OnboardingScreen(),
+              transitionsBuilder: (context, animation, secondaryAnimation,
+                  child) {
+                return FadeTransition(opacity: animation, child: child);
+              },
+              transitionDuration: const Duration(milliseconds: 800),
+            ),
+          );
+        },
+        child: Center(
+          child: AnimatedBuilder(
+            animation: _controller,
+            builder: (context, child) {
+              return FadeTransition(
+                opacity: _fadeAnimation,
+                child: ScaleTransition(
+                  scale: _scaleAnimation,
+                  child: SlideTransition(
+                    position: _slideAnimation,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: 140,
+                          height: 140,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 10,
+                                offset: Offset(0, 6),
+                              )
+                            ],
+                          ),
+                          child: ClipOval(
+                            child: Image.asset(
+                              'assets/icon.png',
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 20),
-                      // ✨ Shimmer Tagline
-                      Shimmer.fromColors(
-                        baseColor: Colors.black38,
-                        highlightColor: Colors.grey.shade100,
-                        child: const Text(
-                          "Discover History Around You",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            letterSpacing: 0.5,
+                        const SizedBox(height: 20),
+                        Shimmer.fromColors(
+                          baseColor: Colors.black38,
+                          highlightColor: Colors.grey,
+                          child: const Text(
+                            "Discover History Around You",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: 0.5,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );

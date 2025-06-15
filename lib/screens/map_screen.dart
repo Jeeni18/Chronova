@@ -69,65 +69,109 @@ class _MapScreenState extends State<MapScreen> {
     }
     return null;
   }
-
   void _showSearchDialog() {
     final TextEditingController _searchController = TextEditingController();
 
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text("Search Location"),
-        content: TextField(
-          controller: _searchController,
-          decoration: const InputDecoration(hintText: "Enter place name"),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () async {
-              Navigator.of(context).pop();
-              final location = await _searchLocation(_searchController.text);
-              if (location != null && _currentLocation != null) {
-                setState(() {
-                  _searchedPlace = _searchController.text;
-                  _markers.clear();
-                  _routePoints.clear();
-
-                  _markers.add(
-                    Marker(
-                      point: LatLng(_currentLocation!.latitude!, _currentLocation!.longitude!),
-                      width: 60,
-                      height: 60,
-                      child: const Icon(Icons.my_location, color: Colors.blue, size: 40),
-                    ),
-                  );
-
-                  _markers.add(
-                    Marker(
-                      point: location,
-                      width: 60,
-                      height: 60,
-                      child: const Icon(Icons.location_on, color: Colors.red, size: 40),
-                    ),
-                  );
-                });
-
-                _getRoute(
-                  LatLng(_currentLocation!.latitude!, _currentLocation!.longitude!),
-                  location,
-                );
-
-                _mapController.move(location, 14.0);
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Location not found")),
-                );
-              }
-            },
-            child: const Text("Search"),
+      barrierDismissible: true,
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        elevation: 10,
+        backgroundColor: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 20, 24, 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Search Location',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.grey[900],
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: _searchController,
+                autofocus: true,
+                decoration: InputDecoration(
+                  hintText: 'Enter place name',
+                  contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+                  filled: true,
+                  fillColor: Colors.grey.shade100,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
+                  ),
+                  prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                ),
+                textInputAction: TextInputAction.search,
+                onSubmitted: (_) => _performSearch(context, _searchController.text),
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () => _performSearch(context, _searchController.text),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFFD2B48C),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  ),
+                  child: const Text(
+                    'Search',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
+  }
+
+  void _performSearch(BuildContext context, String query) async {
+    Navigator.of(context).pop();
+    final location = await _searchLocation(query);
+    if (location != null && _currentLocation != null) {
+      setState(() {
+        _searchedPlace = query;
+        _markers.clear();
+        _routePoints.clear();
+
+        _markers.add(
+          Marker(
+            point: LatLng(_currentLocation!.latitude!, _currentLocation!.longitude!),
+            width: 60,
+            height: 60,
+            child: const Icon(Icons.my_location, color: Colors.blue, size: 40),
+          ),
+        );
+
+        _markers.add(
+          Marker(
+            point: location,
+            width: 60,
+            height: 60,
+            child: const Icon(Icons.location_on, color: Colors.red, size: 40),
+          ),
+        );
+      });
+
+      _getRoute(
+        LatLng(_currentLocation!.latitude!, _currentLocation!.longitude!),
+        location,
+      );
+
+      _mapController.move(location, 14.0);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Location not found")),
+      );
+    }
   }
 
   Future<void> _getRoute(LatLng from, LatLng to) async {
@@ -177,7 +221,7 @@ class _MapScreenState extends State<MapScreen> {
             ),
           ),
         ),
-        backgroundColor: Colors.blue,
+        backgroundColor: Color(0xFF8B4513),
       ),
       body: _currentLocation == null
           ? const Center(child: CircularProgressIndicator())

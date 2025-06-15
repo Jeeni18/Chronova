@@ -26,7 +26,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
   bool _isLoading = false;
 
   // Update this URL to your actual backend URL
-  final String apiUrl = 'https://e6eb-110-44-118-28.ngrok-free.appq/recommendations';
+  final String apiUrl = 'https://fc89-110-44-118-28.ngrok-free.app/recommendations';
 
   // Better label mappings for user-friendly display
   final Map<String, String> interestTypeLabels = {
