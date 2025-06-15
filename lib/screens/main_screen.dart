@@ -32,7 +32,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _screens = [
     const HomeScreen(),
     const QuestionnaireScreen(),
-    const SimpleARScreen(),
+    const ARModelsListScreen(),
     const MapScreen(),
     const ProfileScreen(),
   ];
